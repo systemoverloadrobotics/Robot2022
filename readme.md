@@ -24,6 +24,9 @@ Development follows the
 as described by Atlassian. Potential changes should be made on branches specific
 to a given feature, and proposed by creating a pull request into `master`.
 
+SOR2022 targets Java 11, which is required to use and deploy the robot code.
+*Do not use features from standards above Java 11.*
+
 ### Branches
 
 Pull requests into `master` should be signed off on by a mentor to ensure that

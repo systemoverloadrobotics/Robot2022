@@ -13,7 +13,9 @@ public class SwerveDrive extends CommandBase {
 
   // Called when the command is first scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+
+  }
 
   // Called at 50hz while the command is scheduled.
   @Override
