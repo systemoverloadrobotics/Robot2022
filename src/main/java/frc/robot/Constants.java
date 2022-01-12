@@ -12,4 +12,12 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {}
+public final class Constants {
+
+	public class RobotDimensions {
+
+        //swerve drive dimensions
+        public static final int WIDTH = 32; //inches
+        public static final int LENGTH = 32; //inches
+    }
+}
