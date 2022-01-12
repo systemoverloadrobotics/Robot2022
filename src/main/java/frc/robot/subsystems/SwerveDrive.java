@@ -2,10 +2,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants;
 import frc.robot.core.SwerveWheel;
-
 
 public class SwerveDrive {
     private SwerveWheel topLeftWheel = new SwerveWheel(0, 1);
@@ -14,21 +12,36 @@ public class SwerveDrive {
     private SwerveWheel bottomRightWheel = new SwerveWheel(6, 7);
 
     private PigeonIMU gyro = new PigeonIMU(0);
-    
-    enum WheelPosition { topLeft, topRight, bottomLeft, bottomRight };
+
+    enum WheelPosition {
+        topLeft, topRight, bottomLeft, bottomRight
+    };
 
     public SwerveDrive() {
 
     }
 
-    public void steer(double x1, double y1, double speed) {
-        double angle = Math.tan(y1 / x1);
-        
+    public void steer(double x1, double y1, double x2, double speed) {
+
+        double temp = (-y1 * Math.cos(gyro.getYaw())) + (x1 * Math.sin(gyro.getYaw()));
+        x1 = (-y1 * Math.sin(gyro.getYaw())) + (x1 * Math.cos(gyro.getYaw()));
+        y1 = -temp;
+
+        double r = Math
+                .sqrt(Math.pow(Constants.RobotDimensions.LENGTH, 2) + Math.pow(Constants.RobotDimensions.WIDTH, 2)) / 2;
+
+        // STR = x1, FWD = -y1
+
+        double a = x1 - (x2 * (Constants.RobotDimensions.LENGTH / r));
+        double b = x1 + (x2 * (Constants.RobotDimensions.LENGTH / r)); 
+        double c = -y1 - (x2 * (Constants.RobotDimensions.WIDTH / r));
+        double d = -y1 + (x2 * (Constants.RobotDimensions.WIDTH / r));
+
         // TEMP
-        setWheel(WheelPosition.bottomLeft, speed, angle * 360);
-        setWheel(WheelPosition.bottomRight, speed, angle * 360);
-        setWheel(WheelPosition.topLeft, speed, angle * 360);
-        setWheel(WheelPosition.topRight, speed, angle * 360);
+        setWheel(WheelPosition.bottomLeft, speed, (Math.atan2(b,c) * (180/Math.PI)));
+        setWheel(WheelPosition.bottomRight, speed, (Math.atan2(b,d) * (180/ Math.PI)));
+        setWheel(WheelPosition.topLeft, speed, (Math.atan2(a,d) * (180/Math.PI)));
+        setWheel(WheelPosition.topRight, speed, (Math.atan2(a, c) * (180/Math.PI)));
     }
 
     public void setWheel(WheelPosition pos, double speed, double angle) {
@@ -52,7 +65,7 @@ public class SwerveDrive {
                 System.out.println("yayyyy");
                 bottomRightWheel.setSpeed(speed);
                 bottomRightWheel.setRotation(angle);
-                break; 
+                break;
         }
     }
 

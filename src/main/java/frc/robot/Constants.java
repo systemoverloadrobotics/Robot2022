@@ -17,7 +17,7 @@ public final class Constants {
 	public class RobotDimensions {
 
         //swerve drive dimensions
-        public static final int WIDTH = 32; //inches
-        public static final int LENGTH = 32; //inches
+        public static final double WIDTH = 30; //inches
+        public static final double LENGTH = 30; //inches
     }
 }
