@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import frc.robot.util.ConstantAxis;
+import frc.robot.util.ConstantButton;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -16,8 +19,24 @@ public final class Constants {
 
 	public class RobotDimensions {
 
-        //swerve drive dimensions
-        public static final double WIDTH = 30; //inches
-        public static final double LENGTH = 30; //inches
-    }
+    //swerve drive dimensions
+    public static final double WIDTH = 30; //inches
+    public static final double LENGTH = 30; //inches
+  }
+  
+  public static final class Input {
+    public static final ConstantButton EXAMPLE_BUTTON = new ConstantButton(1, 4);
+    public static final ConstantAxis EXAMPLE_AXIS = new ConstantAxis(1, 1);
+  }
+
+  public static final class Motor {
+    public static final int EXAMPLE_SHOOTER_PORT = 2;
+    public static final int EXAMPLE_INTAKE_CHANNEL = 3;
+  }
+
+  public static final class Sensor {
+    public static final int WHEEL_ENCODER_CHANNEL_A = 4;
+    public static final int WHEEL_ENCODER_CHANNEL_B = 6;
+  }
+
 }
