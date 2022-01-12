@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import frc.robot.Constants;
@@ -31,17 +33,33 @@ public class SwerveDrive {
                 .sqrt(Math.pow(Constants.RobotDimensions.LENGTH, 2) + Math.pow(Constants.RobotDimensions.WIDTH, 2)) / 2;
 
         // STR = x1, FWD = -y1
-
         double a = x1 - (x2 * (Constants.RobotDimensions.LENGTH / r));
         double b = x1 + (x2 * (Constants.RobotDimensions.LENGTH / r)); 
         double c = -y1 - (x2 * (Constants.RobotDimensions.WIDTH / r));
         double d = -y1 + (x2 * (Constants.RobotDimensions.WIDTH / r));
 
+        //speed
+        double ws1 = Math.sqrt(Math.pow(b, 2) + Math.pow(c, 2));
+        double ws2 = Math.sqrt(Math.pow(b, 2) + Math.pow(d, 2));
+        double ws3 = Math.sqrt(Math.pow(a, 2) + Math.pow(d, 2));
+        double ws4 = Math.sqrt(Math.pow(a, 2) + Math.pow(c, 2));
+
+        double max = ws1;
+        if(ws2 > max) max = ws2;
+        if(ws3 > max) max = ws3;
+        if(ws4 > max) max = ws4;
+        if(max > 1){
+            ws1 /= max;
+            ws2 /= max;
+            ws3 /= max;
+            ws4 /= max;
+        }
+
         // TEMP
-        setWheel(WheelPosition.bottomLeft, speed, (Math.atan2(b,c) * (180/Math.PI)));
-        setWheel(WheelPosition.bottomRight, speed, (Math.atan2(b,d) * (180/ Math.PI)));
-        setWheel(WheelPosition.topLeft, speed, (Math.atan2(a,d) * (180/Math.PI)));
-        setWheel(WheelPosition.topRight, speed, (Math.atan2(a, c) * (180/Math.PI)));
+        setWheel(WheelPosition.bottomLeft, ws3, (Math.atan2(b,c) * (180/Math.PI)));
+        setWheel(WheelPosition.bottomRight, ws4, (Math.atan2(b,d) * (180/ Math.PI)));
+        setWheel(WheelPosition.topLeft, ws2, (Math.atan2(a,d) * (180/Math.PI)));
+        setWheel(WheelPosition.topRight, ws1, (Math.atan2(a, c) * (180/Math.PI)));
     }
 
     public void setWheel(WheelPosition pos, double speed, double angle) {

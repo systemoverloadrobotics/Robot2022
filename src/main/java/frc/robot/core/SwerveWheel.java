@@ -11,7 +11,10 @@ public class SwerveWheel {
 
     public SwerveWheel(int speedInt, int rotationInt) {
         speed = new WPI_VictorSPX(speedInt); 
-        rotation = new WPI_TalonFX(rotationInt);        
+        rotation = new WPI_TalonFX(rotationInt);
+        
+        speed.configFactoryDefault();
+        rotation.configFactoryDefault();
     }
 
     public void setSpeed(double velocity) {
