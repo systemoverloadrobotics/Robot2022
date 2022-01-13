@@ -17,7 +17,7 @@ import frc.robot.util.ConstantButton;
  */
 public final class Constants {
 
-	public class RobotDimensions {
+	public static final class RobotDimensions {
 
     //swerve drive dimensions
     public static final double WIDTH = 30; //inches

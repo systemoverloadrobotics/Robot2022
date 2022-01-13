@@ -5,7 +5,7 @@ import java.util.function.DoubleSupplier;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import frc.robot.Constants;
-import frc.robot.core.SwerveWheel;
+import frc.robot.modules.SwerveWheel;
 
 public class SwerveDrive {
     private SwerveWheel topLeftWheel = new SwerveWheel(0, 1);
@@ -20,7 +20,7 @@ public class SwerveDrive {
     };
 
     public SwerveDrive() {
-
+        
     }
 
     public void steer(double x1, double y1, double x2, double speed) {
