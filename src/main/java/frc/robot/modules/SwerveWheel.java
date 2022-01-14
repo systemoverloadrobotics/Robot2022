@@ -29,7 +29,7 @@ public class SwerveWheel {
     }
 
     public void setRotation(double velocity) {
-        steer.set(ControlMode.Position, Utils.tickToDegrees(velocity, 4096));
+        steer.set(ControlMode.Position, Utils.degreesToTicks(velocity, 4096));
     }
 
     public double getSpeed() {
@@ -37,7 +37,7 @@ public class SwerveWheel {
     }
 
     public double getRotation() {
-	    return Utils.tickToDegrees(steer.getSelectedSensorPosition(), 4096); 
+	    return Utils.ticksToDegrees(steer.getSelectedSensorPosition(), 4096); 
     }
 
     public void periodic(){

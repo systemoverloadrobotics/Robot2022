@@ -29,7 +29,7 @@ public class SwerveModule {
     }
 
     public double getSteerPosition(){
-        return Utils.tickToDegrees(steerController.getSelectedSensorPosition(), 4096);
+        return Utils.ticksToDegrees(steerController.getSelectedSensorPosition(), 4096);
     }
 
     public void setVelocity(double velocity){
