@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
 
 public class SwerveDrive extends CommandBase {
@@ -14,12 +15,14 @@ public class SwerveDrive extends CommandBase {
   // Called when the command is first scheduled.
   @Override
   public void initialize() {
-
+    
   }
 
   // Called at 50hz while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    swerve.drive(Constants.Input.X_AXIS.get(), Constants.Input.Y_AXIS.get(), Constants.Input.ROTATION.get());
+  }
 
   // Called once when the command ends or is interrupted.
   @Override

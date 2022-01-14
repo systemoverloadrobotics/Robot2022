@@ -26,7 +26,9 @@ public final class Constants {
   
   public static final class Input {
     public static final ConstantButton EXAMPLE_BUTTON = new ConstantButton(1, 4);
-    public static final ConstantAxis EXAMPLE_AXIS = new ConstantAxis(1, 1);
+    public static final ConstantAxis X_AXIS = new ConstantAxis(1, 1);
+    public static final ConstantAxis Y_AXIS = new ConstantAxis(1, 2);
+    public static final ConstantAxis ROTATION = new ConstantAxis(2, 1);
   }
 
   public static final class Motor {

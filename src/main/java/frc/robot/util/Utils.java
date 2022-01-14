@@ -5,7 +5,7 @@ public class Utils {
 		return (ticks / ticksPerRotation ) * 360;
 	}
 
-	public static double degreesToTicks(double ticks, double ticksPerRotation) {
-		return (ticks / 360 ) * ticksPerRotation;
+	public static double degreesToTicks(double angle, double ticksPerRotation) {
+		return (angle / 360d) * ticksPerRotation;
 	}
 }
