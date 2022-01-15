@@ -21,7 +21,7 @@ public class SwerveDrive extends CommandBase {
   // Called at 50hz while the command is scheduled.
   @Override
   public void execute() {
-    swerve.drive(Constants.Input.X_AXIS.get(), Constants.Input.Y_AXIS.get(), Constants.Input.ROTATION.get());
+    swerve.drive(Constants.Input.X_AXIS.get().getAsDouble(), Constants.Input.Y_AXIS.get().getAsDouble(), Constants.Input.ROTATION.get().getAsDouble());
   }
 
   // Called once when the command ends or is interrupted.
