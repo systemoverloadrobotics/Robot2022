@@ -4,8 +4,9 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.Constants;
 import frc.robot.subsystems.Storage;
+import frc.robot.subsystems.Storage.ToggleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class StorageCommand extends CommandBase {
@@ -13,7 +14,7 @@ public class StorageCommand extends CommandBase {
   private final Storage storage;
 
   public StorageCommand(Storage storage) {
-    storage = storage;
+    this.storage = storage;
     addRequirements(storage);
   }
 
@@ -22,11 +23,13 @@ public class StorageCommand extends CommandBase {
 
   @Override
   public void execute() {
-    
+    storage.toggleBelt(ToggleState.ON);
   }
 
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    storage.toggleBelt(ToggleState.OFF);
+  }
 
   @Override
   public boolean isFinished() {
