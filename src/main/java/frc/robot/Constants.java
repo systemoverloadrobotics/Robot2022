@@ -18,8 +18,7 @@ import frc.robot.util.ConstantButton;
 public final class Constants {
 
   public static final class Input {
-    public static final ConstantButton EXAMPLE_BUTTON = new ConstantButton(1, 4);
-    public static final ConstantAxis EXAMPLE_AXIS = new ConstantAxis(1, 1);
+    public static final ConstantButton STORAGE_TOGGLE = new ConstantButton(1, 0);
   }
 
   public static final class Motor {
