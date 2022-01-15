@@ -31,7 +31,7 @@ public class SwerveModule {
     }
 
     public double getSteerPosition(){
-        return Utils.degreesToTicks(steerController.getSelectedSensorPosition(), 2048);
+        return Utils.ticksToDegrees(steerController.getSelectedSensorPosition(), 2048);
     }
 
     public void setVelocity(double velocity){
