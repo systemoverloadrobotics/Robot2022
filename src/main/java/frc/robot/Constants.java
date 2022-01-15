@@ -20,11 +20,14 @@ public final class Constants {
   public static final class Input {
     public static final ConstantButton EXAMPLE_BUTTON = new ConstantButton(1, 4);
     public static final ConstantAxis EXAMPLE_AXIS = new ConstantAxis(1, 1);
+    public static final ConstantButton INTAKE_BUTTON = new ConstantButton(1, 5); 
   }
 
   public static final class Motor {
     public static final int EXAMPLE_SHOOTER_PORT = 2;
     public static final int EXAMPLE_INTAKE_CHANNEL = 3;
+    public static final int INTAKE = 5;
+    public static final double INTAKE_SPEED = 0.5;
   }
 
   public static final class Sensor {
