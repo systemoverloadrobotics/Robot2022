@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Climb;
@@ -21,11 +22,7 @@ public class ClimbCommand extends CommandBase {
 	// Called at 50hz while the command is scheduled.
 	@Override
 	public void execute() {
-		if(climb.getEncoderValue() < Constants.CLIMBER_ENCODER_DISTANCE) {
-			climb.climb();
-		} else {
-			climb.recall();
-		}
+		climb.move();
 	}
 
 	// Called once when the command ends or is interrupted.
