@@ -17,6 +17,8 @@ import frc.robot.util.ConstantButton;
  */
 public final class Constants {
 
+  public static final double CLIMBER_ENCODER_DISTANCE = 12; 
+
 	public static final class RobotDimensions {
 
     // Distance between wheels
@@ -29,6 +31,11 @@ public final class Constants {
     public static final ConstantAxis Y_AXIS = new ConstantAxis(1, 2);
     public static final ConstantAxis ROTATION = new ConstantAxis(2, 1);
     public static final ConstantButton CLIMB_BUTTON = new ConstantButton(1, 1); 
+  }
+
+  public static final class MotorSettings {
+    public static final double MOTOR_VELOCITY = 0.5; 
+    public static final int MOTOR_EXPIRATION = 4; 
   }
 
   public static final class Motor {
