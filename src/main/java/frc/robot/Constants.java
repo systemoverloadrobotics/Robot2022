@@ -47,7 +47,6 @@ public final class Constants {
     
     public static final int STORAGE_MOVEMENT_BELT = 8;
   
-    
     public static final int EXAMPLE_SHOOTER_PORT = 2;
     public static final int EXAMPLE_INTAKE_CHANNEL = 3;
   }
