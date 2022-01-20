@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.Intake;
+import frc.robot.util.ConstantButton;
+import frc.robot.commands.IntakeBall;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,6 +23,10 @@ import frc.robot.subsystems.Storage;
 public class RobotContainer {
   private Storage storage = new Storage();
   private StorageCommand storageCommand = new StorageCommand(storage);
+  
+  // The robot's subsystems and commands are defined here...
+  private final Intake intake = new Intake(); 
+  private final IntakeBall intakeBall = new IntakeBall(intake); 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -34,6 +42,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     Constants.Input.STORAGE_TOGGLE.get().toggleWhenActive(storageCommand);
+    Constants.Input.INTAKE_BUTTON.get().whenHeld(intakeBall);
   }
 
   /**
