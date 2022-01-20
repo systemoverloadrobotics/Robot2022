@@ -11,6 +11,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.StorageCommand;
+import frc.robot.subsystems.Storage;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -19,6 +21,9 @@ import edu.wpi.first.wpilibj2.command.Command;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private Storage storage = new Storage();
+  private StorageCommand storageCommand = new StorageCommand(storage);
+  
   // The robot's subsystems and commands are defined here...
   private final Intake intake = new Intake(); 
   private final IntakeBall intakeBall = new IntakeBall(intake); 
@@ -36,6 +41,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    Constants.Input.STORAGE_TOGGLE.get().toggleWhenActive(storageCommand);
     Constants.Input.INTAKE_BUTTON.get().whenHeld(intakeBall);
   }
 

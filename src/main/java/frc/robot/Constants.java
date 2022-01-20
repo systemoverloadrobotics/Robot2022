@@ -25,7 +25,10 @@ public final class Constants {
   }
   
   public static final class Input {
+    public static final ConstantButton STORAGE_TOGGLE = new ConstantButton(1, 0);
+    
     public static final ConstantButton INTAKE_BUTTON = new ConstantButton(1, 5); 
+
     public static final ConstantAxis X_AXIS = new ConstantAxis(1, 1);
     public static final ConstantAxis Y_AXIS = new ConstantAxis(1, 2);
     public static final ConstantAxis ROTATION = new ConstantAxis(2, 1);
@@ -43,7 +46,9 @@ public final class Constants {
 
     public static final int SWERVE_BACK_RIGHT_POWER = 6;
     public static final int SWERVE_BACK_RIGHT_STEER = 7;
-
+    
+    public static final int STORAGE_MOVEMENT_BELT = 8;
+  
     public static final int EXAMPLE_SHOOTER_PORT = 2;
     public static final int EXAMPLE_INTAKE_CHANNEL = 3;
     public static final int INTAKE = 5;
