@@ -20,13 +20,12 @@ public class IndexBall extends CommandBase{
   // Called when the command is first scheduled.
   @Override
   public void initialize() {
-    
+    intake.toggleSolenoid();
   }
 
   // Called at 50hz while the command is scheduled.
   @Override
   public void execute() {
-    intake.toggleSolenoid();
     intake.intakeBall(Constants.Motor.INTAKE_SPEED);
     storage.toggleBelt(ToggleState.ON);
   }
