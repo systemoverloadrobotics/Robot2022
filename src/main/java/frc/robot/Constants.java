@@ -23,6 +23,16 @@ public final class Constants {
     public static final double WIDTH = 28; //inches
     public static final double LENGTH = 28; //inches
   }
+
+  public static final class PID { 
+    public static final int SHOOTER_P_SLOT_INDEX = 0; 
+    public static final int SHOOTER_I_SLOT_INDEX = 0; 
+    public static final int SHOOTER_D_SLOT_INDEX = 0; 
+    public static final double SHOOTER_P_VALUE = 1; 
+    public static final double SHOOTER_I_VALUE = 1; 
+    public static final double SHOOTER_D_VALUE = 1; 
+
+  }
   
   public static final class Input {
     public static final ConstantAxis X_AXIS = new ConstantAxis(1, 1);
@@ -43,8 +53,9 @@ public final class Constants {
     public static final int SWERVE_BACK_RIGHT_POWER = 6;
     public static final int SWERVE_BACK_RIGHT_STEER = 7;
 
-    public static final int EXAMPLE_SHOOTER_PORT = 2;
+    public static final int SHOOTER_PORT = 2;
     public static final int EXAMPLE_INTAKE_CHANNEL = 3;
+ 
   }
 
   public static final class Sensor {
