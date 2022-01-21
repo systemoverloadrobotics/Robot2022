@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ClimbCommand;
+import frc.robot.commands.IntakeBall;
 import frc.robot.subsystems.Climb;
+import frc.robot.subsystems.Intake;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -20,6 +22,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private Climb climb = new Climb(); 
   private ClimbCommand climbCommand = new ClimbCommand(climb); 
+
+  private Intake intake = new Intake();
+  private IntakeBall intakeBall = new IntakeBall(intake);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -35,6 +40,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     Constants.Input.CLIMB_BUTTON.get().whenPressed(climbCommand); 
+    Constants.Input.INTAKE_BUTTON.get().whenPressed(intakeBall);
   }
 
   /**
