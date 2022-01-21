@@ -17,6 +17,14 @@ import frc.robot.util.ConstantButton;
  */
 public final class Constants {
 
+  public static final double CLIMBER_ENCODER_DISTANCE = 12; 
+  
+
+  public static final class PID {
+    public static final double P_CLIMB = 0.1; 
+    public static final double I_CLIMB = 1e-4;
+    public static final double D_CLIMB = 1; 
+  }
 	public static final class RobotDimensions {
 
     // Distance between wheels
@@ -28,6 +36,12 @@ public final class Constants {
     public static final ConstantAxis X_AXIS = new ConstantAxis(1, 1);
     public static final ConstantAxis Y_AXIS = new ConstantAxis(1, 2);
     public static final ConstantAxis ROTATION = new ConstantAxis(2, 1);
+    public static final ConstantButton CLIMB_BUTTON = new ConstantButton(1, 1); 
+  }
+
+  public static final class MotorSettings {
+    public static final double MOTOR_VELOCITY = 0.5; 
+    public static final int MOTOR_EXPIRATION = 4; 
   }
 
   public static final class Motor {
@@ -45,6 +59,10 @@ public final class Constants {
 
     public static final int EXAMPLE_SHOOTER_PORT = 2;
     public static final int EXAMPLE_INTAKE_CHANNEL = 3;
+
+    public static final int LEFT_CLIMB_MOTOR = 0; //reset to actual later
+    public static final int RIGHT_CLIMB_MOTOR = 1; //reset to actual later
+
   }
 
   public static final class Sensor {
