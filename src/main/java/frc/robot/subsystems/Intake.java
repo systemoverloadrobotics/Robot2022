@@ -11,7 +11,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
@@ -33,12 +32,14 @@ public class Intake extends SubsystemBase {
   }
 
   public void intakeBall(double speed) {
-    solenoid.toggle();
     intake.set(ControlMode.PercentOutput, speed); 
   }
 
+  public void toggleSolenoid(){
+    solenoid.toggle();
+  }
+
   public void stop() {
-    intake.set(ControlMode.PercentOutput, 0); 
     solenoid.toggle();
   }
 }
