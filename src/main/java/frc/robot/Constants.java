@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.util.Units;
 import frc.robot.util.ConstantAxis;
 import frc.robot.util.ConstantButton;
 
@@ -24,12 +25,14 @@ public final class Constants {
     public static final double P_CLIMB = 0.1; 
     public static final double I_CLIMB = 1e-4;
     public static final double D_CLIMB = 1; 
+
+    public static final double P_SWERVE = 0.5;
   }
 	public static final class RobotDimensions {
 
     // Distance between wheels
-    public static final double WIDTH = 28; //inches
-    public static final double LENGTH = 28; //inches
+    public static final double WIDTH = Units.inchesToMeters(28); //inches
+    public static final double LENGTH = Units.inchesToMeters(28); //inches
   }
   
   public static final class Input {
@@ -51,6 +54,8 @@ public final class Constants {
   }
 
   public static final class Motor {
+
+    //Swerve
     public static final int SWERVE_FRONT_LEFT_POWER = 0;
     public static final int SWERVE_FRONT_LEFT_STEER = 1;
 
@@ -62,7 +67,11 @@ public final class Constants {
 
     public static final int SWERVE_BACK_RIGHT_POWER = 6;
     public static final int SWERVE_BACK_RIGHT_STEER = 7;
-    
+
+    public static final double SWERVE_POWER_GEAR_RATIO = 1/6.55;
+
+    public static final double SWERVE_POWER_MAX_SPEED = 5.18; // m/s
+    //Storage
     public static final int STORAGE_MOVEMENT_BELT = 8;
   
     public static final int EXAMPLE_SHOOTER_PORT = 2;

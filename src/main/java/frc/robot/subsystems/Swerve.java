@@ -3,6 +3,12 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.modules.SwerveModule;
@@ -30,14 +36,23 @@ public class Swerve extends SubsystemBase {
   private SwerveModule backRight;
 
   //Gyro
-  private PigeonIMU gyro = new PigeonIMU(Constants.Sensor.SWERVE_GYRO);
+  private AHRS gyro = new AHRS(SPI.Port.kMXP);
 
   public Swerve() {
+
+    new Thread(() -> {
+      try{
+        Thread.sleep(1000);
+        resetHeading();
+      } catch (Exception e){}
+    }).start();
+
     // Create four modules with correct controllers, add to modules
     frontLeft = new SwerveModule(frontLeftPower, frontLeftSteer);
     frontRight = new SwerveModule(frontRightPower, frontRightSteer);
     backLeft = new SwerveModule(backLeftPower, backLeftSteer);
     backRight = new SwerveModule(backRightPower, backRightSteer);
+    
   }
 
   public void drive(double x1, double y1, double x2) {
@@ -82,7 +97,32 @@ public class Swerve extends SubsystemBase {
     frontRight.setVelocity(ws2);
   }
 
-  
+  public void stopModules(){
+    frontLeft.stop();
+    frontRight.stop();
+    backLeft.stop();
+    backRight.stop();
+  }
+
+  public void resetHeading(){
+    gyro.reset();
+  }
+
+  public double getHeading(){
+    return Math.IEEEremainder(gyro.getAngle(), 360);
+  }
+
+  public Rotation2d getRotation2d(){
+    return Rotation2d.fromDegrees(getHeading());
+  }
+
+  public void setModuleStates(SwerveModuleState[] desiredStates){
+    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Motor.SWERVE_POWER_MAX_SPEED);
+    frontLeft.setState(desiredStates[0]);
+    frontRight.setState(desiredStates[1]);
+    backLeft.setState(desiredStates[2]);
+    backRight.setState(desiredStates[3]);
+  }
 
   @Override
   public void periodic() {
