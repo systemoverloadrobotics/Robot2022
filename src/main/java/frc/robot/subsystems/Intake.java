@@ -38,8 +38,4 @@ public class Intake extends SubsystemBase {
   public void toggleSolenoid(){
     solenoid.toggle();
   }
-
-  public void stop() {
-    solenoid.toggle();
-  }
 }

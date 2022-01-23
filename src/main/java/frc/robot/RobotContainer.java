@@ -46,7 +46,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     Constants.Input.CLIMB_BUTTON.get().whenPressed(climbCommand); 
-    Constants.Input.INTAKE_BUTTON.get().whenPressed(indexBall);
+    Constants.Input.INTAKE_BUTTON.get().whileHeld(indexBall);
   }
 
   /**
