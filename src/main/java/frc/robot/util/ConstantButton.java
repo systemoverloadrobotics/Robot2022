@@ -2,21 +2,22 @@ package frc.robot.util;
 
 import java.util.function.BooleanSupplier;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.util.LogitechExtremePro3DJoystick.ButtonType;
 
 public class ConstantButton {
-  private final int stick;
-  private final int idx;
+  private final int joystick;
+  private final ButtonType type;  
 
-  public ConstantButton(int joystick, int idx) {
-    this.idx = idx;
-    this.stick = joystick;
-  }  
-
-  public JoystickButton get() {
-    return new JoystickButton(ConstantInput.get().lazyJoy(stick), idx);
+  public ConstantButton(int joystick, ButtonType type) {
+    this.joystick = joystick;
+    this.type = type;
   }
 
-  public BooleanSupplier supplier() {
-    return () -> ConstantInput.get().lazyJoy(stick).getRawButton(idx);
+  public JoystickButton get() {
+    return new JoystickButton(ConstantInput.get().lazyJoy(joystick), type.value);
+  }
+
+  public BooleanSupplier state() {
+    return () -> ConstantInput.get().lazyJoy(joystick).getButtonState(type);
   }
 }

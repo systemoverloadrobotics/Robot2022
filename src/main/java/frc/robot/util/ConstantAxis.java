@@ -1,17 +1,22 @@
 package frc.robot.util;
 
 import java.util.function.DoubleSupplier;
+import frc.robot.util.LogitechExtremePro3DJoystick.AxisType;
 
 public class ConstantAxis {
   private final int stick;
-  private final int idx;
+  private final AxisType type;
   
-  public ConstantAxis(int joystick, int idx) {
+  public ConstantAxis(int joystick, AxisType type) {
     this.stick = joystick;
-    this.idx = idx;
+    this.type = type;
   }
 
-  public DoubleSupplier get() {
-    return () -> ConstantInput.get().lazyJoy(stick).getRawAxis(idx);
+  public DoubleSupplier supplier() {
+    return () -> ConstantInput.get().lazyJoy(stick).getAxis(type);
+  }
+
+  public double get() {
+    return ConstantInput.get().lazyJoy(stick).getAxis(type);
   }
 }

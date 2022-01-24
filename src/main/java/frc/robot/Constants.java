@@ -4,8 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.util.ConstantAxis;
 import frc.robot.util.ConstantButton;
+import frc.robot.util.ConstantInput;
+import frc.robot.util.LogitechExtremePro3DJoystick;
+import frc.robot.util.LogitechExtremePro3DJoystick.AxisType;
+import frc.robot.util.LogitechExtremePro3DJoystick.ButtonType;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -33,16 +38,20 @@ public final class Constants {
   }
   
   public static final class Input {
+    // Joystick
+    public static final LogitechExtremePro3DJoystick JOYSTICK_STRAFING = ConstantInput.get().lazyJoy(1);
+    public static final LogitechExtremePro3DJoystick JOYSTICK_ROTATION = ConstantInput.get().lazyJoy(2);
 
     //Axis
-    public static final ConstantAxis X_AXIS = new ConstantAxis(1, 1);
-    public static final ConstantAxis Y_AXIS = new ConstantAxis(1, 2);
-    public static final ConstantAxis ROTATION = new ConstantAxis(2, 1);
+    public static final ConstantAxis X_AXIS = JOYSTICK_STRAFING.getConstantAxis(AxisType.X);
+    public static final ConstantAxis Y_AXIS = JOYSTICK_STRAFING.getConstantAxis(AxisType.Y);
+    public static final ConstantAxis THROTTLE_AXIS = JOYSTICK_STRAFING.getConstantAxis(AxisType.THROTTLE);
+    public static final ConstantAxis ROTATION = JOYSTICK_ROTATION.getConstantAxis(AxisType.X);
 
     //Buttons
-    public static final ConstantButton CLIMB_BUTTON = new ConstantButton(1, 1); 
-    public static final ConstantButton INTAKE_BUTTON = new ConstantButton(1, 5); 
-    public static final ConstantButton STORAGE_TOGGLE = new ConstantButton(1, 0);
+    public static final ConstantButton CLIMB_BUTTON = JOYSTICK_STRAFING.getConstantButton(ButtonType.B3); 
+    public static final ConstantButton INTAKE_BUTTON = JOYSTICK_STRAFING.getConstantButton(ButtonType.B4); 
+    public static final ConstantButton STORAGE_TOGGLE = JOYSTICK_STRAFING.getConstantButton(ButtonType.B5);
   }
 
   public static final class MotorSettings {
