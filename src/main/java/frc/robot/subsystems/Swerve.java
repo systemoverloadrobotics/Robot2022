@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
-import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -36,7 +35,7 @@ public class Swerve extends SubsystemBase {
   private SwerveModule backRight;
 
   //Gyro
-  private AHRS gyro = new AHRS(SPI.Port.kMXP);
+  private PigeonIMU gyro = new PigeonIMU(Constants.Sensor.SWERVE_GYRO);
 
   public Swerve() {
 
@@ -105,11 +104,11 @@ public class Swerve extends SubsystemBase {
   }
 
   public void resetHeading(){
-    gyro.reset();
+    gyro.setYaw(0, 50);
   }
 
   public double getHeading(){
-    return Math.IEEEremainder(gyro.getAngle(), 360);
+    return Math.IEEEremainder(gyro.getYaw(), 360);
   }
 
   public Rotation2d getRotation2d(){
@@ -117,7 +116,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public void setModuleStates(SwerveModuleState[] desiredStates){
-    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Motor.SWERVE_POWER_MAX_SPEED);
+    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Motor.SWERVE_MAX_SPEED);
     frontLeft.setState(desiredStates[0]);
     frontRight.setState(desiredStates[1]);
     backLeft.setState(desiredStates[2]);

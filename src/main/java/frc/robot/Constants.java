@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import frc.robot.util.ConstantAxis;
 import frc.robot.util.ConstantButton;
@@ -40,7 +42,7 @@ public final class Constants {
     //Axis
     public static final ConstantAxis X_AXIS = new ConstantAxis(1, 1);
     public static final ConstantAxis Y_AXIS = new ConstantAxis(1, 2);
-    public static final ConstantAxis ROTATION = new ConstantAxis(2, 1);
+    public static final ConstantAxis ROTATION = new ConstantAxis(1, 3);
 
     //Buttons
     public static final ConstantButton CLIMB_BUTTON = new ConstantButton(1, 1); 
@@ -68,9 +70,17 @@ public final class Constants {
     public static final int SWERVE_BACK_RIGHT_POWER = 6;
     public static final int SWERVE_BACK_RIGHT_STEER = 7;
 
-    public static final double SWERVE_POWER_GEAR_RATIO = 1/6.55;
+    public static final SwerveDriveKinematics SWERVE_DRIVE_KINEMATICS = new SwerveDriveKinematics(
+      new Translation2d(RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
+      new Translation2d(RobotDimensions.LENGTH / 2, RobotDimensions.WIDTH / 2),
+      new Translation2d(-RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
+      new Translation2d(-RobotDimensions.LENGTH, RobotDimensions.WIDTH / 2));
 
-    public static final double SWERVE_POWER_MAX_SPEED = 5.18; // m/s
+    public static final double SWERVE_POWER_GEAR_RATIO = 1/6.55;
+    public static final double SWERVE_MAX_SPEED = 5.18; // m/s
+    public static final double SWERVE_DEADBAND = 0.05;
+
+
     //Storage
     public static final int STORAGE_MOVEMENT_BELT = 8;
   

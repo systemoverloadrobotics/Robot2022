@@ -63,7 +63,7 @@ public class SwerveModule {
             return;
         }
         state = SwerveModuleState.optimize(state, getState().angle);
-        powerController.set(ControlMode.PercentOutput, state.speedMetersPerSecond/ Constants.Motor.SWERVE_POWER_MAX_SPEED);
+        powerController.set(ControlMode.PercentOutput, state.speedMetersPerSecond/ Constants.Motor.SWERVE_MAX_SPEED);
         steerController.set(ControlMode.Position, Utils.degreesToTicks(steeringPIDController.calculate(getSteerPosition(), state.angle.getDegrees()), 4096));
     }
 
