@@ -3,8 +3,10 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj.SPI;
@@ -36,6 +38,9 @@ public class Swerve extends SubsystemBase {
 
   //Gyro
   private PigeonIMU gyro = new PigeonIMU(Constants.Sensor.SWERVE_GYRO);
+
+  //Odometer
+  private SwerveDriveOdometry odometry = new SwerveDriveOdometry(Constants.Motor.SWERVE_DRIVE_KINEMATICS, new Rotation2d(0));
 
   public Swerve() {
 
@@ -113,6 +118,14 @@ public class Swerve extends SubsystemBase {
 
   public Rotation2d getRotation2d(){
     return Rotation2d.fromDegrees(getHeading());
+  }
+
+  public Pose2d getPose(){
+    return odometry.getPoseMeters();
+  }
+
+  public void resetOdometry(Pose2d pose){
+    odometry.resetPosition(pose, getRotation2d());
   }
 
   public void setModuleStates(SwerveModuleState[] desiredStates){

@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.robot.util.ConstantAxis;
 import frc.robot.util.ConstantButton;
@@ -29,6 +30,10 @@ public final class Constants {
     public static final double D_CLIMB = 1; 
 
     public static final double P_SWERVE = 0.5;
+
+    public static final double P_X_CONTROLLER = 1.5;
+    public static final double P_Y_CONTROLLER = 1.5;
+    public static final double P_THETA_CONTROLLER = 3;
   }
 	public static final class RobotDimensions {
 
@@ -77,9 +82,15 @@ public final class Constants {
       new Translation2d(-RobotDimensions.LENGTH, RobotDimensions.WIDTH / 2));
 
     public static final double SWERVE_POWER_GEAR_RATIO = 1/6.55;
+
     public static final double SWERVE_MAX_SPEED = 5.18; // m/s
+    public static final double SWERVE_MAX_ACCELERATION = 3; // m/s^2
+    public static final double SWERVE_ROTATION_MAX_SPEED = 2 * 2 * Math.PI; // rad/s
+    public static final double SWERVE_ROTATION_MAX_ACCELERATION = Math.PI / 4; // rad/s^2
+
     public static final double SWERVE_DEADBAND = 0.05;
 
+    public static final TrapezoidProfile.Constraints THETA_CONTROL_CONSTRAINTS = new TrapezoidProfile.Constraints(SWERVE_ROTATION_MAX_SPEED, SWERVE_ROTATION_MAX_ACCELERATION);
 
     //Storage
     public static final int STORAGE_MOVEMENT_BELT = 8;
