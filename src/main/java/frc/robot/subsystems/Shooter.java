@@ -17,7 +17,6 @@ public class Shooter extends SubsystemBase {
 
 	public void shoot(double percentage) {
 		shooterMotor.set(ControlMode.PercentOutput, percentage);
-
 	}
 
 	public void stopMotor() {
