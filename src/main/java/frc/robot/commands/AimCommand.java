@@ -40,7 +40,7 @@ public class AimCommand extends CommandBase {
 	 // Called once when the command ends or is interrupted.
 	 @Override
 	 public void end(boolean interrupted) {
-		 
+		 swerve.drive(0, 0, 0);
 	 }
  
 	 @Override
