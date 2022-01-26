@@ -17,8 +17,8 @@ import frc.robot.util.ConstantButton;
  */
 public final class Constants {
 
-  public static final double AIM_SCALING_FACTOR_X = 0.5;
-  public static final double AIM_SCALING_FACTOR_Y = 0.5;
+  public static final double AIM_SCALING_FACTOR_X = -0.5;
+  public static final double AIM_SCALING_FACTOR_Y = -0.5;
 
 	public static final class RobotDimensions {
     // Distance between wheels
