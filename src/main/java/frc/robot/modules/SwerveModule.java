@@ -16,28 +16,31 @@ import frc.robot.util.Utils;
 
 // SwerveModule manages an individual swerve drive module on the robot.
 public class SwerveModule {
+
     // Should contain the two motor controllers, tracking, methods for setting,
     // and encoder output.
 
     private TalonFX powerController;
     private TalonSRX steerController;
 
-    private PIDController steeringPIDController;
-
     public SwerveModule(TalonFX powerController, TalonSRX steerController) {
         this.powerController = powerController;
         this.steerController = steerController;
 
-        steeringPIDController = new PIDController(Constants.PID.P_SWERVE, 0, 0);
-        steeringPIDController.enableContinuousInput(-Math.PI, Math.PI);
-
         powerController.configFactoryDefault(); 
         steerController.configFactoryDefault();
 
-        steerController.config_kP(0, Constants.PID.P_SWERVE);
-
         powerController.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
         steerController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+
+        powerController.config_kP(0, Constants.PID.P_SWERVE_POWER);
+        powerController.config_kI(0, Constants.PID.I_SWERVE_POWER);
+        powerController.config_kD(0, Constants.PID.D_SWERVE_POWER);
+
+        steerController.config_kP(1, Constants.PID.P_SWERVE_STEER);
+        steerController.config_kI(1, Constants.PID.D_SWERVE_STEER);
+        steerController.config_kD(1, Constants.PID.I_SWERVE_STEER);
+
 
         powerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
         powerController.configNominalOutputReverse(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
@@ -73,8 +76,8 @@ public class SwerveModule {
             return;
         }
         state = SwerveModuleState.optimize(state, getState().angle);
-        powerController.set(ControlMode.PercentOutput, state.speedMetersPerSecond/ Constants.Motor.SWERVE_MAX_SPEED);
-        steerController.set(ControlMode.Position, Utils.degreesToTicks(steeringPIDController.calculate(getSteerPosition(), state.angle.getDegrees()), 4096));
+        powerController.set(ControlMode.Velocity, state.speedMetersPerSecond);
+        steerController.set(ControlMode.Position, Utils.degreesToTicks(state.angle.getDegrees(), 4096));
     }
 
     public void stop(){

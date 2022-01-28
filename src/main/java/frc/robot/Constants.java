@@ -25,12 +25,21 @@ public final class Constants {
   
 
   public static final class PID {
+    //Climb
     public static final double P_CLIMB = 0.1; 
     public static final double I_CLIMB = 1e-4;
     public static final double D_CLIMB = 1; 
 
-    public static final double P_SWERVE = 0.5;
+    //Swerve
+    public static final double P_SWERVE_STEER = 0.05;
+    public static final double I_SWERVE_STEER = 0.025;
+    public static final double D_SWERVE_STEER = 0.5;
 
+    public static final double P_SWERVE_POWER = 0.03;
+    public static final double I_SWERVE_POWER = 0.015;
+    public static final double D_SWERVE_POWER = 0.3;
+
+    //Controller
     public static final double P_X_CONTROLLER = 1.5;
     public static final double P_Y_CONTROLLER = 1.5;
     public static final double P_THETA_CONTROLLER = 3;
