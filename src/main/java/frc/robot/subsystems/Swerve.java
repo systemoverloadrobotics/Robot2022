@@ -8,8 +8,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.modules.SwerveModule;
@@ -43,19 +41,13 @@ public class Swerve extends SubsystemBase {
   private SwerveDriveOdometry odometry = new SwerveDriveOdometry(Constants.Motor.SWERVE_DRIVE_KINEMATICS, new Rotation2d(0));
 
   public Swerve() {
-
-    new Thread(() -> {
-      try{
-        Thread.sleep(1000);
-        resetHeading();
-      } catch (Exception e){}
-    }).start();
-
     // Create four modules with correct controllers, add to modules
     frontLeft = new SwerveModule(frontLeftPower, frontLeftSteer);
     frontRight = new SwerveModule(frontRightPower, frontRightSteer);
     backLeft = new SwerveModule(backLeftPower, backLeftSteer);
     backRight = new SwerveModule(backRightPower, backRightSteer);
+
+    resetHeading();
     
   }
 
@@ -70,12 +62,8 @@ public class Swerve extends SubsystemBase {
     gyro.setYaw(0, 50);
   }
 
-  public double getHeading(){
-    return Math.IEEEremainder(gyro.getYaw(), 360);
-  }
-
   public Rotation2d getRotation2d(){
-    return Rotation2d.fromDegrees(getHeading());
+    return Rotation2d.fromDegrees(Math.IEEEremainder(gyro.getYaw(), 360));
   }
 
   public Pose2d getPose(){

@@ -87,6 +87,7 @@ public final class Constants {
     public static final double SWERVE_MAX_ACCELERATION = 3; // m/s^2
     public static final double SWERVE_ROTATION_MAX_SPEED = 2 * 2 * Math.PI; // rad/s
     public static final double SWERVE_ROTATION_MAX_ACCELERATION = Math.PI / 4; // rad/s^2
+    public static final double SWERVE_NOMINAL_OUTPUT_PERCENT = 0.05;
 
     public static final double SWERVE_DEADBAND = 0.05;
 

@@ -6,9 +6,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.fasterxml.jackson.databind.jsontype.impl.StdTypeResolverBuilder;
+import org.opencv.calib3d.StereoBM;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.Constants;
 import frc.robot.util.Utils;
 
@@ -32,8 +34,16 @@ public class SwerveModule {
         powerController.configFactoryDefault(); 
         steerController.configFactoryDefault();
 
+        steerController.config_kP(0, Constants.PID.P_SWERVE);
+
         powerController.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
         steerController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+
+        powerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
+        powerController.configNominalOutputReverse(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
+
+        steerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
+        steerController.configNominalOutputReverse(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
 
     }
 

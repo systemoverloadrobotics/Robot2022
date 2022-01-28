@@ -25,6 +25,7 @@ import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.IndexBall;
 import frc.robot.commands.IntakeBall;
 import frc.robot.commands.SwerveDrive;
+import frc.robot.commands.auto.SwerveExampleAuto;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Storage;
@@ -75,42 +76,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    /*Sample auto to work off*/
-
-    //create trajectory settings
-    TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.Motor.SWERVE_MAX_SPEED,Constants.Motor.SWERVE_MAX_ACCELERATION).setKinematics(Constants.Motor.SWERVE_DRIVE_KINEMATICS);
-
-    //generate trajectory
-    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-      new Pose2d(0, 0, new Rotation2d(0)),
-      List.of(
-        new Translation2d(1, 0),
-        new Translation2d(1, -1)),
-      new Pose2d(2, -1, Rotation2d.fromDegrees(180)),
-      trajectoryConfig);
-
-      //pid controllers for tracking trajectory
-      PIDController xController = new PIDController(Constants.PID.P_X_CONTROLLER, 0, 0);
-      PIDController yController = new PIDController(Constants.PID.P_Y_CONTROLLER, 0, 0);
-      ProfiledPIDController thetaController = new ProfiledPIDController(
-              Constants.PID.P_THETA_CONTROLLER, 0, 0, Constants.Motor.THETA_CONTROL_CONSTRAINTS);
-      thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-      //construct command to follow trajectory
-      SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-        trajectory, 
-        swerve::getPose, 
-        Constants.Motor.SWERVE_DRIVE_KINEMATICS, 
-        xController, 
-        yController, 
-        thetaController, 
-        swerve::setModuleStates, 
-        swerve);
-
-    return new SequentialCommandGroup(
-      new InstantCommand(() -> swerve.resetOdometry(trajectory.getInitialPose())),
-      swerveControllerCommand,
-      new InstantCommand(() -> swerve.stopModules())
-    );
+    return new SwerveExampleAuto(swerve).executeAuto();
   }
 }
