@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import java.util.function.Supplier;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -11,16 +10,37 @@ import frc.robot.Constants;
 public class Limelight extends SubsystemBase {
 
     NetworkTable networkTable;
+    private NetworkTableEntry targetEntry;
+    private NetworkTableEntry horizontalAngleOffSet;
+    private NetworkTableEntry verticalAngleOffSet;
+    private NetworkTableEntry ta;
+
+
 
     public Limelight() {
+
         networkTable = NetworkTableInstance.getDefault().getTable("Limelight");
+
+        // Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
+        horizontalAngleOffSet = networkTable.getEntry("tx");
+        
+        // Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
+        verticalAngleOffSet = networkTable.getEntry("ty"); 
+        // Target Area (0% of image to 100% of image
+        ta = networkTable.getEntry("ta"); 
+
     }
-    
-    public Supplier<Object> valueSupplier(LimelightTable e) {
-        return () -> networkTable.getEntry(e.key).getValue().getValue();
+
+    /**
+     * @return a horizontal angle from -27 to 27 between the target and the camera
+     */
+    public double getHorizontalAngle() {
+        return horizontalAngleOffSet.getDouble(0);
     }
-    public <T> Supplier<T> valueSupplier(LimelightTable e, Class<T> clazz) {
-        return () -> clazz.cast(networkTable.getEntry(e.key).getValue().getValue());
+
+    /** @return a vertical angle from -27 to 27 between the target and the camera */
+    public double getVerticalAngle() {
+        return verticalAngleOffSet.getDouble(0);
     }
 
     /** @return If the limelight is connected */
@@ -28,36 +48,8 @@ public class Limelight extends SubsystemBase {
         return networkTable.getEntry("tx").exists();
     }
 
-    /** @return If the limelight has found a target */
-    public boolean canSeeTarget() {
-        return valueSupplier(LimelightTable.TV, Integer.class).get().intValue() > 0;
-    }
-
-
     // returns the size of the target
     public double getTargetArea() {
-        return valueSupplier(LimelightTable.TA, Double.class).get().doubleValue();
-    }
-
-    public static enum LimelightTable {
-        TV("tv"), 
-        TX("tx"), 
-        TY("ty"), 
-        TA("ta"), 
-        TS("ts"), 
-        TL("tl"), 
-        TSHORT("tshort"), 
-        TLONG("tlong"), 
-        THOR("thor"), 
-        TVERT("tvert"), 
-        GETPIPE("getpipe"), 
-        CAMTRAN("camtran"), 
-        TC("tc");
-
-        String key;
-        
-        LimelightTable(String key) {
-            this.key = key;
-        }
+        return ta.getNumber(0).doubleValue();
     }
 }
