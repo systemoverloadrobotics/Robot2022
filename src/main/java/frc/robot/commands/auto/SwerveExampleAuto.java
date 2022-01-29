@@ -26,7 +26,7 @@ public class SwerveExampleAuto{
 
   public Command executeAuto(){
     //create trajectory settings
-    TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.Motor.SWERVE_MAX_SPEED,Constants.Motor.SWERVE_MAX_ACCELERATION).setKinematics(Constants.Motor.SWERVE_DRIVE_KINEMATICS);
+    TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.Motor.SWERVE_MAX_SPEED, Constants.Motor.SWERVE_MAX_ACCELERATION).setKinematics(Constants.Motor.SWERVE_DRIVE_KINEMATICS);
 
     //generate trajectory
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(

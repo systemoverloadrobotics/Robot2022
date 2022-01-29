@@ -41,13 +41,11 @@ public class SwerveModule {
         steerController.config_kI(1, Constants.PID.D_SWERVE_STEER);
         steerController.config_kD(1, Constants.PID.I_SWERVE_STEER);
 
-
         powerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
         powerController.configNominalOutputReverse(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
 
         steerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
         steerController.configNominalOutputReverse(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
-
     }
 
     public void setSteerRotation(double angle){
