@@ -48,6 +48,7 @@ public final class Constants {
     public static final int SWERVE_BACK_RIGHT_STEER = 7;
     
     public static final int STORAGE_MOVEMENT_BELT = 8;
+    public static final int STORAGE_FEEDER = 0;
   
     public static final int EXAMPLE_SHOOTER_PORT = 2;
     public static final int EXAMPLE_INTAKE_CHANNEL = 3;
@@ -56,10 +57,13 @@ public final class Constants {
   }
 
   public static final class Sensor {
+    //Swerve
     public static final int SWERVE_GYRO = 0;
 
-    public static final int WHEEL_ENCODER_CHANNEL_A = 4;
-    public static final int WHEEL_ENCODER_CHANNEL_B = 6;
+    //Climb
+    public static final int CLIMB_INTAKE_SENSOR = 0;
+    public static final int CLIMB_STORAGE_SENSOR = 1;
+    public static final int CLIMB_SHOOTER_SENSOR = 2;
   }
 
 }
