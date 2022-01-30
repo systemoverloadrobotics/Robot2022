@@ -1,8 +1,5 @@
 package frc.robot.subsystems;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.DoubleSupplier;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
