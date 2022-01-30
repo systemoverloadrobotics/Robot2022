@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 import org.opencv.core.Mat;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
@@ -28,11 +29,11 @@ public class AimCommand extends CommandBase {
 	 // Called at 50hz while the command is scheduled.
 	 @Override
 	 public void execute() {
-		 Supplier<Double> tx = limelight.valueSupplier(LimelightTable.TX, Double.class);
-		 Supplier<Double> ty = limelight.valueSupplier(LimelightTable.TY, Double.class);
+		 double tx = limelight.getHorizontalAngle();
+		 double ty = limelight.getVerticalAngle();
 
-		 while (Math.abs(tx.get()) > 0.5 || Math.abs(ty.get()) > 0.5) {
-			 swerve.drive(tx.get() * Constants.AIM_SCALING_FACTOR_X, Constants.AIM_SCALING_FACTOR_Y, 0);
+		 while (Math.abs(tx) > 0.5 || Math.abs(ty) > 0.5) {
+			 swerve.drive(tx * Constants.AIM_SCALING_FACTOR_X, Constants.AIM_SCALING_FACTOR_Y, 0);
 		 }
 	 }
  
