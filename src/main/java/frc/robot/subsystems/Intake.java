@@ -5,8 +5,6 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import java.sql.Time;
-import java.util.concurrent.ScheduledFuture;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;

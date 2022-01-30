@@ -26,7 +26,7 @@ public class Storage extends SubsystemBase {
     this.movementBelt = new TalonFX(Constants.Motor.STORAGE_MOVEMENT_BELT);
     this.feeder = new Spark(Constants.Motor.STORAGE_FEEDER);
     this.feederEncoder = new Encoder(Constants.Sensor.FEEDER_ENCODER_CHANNEL_A, Constants.Sensor.FEEDER_ENCODER_CHANNEL_B);
-    this.feederController = new PIDController(Constants.PID.FEEDER_P, 0, 0);
+    this.feederController = new PIDController(Constants.PID.P_FEEDER, 0, 0);
     feederEncoder.setDistancePerPulse(Constants.RobotDimensions.FEEDER_ENCODER_DISTANCE_PER_PULSE);
     //Color Sensor
     this.colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
@@ -48,7 +48,7 @@ public class Storage extends SubsystemBase {
     }
   }
 
-  public void setFeederPos(int pos){
+  public void setFeederPos(double pos){
     resetFeederEncoder();
     if(feederEncoder.getDistance() < pos){
       feeder.set(feederController.calculate(feederEncoder.getDistance(), pos));
@@ -69,6 +69,10 @@ public class Storage extends SubsystemBase {
 
   public void spinFeeder(){
     feeder.set(0.5);
+  }
+
+  public void stopFeeder(){
+    feeder.stopMotor();
   }
 
   public void resetFeederEncoder(){

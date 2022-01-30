@@ -5,6 +5,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.Storage.ToggleState;
+import frc.robot.util.ConstantButton;
 
 public class IndexBall extends CommandBase{
   
@@ -27,7 +28,17 @@ public class IndexBall extends CommandBase{
   @Override
   public void execute() {
     intake.intakeBall(Constants.Motor.INTAKE_SPEED);
-    storage.toggleBelt(ToggleState.ON);
+    if(storage.detectBall(0)){
+      storage.toggleBelt(ToggleState.ON);
+      if(storage.detectBall(1) ){
+        storage.spinFeeder();
+        if(storage.detectBall(2) && !storage.detectBall(1)){
+          storage.stopFeeder();
+          storage.setFeederPos(Constants.RobotDimensions.FEEDER_OFFSET_DISTANCE);
+        }
+      }
+    }
+    
   }
 
   // Called once when the command ends or is interrupted.
