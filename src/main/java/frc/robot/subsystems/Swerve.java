@@ -84,9 +84,7 @@ public class Swerve extends SubsystemBase {
     frontRight.setSteerRotation((Math.atan2(a, c) * (180 / Math.PI)));
     frontRight.setVelocity(ws2);
   }
-
   
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

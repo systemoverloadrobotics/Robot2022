@@ -22,6 +22,10 @@ public final class Constants {
     // Distance between wheels
     public static final double WIDTH = 28; //inches
     public static final double LENGTH = 28; //inches
+
+    //Feeder 
+    public static final double FEEDER_DIAMETER = 2.0; //inches
+    public static final double FEEDER_ENCODER_DISTANCE_PER_PULSE = (1/8192) * FEEDER_DIAMETER * Math.PI; 
   }
   
   public static final class Input {
@@ -64,6 +68,10 @@ public final class Constants {
     public static final int CLIMB_INTAKE_SENSOR = 0;
     public static final int CLIMB_STORAGE_SENSOR = 1;
     public static final int CLIMB_SHOOTER_SENSOR = 2;
+
+    //Shooter
+    public static final int FEEDER_ENCODER_CHANNEL_A = 3;
+    public static final int FEEDER_ENCODER_CHANNEL_B = 4;
   }
 
 }
