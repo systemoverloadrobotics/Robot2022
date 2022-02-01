@@ -35,23 +35,23 @@ public class SwerveDrive extends CommandBase {
   @Override
   public void execute() {
     //get joystick inputs
-    double x1speed = xSupplier.getAsDouble();
-    double y1speed = ySupplier.getAsDouble();
-    double x2speed = rotationSupplier.getAsDouble();
+    double xSpeed = xSupplier.getAsDouble();
+    double ySpeed = ySupplier.getAsDouble();
+    double rotationSpeed = rotationSupplier.getAsDouble();
     
     //apply deadband
-    x1speed = Math.abs(x1speed) > Constants.Motor.SWERVE_DEADBAND ? x1speed : 0.0;
-    y1speed = Math.abs(y1speed) > Constants.Motor.SWERVE_DEADBAND ? y1speed : 0.0;
-    x2speed = Math.abs(x2speed) > Constants.Motor.SWERVE_DEADBAND ? x2speed : 0.0;
+    xSpeed = Math.abs(xSpeed) > Constants.Motor.SWERVE_DEADBAND ? xSpeed : 0.0;
+    ySpeed = Math.abs(ySpeed) > Constants.Motor.SWERVE_DEADBAND ? ySpeed : 0.0;
+    rotationSpeed = Math.abs(rotationSpeed) > Constants.Motor.SWERVE_DEADBAND ? rotationSpeed : 0.0;
 
     //smooth driving
-    x1speed = xLimiter.calculate(x1speed) * Constants.Motor.SWERVE_MAX_SPEED;
-    y1speed = yLimiter.calculate(y1speed) * Constants.Motor.SWERVE_MAX_SPEED;
-    x2speed = rotationLimiter.calculate(x2speed) * Constants.Motor.SWERVE_MAX_SPEED;
+    xSpeed = xLimiter.calculate(xSpeed) * Constants.Motor.SWERVE_MAX_SPEED;
+    ySpeed = yLimiter.calculate(ySpeed) * Constants.Motor.SWERVE_MAX_SPEED;
+    rotationSpeed = rotationLimiter.calculate(rotationSpeed) * Constants.Motor.SWERVE_MAX_SPEED;
 
     //construct chassis
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-      x1speed, y1speed, x2speed, swerve.getRotation2d());
+      xSpeed, ySpeed, rotationSpeed, swerve.getRotation2d());
 
     //convert to states from the chassis  
     SwerveModuleState[] moduleState = Constants.Motor.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);

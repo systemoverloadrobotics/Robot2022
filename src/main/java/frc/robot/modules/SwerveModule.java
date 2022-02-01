@@ -2,15 +2,16 @@ package frc.robot.modules;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonFXSimCollection;
+import com.ctre.phoenix.motorcontrol.TalonSRXSimCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.fasterxml.jackson.databind.jsontype.impl.StdTypeResolverBuilder;
-import org.opencv.calib3d.StereoBM;
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants;
 import frc.robot.util.Utils;
 
@@ -22,6 +23,30 @@ public class SwerveModule {
 
     private TalonFX powerController;
     private TalonSRX steerController;
+
+    // Linear drive feed forward
+    public SimpleMotorFeedforward driveFF = Constants.PID.DRIVE_FF;
+    // Steer feed forward
+    public SimpleMotorFeedforward steerFF = Constants.PID.STEER_FF;
+
+    //Simulation
+    private TalonFXSimCollection powerSim;
+    private TalonSRXSimCollection steerSim;
+
+    private final FlywheelSim powerMotorSimModel = new FlywheelSim(
+        LinearSystemId.identifyVelocitySystem(
+            driveFF.kv * Constants.RobotDimensions.WHEEL_CIRCUMFRENCE / (2*Math.PI),
+            driveFF.ka * Constants.RobotDimensions.WHEEL_CIRCUMFRENCE / (2*Math.PI)
+        ),
+        DCMotor.getFalcon500(1),
+        Constants.Motor.SWERVE_POWER_GEAR_RATIO
+    );
+
+    private final FlywheelSim steerMotorSimModel = new FlywheelSim(
+        LinearSystemId.identifyVelocitySystem(steerFF.kv,steerFF.ka),
+        DCMotor.getFalcon500(1),
+        Constants.Motor.SWERVE_POWER_GEAR_RATIO
+    );
 
     public SwerveModule(TalonFX powerController, TalonSRX steerController) {
         this.powerController = powerController;
@@ -46,6 +71,9 @@ public class SwerveModule {
 
         steerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
         steerController.configNominalOutputReverse(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
+
+        powerSim = powerController.getSimCollection();
+        steerSim = steerController.getSimCollection();
     }
 
     public void setSteerRotation(double angle){
@@ -85,5 +113,12 @@ public class SwerveModule {
   
     public void periodic() {
         // Called at 50hz.
+    }
+
+    public void simulationPeriodic(){
+        powerMotorSimModel.setInput(powerController.getMotorOutputVoltage());
+        steerMotorSimModel.setInput(steerController.getMotorOutputVoltage());
+        powerMotorSimModel.update(0.02);
+        steerMotorSimModel.update(0.2);  
     }
 }

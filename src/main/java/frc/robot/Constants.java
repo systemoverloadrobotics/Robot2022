@@ -4,10 +4,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.util.ConstantAxis;
 import frc.robot.util.ConstantButton;
 
@@ -21,6 +23,7 @@ import frc.robot.util.ConstantButton;
  */
 public final class Constants {
 
+  public static final boolean IS_REAL = RobotBase.isReal();
   public static final double CLIMBER_ENCODER_DISTANCE = 12; 
   
 
@@ -39,6 +42,33 @@ public final class Constants {
     public static final double I_SWERVE_POWER = 0.015;
     public static final double D_SWERVE_POWER = 0.3;
 
+    // Linear drive feed forward
+    public static final SimpleMotorFeedforward DRIVE_FF = IS_REAL ?
+        new SimpleMotorFeedforward( // real
+            0.6, // Voltage to break static friction
+            2.5, // Volts per meter per second
+            1 // Volts per meter per second squared
+        )
+        :
+        new SimpleMotorFeedforward( // sim
+            0, // Voltage to break static friction -- we do not use kS with this method of simulation
+            2.5, // Volts per meter per second
+            0.4 // Volts per meter per second squared -- lower kA will give snappier control
+        );
+    // Steer feed forward
+    public static final SimpleMotorFeedforward STEER_FF = IS_REAL ?
+        new SimpleMotorFeedforward( // real
+            0, // Voltage to break static friction
+            0.15, // Volts per radian per second
+            0.04 // Volts per radian per second squared
+        )
+        :
+        new SimpleMotorFeedforward( // sim
+            0, // Voltage to break static friction
+            0.15, // Volts per radian per second
+            0.002 // Volts per radian per second squared
+        );
+
     //Controller
     public static final double P_X_CONTROLLER = 1.5;
     public static final double P_Y_CONTROLLER = 1.5;
@@ -49,6 +79,8 @@ public final class Constants {
     // Distance between wheels
     public static final double WIDTH = Units.inchesToMeters(28); //inches
     public static final double LENGTH = Units.inchesToMeters(28); //inches
+
+    public static final double WHEEL_CIRCUMFRENCE = Units.inchesToMeters(3.5) * Math.PI; 
   }
   
   public static final class Input {
@@ -90,7 +122,7 @@ public final class Constants {
       new Translation2d(-RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
       new Translation2d(-RobotDimensions.LENGTH, RobotDimensions.WIDTH / 2));
 
-    public static final double SWERVE_POWER_GEAR_RATIO = 1/6.55;
+    public static final double SWERVE_POWER_GEAR_RATIO = 6.55;
 
     public static final double SWERVE_MAX_SPEED = 5.18; // m/s
     public static final double SWERVE_MAX_ACCELERATION = 3; // m/s^2

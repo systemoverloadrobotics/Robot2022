@@ -16,15 +16,15 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
 
-public class SwerveExampleAuto{
+public class AutoPaths{
   /* Sample Auto for Swerve*/
-  private Swerve swerve;
+  private static Swerve swerve;
 
-  public SwerveExampleAuto(Swerve swerve){
+  public AutoPaths(Swerve swerve){
     this.swerve = swerve;
   }
 
-  public Command executeAuto(){
+  public static Command exampleAuto(){
     //create trajectory settings
     TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.Motor.SWERVE_MAX_SPEED, Constants.Motor.SWERVE_MAX_ACCELERATION).setKinematics(Constants.Motor.SWERVE_DRIVE_KINEMATICS);
 

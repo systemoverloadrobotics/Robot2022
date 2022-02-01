@@ -1,13 +1,18 @@
 package frc.robot.subsystems;
 
+import java.lang.reflect.Field;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.sensors.BasePigeonSimCollection;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.modules.SwerveModule;
@@ -33,12 +38,15 @@ public class Swerve extends SubsystemBase {
   private SwerveModule frontRight;
   private SwerveModule backLeft;
   private SwerveModule backRight;
+  private SwerveModule[] swerveModules;
 
   //Gyro
   private PigeonIMU gyro = new PigeonIMU(Constants.Sensor.SWERVE_GYRO);
-
+  private BasePigeonSimCollection gyroSim;
   //Odometer
   private SwerveDriveOdometry odometry = new SwerveDriveOdometry(Constants.Motor.SWERVE_DRIVE_KINEMATICS, new Rotation2d(0));
+
+  private Field2d field2d = new Field2d();
 
   public Swerve() {
     // Create four modules with correct controllers, add to modules
@@ -46,6 +54,13 @@ public class Swerve extends SubsystemBase {
     frontRight = new SwerveModule(frontRightPower, frontRightSteer);
     backLeft = new SwerveModule(backLeftPower, backLeftSteer);
     backRight = new SwerveModule(backRightPower, backRightSteer);
+    swerveModules = new SwerveModule[]{
+      frontLeft,
+      frontRight,
+      backLeft,
+      backRight
+    };
+    gyroSim = gyro.getSimCollection();
 
     resetHeading();
   }
@@ -73,6 +88,15 @@ public class Swerve extends SubsystemBase {
     odometry.resetPosition(pose, getRotation2d());
   }
 
+  public SwerveModuleState[] getModuleStates(){
+    return new SwerveModuleState[] {
+      frontLeft.getState(),
+      frontRight.getState(),
+      backLeft.getState(),
+      backRight.getState()
+    };
+  }
+
   public void setModuleStates(SwerveModuleState[] desiredStates){
     SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Motor.SWERVE_MAX_SPEED);
     frontLeft.setState(desiredStates[0]);
@@ -88,6 +112,8 @@ public class Swerve extends SubsystemBase {
     frontRight.periodic();
     backLeft.periodic();
     backRight.periodic();
+
+    odometry.update(getRotation2d(), getModuleStates());
   }
 
   @Override
