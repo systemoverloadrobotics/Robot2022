@@ -9,7 +9,6 @@ import frc.robot.subsystems.Storage.ToggleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class StorageCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Storage storage;
 
   public StorageCommand(Storage storage) {

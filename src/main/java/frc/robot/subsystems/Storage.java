@@ -45,6 +45,8 @@ public class Storage extends SubsystemBase {
     }
     else if (state == ToggleState.OFF) {
       movementBelt.set(ControlMode.PercentOutput, 0);
+    }else if (state == ToggleState.REVERSE){
+      movementBelt.set(ControlMode.Position, -0.75);
     }
   }
 
@@ -71,6 +73,10 @@ public class Storage extends SubsystemBase {
     feeder.set(0.5);
   }
 
+  public void reverseFeeder(){
+    feeder.set(-0.5);
+  }
+
   public void stopFeeder(){
     feeder.stopMotor();
   }
@@ -90,7 +96,7 @@ public class Storage extends SubsystemBase {
   }
 
   public static enum ToggleState {
-    ON, OFF;
+    ON, OFF, REVERSE;
   }
 
   public static enum BallColor {

@@ -33,6 +33,10 @@ public class Intake extends SubsystemBase {
     intake.set(ControlMode.PercentOutput, speed); 
   }
 
+  public void reverseIntake(){
+    intake.set(ControlMode.PercentOutput, -0.5);
+  }
+
   public void toggleSolenoid(){
     solenoid.toggle();
   }

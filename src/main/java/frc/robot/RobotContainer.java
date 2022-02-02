@@ -7,7 +7,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.commands.ClearStorage;
 import frc.robot.commands.ClimbCommand;
+import frc.robot.commands.EjectBall;
 import frc.robot.commands.IndexBall;
 import frc.robot.commands.IntakeBall;
 import frc.robot.subsystems.Climb;
@@ -29,8 +32,11 @@ public class RobotContainer {
   private Storage storage = new Storage();
 
   //Commands
-  private IndexBall indexBall = new IndexBall(intake, storage);
+  private IndexBall indexBall = new IndexBall(storage);
   private ClimbCommand climbCommand = new ClimbCommand(climb);
+  private IntakeBall intakeBall = new IntakeBall(intake);
+  private EjectBall ejectBall = new EjectBall(intake);
+  private ClearStorage clearStorage = new ClearStorage(storage, intake);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -46,7 +52,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     Constants.Input.CLIMB_BUTTON.get().whenPressed(climbCommand); 
-    Constants.Input.INTAKE_BUTTON.get().whileHeld(indexBall);
+    Constants.Input.INTAKE_BUTTON.get().whileHeld(intakeBall.alongWith(indexBall));
+    Constants.Input.REVERSE_INTAKE_BUTTOn.get().whenHeld(ejectBall);
+    Constants.Input.CLEAR_STORAGE.get().whenHeld(clearStorage);
+
   }
 
   /**

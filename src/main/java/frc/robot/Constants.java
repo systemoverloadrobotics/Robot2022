@@ -49,7 +49,8 @@ public final class Constants {
     //Buttons
     public static final ConstantButton CLIMB_BUTTON = new ConstantButton(1, 1); 
     public static final ConstantButton INTAKE_BUTTON = new ConstantButton(1, 5); 
-    public static final ConstantButton STORAGE_TOGGLE = new ConstantButton(1, 0);
+    public static final ConstantButton REVERSE_INTAKE_BUTTOn = new ConstantButton(1, 6);
+    public static final ConstantButton CLEAR_STORAGE = new ConstantButton(1, 0);
   }
 
   public static final class MotorSettings {
@@ -69,16 +70,17 @@ public final class Constants {
 
     public static final int SWERVE_BACK_RIGHT_POWER = 6;
     public static final int SWERVE_BACK_RIGHT_STEER = 7;
-    
+
+
+    //Storage
     public static final int STORAGE_MOVEMENT_BELT = 8;
     public static final int STORAGE_FEEDER = 0;
-  
-    public static final int EXAMPLE_SHOOTER_PORT = 2;
-    public static final int EXAMPLE_INTAKE_CHANNEL = 3;
 
+    //Intake
     public static final int INTAKE = 5;
     public static final double INTAKE_SPEED = 0.5;
 
+    //Climb
     public static final int LEFT_CLIMB_MOTOR = 0; //reset to actual later
     public static final int RIGHT_CLIMB_MOTOR = 1; //reset to actual later
 
