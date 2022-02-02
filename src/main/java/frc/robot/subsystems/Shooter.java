@@ -10,9 +10,9 @@ public class Shooter extends SubsystemBase {
 
 	public Shooter() {
 		shooterMotor = new WPI_TalonFX(Constants.Motor.SHOOTER_PORT);
-		shooterMotor.config_kP(Constants.PID.SHOOTER_P_SLOT_INDEX, Constants.PID.SHOOTER_P);
-		shooterMotor.config_kI(Constants.PID.SHOOTER_I_SLOT_INDEX, Constants.PID.SHOOTER_I);
-		shooterMotor.config_kD(Constants.PID.SHOOTER_D_SLOT_INDEX, Constants.PID.SHOOTER_D);
+		shooterMotor.config_kP(0, Constants.PID.SHOOTER_P);
+		shooterMotor.config_kI(0, Constants.PID.SHOOTER_I);
+		shooterMotor.config_kD(0, Constants.PID.SHOOTER_D);
 	}
 
 	public int shooterMotorRPM() {
