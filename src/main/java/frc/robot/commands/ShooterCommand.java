@@ -26,10 +26,11 @@ public class ShooterCommand extends CommandBase {
 	// Called at 50hz while the command is scheduled.
 	@Override
 	public void execute() {
+		final double horizontalAngleAbs = Math.abs(limelight.getHorizontalAngle());
+		final double verticalAngleAbs = Math.abs(limelight.getHorizontalAngle());
 		// Checks if aimed
-		if (Math.abs(limelight.getHorizontalAngle()) < Constants.SHOOTER_LIMELIGHT_ANGLE
-				&& Math.abs(limelight.getVerticalAngle()) < Constants.SHOOTER_LIMELIGHT_ANGLE) {
-			shooter.shoot(0.5);
+		if (horizontalAngleAbs < Constants.SHOOTER_LIMELIGHT_ANGLE && verticalAngleAbs < Constants.SHOOTER_LIMELIGHT_ANGLE) {
+			shooter.spool(Constants.SHOOTER_RPM);
 		} else {
 			shooter.stopMotor();
 		}
