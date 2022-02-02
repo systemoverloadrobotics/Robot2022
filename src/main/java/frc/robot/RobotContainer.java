@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -13,9 +14,12 @@ import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.EjectBall;
 import frc.robot.commands.IndexBall;
 import frc.robot.commands.IntakeBall;
+import frc.robot.commands.SwerveDrive;
+import frc.robot.commands.auto.AutoPaths;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Storage;
+import frc.robot.subsystems.Swerve;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -30,6 +34,7 @@ public class RobotContainer {
   private Climb climb = new Climb(); 
   private Intake intake = new Intake();
   private Storage storage = new Storage();
+  private Swerve swerve = new Swerve();
 
   //Commands
   private IndexBall indexBall = new IndexBall(storage);
@@ -37,9 +42,11 @@ public class RobotContainer {
   private IntakeBall intakeBall = new IntakeBall(intake);
   private EjectBall ejectBall = new EjectBall(intake);
   private ClearStorage clearStorage = new ClearStorage(storage, intake);
+  private SwerveDrive swerveDrive;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    swerveDrive = new SwerveDrive(swerve, Constants.Input.X_AXIS.get(), Constants.Input.Y_AXIS.get(), Constants.Input.ROTATION.get());
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -64,6 +71,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+
+    return new AutoPaths(swerve).exampleAuto();
   }
 }
