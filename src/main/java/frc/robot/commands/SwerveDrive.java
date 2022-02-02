@@ -21,7 +21,7 @@ public class SwerveDrive extends CommandBase {
     this.rotationSupplier = rotationSupplier;
     xLimiter = new SlewRateLimiter(Constants.Motor.SWERVE_MAX_SPEED);
     yLimiter = new SlewRateLimiter(Constants.Motor.SWERVE_MAX_SPEED);
-    rotationLimiter = new SlewRateLimiter(Constants.Motor.SWERVE_MAX_SPEED);
+    rotationLimiter = new SlewRateLimiter(Constants.Motor.SWERVE_ROTATION_MAX_SPEED);
     addRequirements(swerve);
   }
 
