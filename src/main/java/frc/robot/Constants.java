@@ -16,11 +16,9 @@ import frc.robot.util.ConstantButton;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-
-  public static final double CLIMBER_ENCODER_DISTANCE = 12; 
-  
-  public static final double AIM_SCALING_FACTOR_X = 0.5;
-  public static final double AIM_SCALING_FACTOR_Y = 0.5;
+  public static final double CLIMBER_ENCODER_DISTANCE = 12;
+  public static final double AIM_SCALING_FACTOR_X = -0.5;
+  public static final double AIM_SCALING_FACTOR_Y = -0.5;
 
 	public static final class RobotDimensions {
     // Distance between wheels
