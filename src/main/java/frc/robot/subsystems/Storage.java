@@ -19,7 +19,6 @@ public class Storage extends SubsystemBase {
   private PIDController feederController;
   private ColorSensorV3 colorSensor;
   private DigitalInput intakeSensor, storageSensor, shooterSensor;
-  private DigitalInput[] proximitySensor = new DigitalInput[3];
 
   public Storage() {
     // Motor

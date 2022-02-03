@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Storage;
+import frc.robot.subsystems.Storage.ProximitySensors;
 import frc.robot.subsystems.Storage.ToggleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -21,12 +22,18 @@ public class StorageCommand extends CommandBase {
 
   @Override
   public void execute() {
-    storage.toggleBelt(ToggleState.ON);
+    while(!storage.detectBall(ProximitySensors.STORAGE)){
+      if(storage.detectBall(ProximitySensors.INTAKE)){
+        storage.toggleBelt(ToggleState.ON);
+      }
+    }
+    if(IndexBall.isBallInFeeder){
+      storage.toggleBelt(ToggleState.OFF);
+    }
   }
 
   @Override
   public void end(boolean interrupted) {
-    storage.toggleBelt(ToggleState.OFF);
   }
 
   @Override

@@ -1,15 +1,13 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Storage;
-import frc.robot.subsystems.Storage.ProximitySensors;
 import frc.robot.subsystems.Storage.ToggleState;
 
-public class IndexBall extends CommandBase {
+public class IndexBall extends SequentialCommandGroup {
   private Storage storage;
 
-  private boolean isBallInFeeder;
+  public static boolean isBallInFeeder;
 
   public IndexBall(Storage storage) {
     this.storage = storage;
@@ -18,19 +16,12 @@ public class IndexBall extends CommandBase {
 
   public void indexBall() {
     // no ball inside the robot or one ball is stored in the shooter
-    if (storage.detectBall(ProximitySensors.INTAKE)) {
-      storage.toggleBelt(ToggleState.ON);
-      if (storage.detectBall(ProximitySensors.STORAGE) && !isBallInFeeder) {
-        storage.spinFeeder();
-        if (storage.detectBall(ProximitySensors.SHOOTER)) {
-          storage.stopFeeder();
-          storage.setFeederPos(Constants.RobotDimensions.FEEDER_OFFSET_DISTANCE);
-          isBallInFeeder = true;
-        }
-      } else {
-        storage.toggleBelt(ToggleState.OFF);
-      }
-    }
+    addCommands(
+      parallel(
+        new StorageCommand(storage),
+        new FeederStorage(storage)
+      )
+    );
   }
 
   // Called when the command is first scheduled.
