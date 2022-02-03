@@ -3,9 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
-public class EjectBall extends CommandBase{
-  
-  private Intake intake;
+public class EjectBall extends CommandBase {
+
+	private Intake intake;
 
 	public EjectBall(Intake intake) {
 		this.intake = intake;
@@ -19,14 +19,14 @@ public class EjectBall extends CommandBase{
 	// Called at 50hz while the command is scheduled.
 	@Override
 	public void execute() {
-    intake.reverseIntake();
+		intake.reverseIntake();
 	}
 
 	// Called once when the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-    intake.intakeBall(0);
-  }
+		intake.intakeBall(0);
+	}
 
 	@Override
 	public boolean isFinished() {

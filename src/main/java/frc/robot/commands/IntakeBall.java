@@ -9,10 +9,11 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Intake;
 
 public class IntakeBall extends CommandBase {
-  Intake intake; 
+  Intake intake;
+
   /** Creates a new IntakeBall. */
   public IntakeBall(Intake i) {
-    intake = i; 
+    intake = i;
     addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -20,7 +21,7 @@ public class IntakeBall extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.toggleSolenoid();
+    intake.enableSolenoid();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,7 +33,7 @@ public class IntakeBall extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.toggleSolenoid();
+    intake.enableSolenoid();
     intake.intakeBall(0);
   }
 

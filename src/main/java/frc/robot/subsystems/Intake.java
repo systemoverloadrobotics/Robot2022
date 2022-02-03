@@ -18,10 +18,10 @@ public class Intake extends SubsystemBase {
 
   /** Creates a new Intake. */
   public Intake() {
-    intake = new TalonFX(Constants.Motor.INTAKE); 
+    intake = new TalonFX(Constants.Motor.INTAKE);
     solenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
 
-    solenoid.set(false);
+    disableSolenoid();
   }
 
   @Override
@@ -30,14 +30,18 @@ public class Intake extends SubsystemBase {
   }
 
   public void intakeBall(double speed) {
-    intake.set(ControlMode.PercentOutput, speed); 
+    intake.set(ControlMode.PercentOutput, speed);
   }
 
-  public void reverseIntake(){
-    intake.set(ControlMode.PercentOutput, -0.5);
+  public void reverseIntake() {
+    intake.set(ControlMode.PercentOutput, Constants.Motor.INTAKE_REVERSE);
   }
 
-  public void toggleSolenoid(){
-    solenoid.toggle();
+  public void enableSolenoid() {
+    solenoid.set(true);
+  }
+
+  public void disableSolenoid() {
+    solenoid.set(false);
   }
 }

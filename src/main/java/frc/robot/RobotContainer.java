@@ -29,14 +29,14 @@ import frc.robot.subsystems.Swerve;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  
-  //Subsystems
-  private Climb climb = new Climb(); 
+
+  // Subsystems
+  private Climb climb = new Climb();
   private Intake intake = new Intake();
   private Storage storage = new Storage();
   private Swerve swerve = new Swerve();
 
-  //Commands
+  // Commands
   private IndexBall indexBall = new IndexBall(storage);
   private ClimbCommand climbCommand = new ClimbCommand(climb);
   private IntakeBall intakeBall = new IntakeBall(intake);
@@ -46,21 +46,22 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    swerveDrive = new SwerveDrive(swerve, Constants.Input.X_AXIS.get(), Constants.Input.Y_AXIS.get(), Constants.Input.ROTATION.get());
+    swerveDrive = new SwerveDrive(swerve, Constants.Input.X_AXIS.get(),
+        Constants.Input.Y_AXIS.get(), Constants.Input.ROTATION.get());
     // Configure the button bindings
     configureButtonBindings();
   }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   * instantiating a {@link GenericHID} or one of its subclasses
+   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
+   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Constants.Input.CLIMB_BUTTON.get().whenPressed(climbCommand); 
+    Constants.Input.CLIMB_BUTTON.get().whenPressed(climbCommand);
     Constants.Input.INTAKE_BUTTON.get().whileHeld(intakeBall.alongWith(indexBall));
-    Constants.Input.REVERSE_INTAKE_BUTTOn.get().whenHeld(ejectBall);
+    Constants.Input.REVERSE_INTAKE_BUTTON.get().whenHeld(ejectBall);
     Constants.Input.CLEAR_STORAGE.get().whenHeld(clearStorage);
 
   }
