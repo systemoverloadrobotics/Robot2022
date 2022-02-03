@@ -40,7 +40,6 @@ public final class Constants {
 
   }
 
-
   public static final class Input {
 
     //Axis
@@ -72,20 +71,16 @@ public final class Constants {
     public static final int SWERVE_BACK_RIGHT_POWER = 6;
     public static final int SWERVE_BACK_RIGHT_STEER = 7;
     
-    public static final int STORAGE_MOVEMENT_BELT = 8;
-  
-    public static final int EXAMPLE_SHOOTER_PORT = 2;
+    public static final int SHOOTER_PORT = 2;
     public static final int EXAMPLE_INTAKE_CHANNEL = 3;
+    
+    public static final int STORAGE_MOVEMENT_BELT = 8;
 
     public static final int INTAKE = 5;
     public static final double INTAKE_SPEED = 0.5;
 
     public static final int LEFT_CLIMB_MOTOR = 0; //reset to actual later
     public static final int RIGHT_CLIMB_MOTOR = 1; //reset to actual later
-
-
-    public static final int SHOOTER_PORT = 2;
- 
   }
 
   public static final class Sensor {
