@@ -8,7 +8,7 @@ import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
 	private WPI_TalonFX shooterMotor;
-
+//lol
 	public Shooter() {
 		shooterMotor = new WPI_TalonFX(Constants.Motor.SHOOTER_PORT);
 		shooterMotor.config_kP(0, Constants.PID.SHOOTER_P);
