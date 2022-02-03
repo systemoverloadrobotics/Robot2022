@@ -19,6 +19,8 @@ public final class Constants {
   public static final double CLIMBER_ENCODER_DISTANCE = 12;
   public static final double AIM_SCALING_FACTOR_X = -0.5;
   public static final double AIM_SCALING_FACTOR_Y = -0.5;
+  public static final double SHOOTER_LIMELIGHT_ANGLE = 0.5; 
+  
 
 	public static final class RobotDimensions {
     // Distance between wheels
@@ -26,7 +28,7 @@ public final class Constants {
     public static final double LENGTH = 28; //inches
   }
 
-  public static final class PID {
+  public static final class PID { 
     public static final double P_CLIMB = 0.1; 
     public static final double I_CLIMB = 1e-4;
     public static final double D_CLIMB = 1; 

@@ -8,7 +8,6 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.Limelight.LimelightTable;
 
 public class AimCommand extends CommandBase {
 	private Limelight limelight;
