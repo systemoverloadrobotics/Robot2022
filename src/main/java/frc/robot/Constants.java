@@ -20,6 +20,8 @@ public final class Constants {
   public static final double AIM_SCALING_FACTOR_X = -0.5;
   public static final double AIM_SCALING_FACTOR_Y = -0.5;
   public static final double SHOOTER_LIMELIGHT_ANGLE = 0.5; 
+  public static final int FALCON_MAX_RPM = 6380;
+  public static final int SHOOTER_RPM = 3000;
   
 
 	public static final class RobotDimensions {
@@ -35,9 +37,10 @@ public final class Constants {
     public static final int SHOOTER_P_SLOT_INDEX = 0; 
     public static final int SHOOTER_I_SLOT_INDEX = 0; 
     public static final int SHOOTER_D_SLOT_INDEX = 0; 
-    public static final double SHOOTER_P_VALUE = 1; 
-    public static final double SHOOTER_I_VALUE = 1; 
-    public static final double SHOOTER_D_VALUE = 1; 
+    public static final double SHOOTER_P = 1; 
+    public static final double SHOOTER_I = 1; 
+    public static final double SHOOTER_D = 1; 
+
   }
 
 

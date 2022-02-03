@@ -10,13 +10,18 @@ public class Shooter extends SubsystemBase {
 
 	public Shooter() {
 		shooterMotor = new WPI_TalonFX(Constants.Motor.SHOOTER_PORT);
-		shooterMotor.config_kP(Constants.PID.SHOOTER_P_SLOT_INDEX, Constants.PID.SHOOTER_P_VALUE);
-		shooterMotor.config_kI(Constants.PID.SHOOTER_I_SLOT_INDEX, Constants.PID.SHOOTER_I_VALUE);
-		shooterMotor.config_kD(Constants.PID.SHOOTER_D_SLOT_INDEX, Constants.PID.SHOOTER_D_VALUE);
+		shooterMotor.config_kP(Constants.PID.SHOOTER_P_SLOT_INDEX, Constants.PID.SHOOTER_P);
+		shooterMotor.config_kI(Constants.PID.SHOOTER_I_SLOT_INDEX, Constants.PID.SHOOTER_I);
+		shooterMotor.config_kD(Constants.PID.SHOOTER_D_SLOT_INDEX, Constants.PID.SHOOTER_D);
 	}
 
-	public void shoot(double percentage) {
-		shooterMotor.set(ControlMode.PercentOutput, percentage);
+	public int shooterMotorRPM() {
+		// Math#round is used to account for floating point errors
+		return (int) Math.round(shooterMotor.get() * Constants.FALCON_MAX_RPM);
+	}
+
+	public void spool(int rpm) {
+		shooterMotor.set(ControlMode.PercentOutput, rpm / 6380D);
 	}
 
 	public void stopMotor() {
