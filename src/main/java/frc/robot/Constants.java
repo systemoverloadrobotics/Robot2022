@@ -34,8 +34,8 @@ public final class Constants {
     public static final double P_CLIMB = 0.1; 
     public static final double I_CLIMB = 1e-4;
     public static final double D_CLIMB = 1;
-    public static final double SHOOTER_P = 1; 
-    public static final double SHOOTER_I = 1; 
+    public static final double SHOOTER_P = 0.1; 
+    public static final double SHOOTER_I = 1e-4; 
     public static final double SHOOTER_D = 1; 
 
   }
