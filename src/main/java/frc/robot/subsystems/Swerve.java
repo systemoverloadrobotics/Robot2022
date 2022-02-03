@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import java.lang.reflect.Field;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.BasePigeonSimCollection;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.modules.SwerveModule;
+import frc.robot.util.ConstantButton;
 
 public class Swerve extends SubsystemBase {
 
@@ -50,10 +52,10 @@ public class Swerve extends SubsystemBase {
 
   public Swerve() {
     // Create four modules with correct controllers, add to modules
-    frontLeft = new SwerveModule(frontLeftPower, frontLeftSteer);
-    frontRight = new SwerveModule(frontRightPower, frontRightSteer);
-    backLeft = new SwerveModule(backLeftPower, backLeftSteer);
-    backRight = new SwerveModule(backRightPower, backRightSteer);
+    frontLeft = new SwerveModule(frontLeftPower, frontLeftSteer, Constants.Motor.SWERVE_FRONT_LEFT_OFFSET);
+    frontRight = new SwerveModule(frontRightPower, frontRightSteer, Constants.Motor.SWERVE_FRONT_RIGHT_OFFSET);
+    backLeft = new SwerveModule(backLeftPower, backLeftSteer, Constants.Motor.SWERVE_BACK_LEFT_OFFSET);
+    backRight = new SwerveModule(backRightPower, backRightSteer, Constants.Motor.SWERVE_BACK_RIGHT_OFFSET);
     swerveModules = new SwerveModule[]{
       frontLeft,
       frontRight,

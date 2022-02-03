@@ -116,6 +116,12 @@ public final class Constants {
     public static final int SWERVE_BACK_RIGHT_POWER = 6;
     public static final int SWERVE_BACK_RIGHT_STEER = 7;
 
+    public static final double SWERVE_FRONT_LEFT_OFFSET = 15;//degrees
+    public static final double SWERVE_FRONT_RIGHT_OFFSET = 12;//degrees
+    public static final double SWERVE_BACK_LEFT_OFFSET = 10;//degrees
+    public static final double SWERVE_BACK_RIGHT_OFFSET = 8;//degrees
+
+
     public static final SwerveDriveKinematics SWERVE_DRIVE_KINEMATICS = new SwerveDriveKinematics(
       new Translation2d(RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
       new Translation2d(RobotDimensions.LENGTH / 2, RobotDimensions.WIDTH / 2),
