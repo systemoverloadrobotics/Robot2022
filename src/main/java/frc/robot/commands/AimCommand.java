@@ -1,21 +1,23 @@
 package frc.robot.commands;
 
+import java.util.function.Supplier;
 import org.opencv.core.Mat;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Limelight.LimelightTable;
 
-public class ShooterCommand extends CommandBase {
-	private Limelight limelight; 
-	private Shooter shooter; 
+public class AimCommand extends CommandBase {
+	private Limelight limelight;
+	private Swerve swerve;
 
-	public ShooterCommand(Limelight limelight, Shooter shooter) {
+	public AimCommand(Limelight limelight, Swerve swerve) {
 		this.limelight = limelight; 
-		this.shooter = shooter; 
-		addRequirements(limelight, shooter);
+		this.swerve = swerve;
+		addRequirements(limelight, swerve);
 	}
 
 	 // Called when the command is first scheduled.
@@ -27,19 +29,18 @@ public class ShooterCommand extends CommandBase {
 	 // Called at 50hz while the command is scheduled.
 	 @Override
 	 public void execute() {
-		 // Checks if aimed
-		 if (Math.abs(limelight.valueSupplier(LimelightTable.TX, Double.class).get()) < 0.5 && Math.abs(limelight.valueSupplier(LimelightTable.TY, Double.class).get()) < 0.5) {
-			 shooter.shoot(0.5);
-		 }
-		 else {
+		 Supplier<Double> tx = limelight.valueSupplier(LimelightTable.TX, Double.class);
+		 Supplier<Double> ty = limelight.valueSupplier(LimelightTable.TY, Double.class);
 
+		 while (Math.abs(tx.get()) > 0.5 || Math.abs(ty.get()) > 0.5) {
+			 swerve.drive(tx.get() * Constants.AIM_SCALING_FACTOR_X, Constants.AIM_SCALING_FACTOR_Y, 0);
 		 }
 	 }
  
 	 // Called once when the command ends or is interrupted.
 	 @Override
 	 public void end(boolean interrupted) {
-		 shooter.stopMotor();
+		 
 	 }
  
 	 @Override
