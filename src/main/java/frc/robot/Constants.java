@@ -24,6 +24,12 @@ public final class Constants {
     public static final double P_CLIMB = 0.1; 
     public static final double I_CLIMB = 1e-4;
     public static final double D_CLIMB = 1; 
+    public static final int SHOOTER_P_SLOT_INDEX = 0; 
+    public static final int SHOOTER_I_SLOT_INDEX = 0; 
+    public static final int SHOOTER_D_SLOT_INDEX = 0; 
+    public static final double SHOOTER_P_VALUE = 1; 
+    public static final double SHOOTER_I_VALUE = 1; 
+    public static final double SHOOTER_D_VALUE = 1; 
   }
 	public static final class RobotDimensions {
 
@@ -31,7 +37,7 @@ public final class Constants {
     public static final double WIDTH = 28; //inches
     public static final double LENGTH = 28; //inches
   }
-  
+
   public static final class Input {
 
     //Axis
@@ -74,6 +80,9 @@ public final class Constants {
     public static final int LEFT_CLIMB_MOTOR = 0; //reset to actual later
     public static final int RIGHT_CLIMB_MOTOR = 1; //reset to actual later
 
+
+    public static final int SHOOTER_PORT = 2;
+ 
   }
 
   public static final class Sensor {
