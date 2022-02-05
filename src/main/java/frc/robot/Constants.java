@@ -16,9 +16,13 @@ import frc.robot.util.ConstantButton;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-
-  public static final double CLIMBER_ENCODER_DISTANCE = 12; 
-  
+  //Distance to the Mid Bar
+  public static final double CLIMBER_ENCODER_DISTANCE_MID = 12; 
+  //Distance to the Low Bar
+  public static final double CLIMBER_ENCODER_DISTANCE_LOW = 8;
+  //setpoint for pulling the robot off the ground using random values
+  public static final double RETRACTER_ENCODER_DISTANCE_MID = 12 *  -0.5
+  public static final double RETRACTER_ENCODER_DISTANCE_LOW = 8 *  -0.5
 
   public static final class PID {
     public static final double P_CLIMB = 0.1; 
@@ -36,7 +40,10 @@ public final class Constants {
     public static final ConstantAxis X_AXIS = new ConstantAxis(1, 1);
     public static final ConstantAxis Y_AXIS = new ConstantAxis(1, 2);
     public static final ConstantAxis ROTATION = new ConstantAxis(2, 1);
-    public static final ConstantButton CLIMB_BUTTON = new ConstantButton(1, 1); 
+    public static final ConstantButton CLIMB_MID_BUTTON = new ConstantButton(1, 1);
+    public static final ConstantButton CLIMB_LOW_BUTTON = new ConstantButton(1, 1);
+    public static final ConstantButton RETRACT_MID_BUTTON = new ConstantButton(1, 1);
+    public static final ConstantButton RETRACT_LOW_BUTTON = new ConstantButton(1, 1);
   }
 
   public static final class MotorSettings {

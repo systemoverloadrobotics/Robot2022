@@ -18,9 +18,71 @@ import frc.robot.subsystems.Climb;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private Climb climb = new Climb(); 
-  private ClimbCommand climbCommand = new ClimbCommand(climb); 
+  private Climb climb = new Climb();
+  private Command extendLowClimbCommand = new CommandBase() {
+    {
+      addSubsystems(climb);
+    }
 
+    public void execute() {
+      if (climb.getEncoderValue() != Constants.CLIMBER_ENCODER_DISTANCE_LOW) {
+				climb.setSetpoint(Constants.CLIMBER_ENCODER_DISTANCE_LOW);
+			} else {
+				climb.stop();
+			}
+    }
+
+    public void end(boolean interrupted) {
+      climb.stop()
+    }
+  }
+
+  private Command extendMidClimbCommand = new CommandBase() {
+    {
+      addSubsystems(climb);
+    }
+
+    public void execute() {
+      if (climb.getEncoderValue() != Constants.CLIMBER_ENCODER_DISTANCE_MID) {
+				climb.setSetpoint(Constants.CLIMBER_ENCODER_DISTANCE_MID);
+			} else {
+				climb.stop();
+			}
+    }
+
+    public void end(boolean interrupted) {
+      climb.stop()
+    }
+  }
+
+  private Command retractLowCommand = new CommandBase() {
+    {
+      addSubsystems(climb);
+    }
+
+    public void execute() {
+      if (climb.getEncoderValue() != Constants.RETRACTER_ENCODER_DISTANCE_LOW) {
+				climb.setSetpoint(Constants.RETRACTER_ENCODER_DISTANCE_LOW);
+			} else {
+				climb.stop();
+			}
+    }
+  }
+  private Command retractMidCommand = new CommandBase() {
+    {
+      addSubsystems(climb);
+    }
+
+    public void execute() {
+      if (climb.getEncoderValue() != Constants.RETRACTER_ENCODER_DISTANCE_MID) {
+				climb.setSetpoint(Constants.RETRACTER_ENCODER_DISTANCE_MID);
+			} else {
+				climb.stop();
+			}
+    }
+  }
+
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -34,7 +96,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Constants.Input.CLIMB_BUTTON.get().whenPressed(climbCommand); 
+    Constants.Input.CLIMB_MID_BUTTON.get().whenPressed(extendMidClimbCommand); 
+    Constants.Input.CLIMB_LOW_BUTTON.get().whenPressed(extendLowClimbCommand);
+    Constants.Input.RETRACT_MID_BUTTON.get().whenPressed(retractMidCommand); 
+    Constants.Input.RETRACT_LOW_BUTTON.get().whenPressed(retractLowCommand);
   }
 
   /**

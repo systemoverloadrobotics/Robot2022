@@ -7,9 +7,13 @@ import frc.robot.subsystems.Climb;
 public class ClimbCommand extends CommandBase {
 
 	private Climb climb;
-
-	public ClimbCommand(Climb climb) {
+	private Bar bar;
+	enum Bar {
+		MID, LOW
+	}
+	public ClimbCommand(Climb climb, Bar e) {
 		this.climb = climb;
+		this.bar = e;
 		addRequirements(climb);
 	}
 
@@ -20,16 +24,26 @@ public class ClimbCommand extends CommandBase {
 	// Called at 50hz while the command is scheduled.
 	@Override
 	public void execute() {
-		if (climb.getEncoderValue() != Constants.CLIMBER_ENCODER_DISTANCE) {
-			climb.setSetpoint(Constants.CLIMBER_ENCODER_DISTANCE);
-		} else {
-			climb.stop();
+		if (bar == MID){
+			if (climb.getEncoderValue() != Constants.CLIMBER_ENCODER_DISTANCE_MID) {
+				climb.setSetpoint(Constants.CLIMBER_ENCODER_DISTANCE_MID);
+			} else {
+				climb.stop();
+			}
+		}else if (bar == LOW){
+			if (climb.getEncoderValue() != Constants.CLIMBER_ENCODER_DISTANCE_LOW) {
+				climb.setSetpoint(Constants.CLIMBER_ENCODER_DISTANCE_LOW);
+			} else {
+				climb.stop();
+			}
 		}
 	}
 
 	// Called once when the command ends or is interrupted.
 	@Override
-	public void end(boolean interrupted) {}
+	public void end(boolean interrupted) {
+		climb.stop()
+	}
 
 	@Override
 	public boolean isFinished() {
