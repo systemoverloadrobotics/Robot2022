@@ -29,6 +29,7 @@ public final class Constants {
   public static final double CLIMBER_ENCODER_DISTANCE = 12; 
   public static final double SHOOTER_LIMELIGHT_ANGLE = 0.5; 
   public static final int FALCON_MAX_RPM = 6380;
+  public static final int JUICED_SHOOTER_RPM = 6000;
   public static final int SHOOTER_RPM = 3000;
   
 
@@ -103,6 +104,10 @@ public final class Constants {
     public static final ConstantButton CLIMB_BUTTON = new ConstantButton(1, 1); 
     public static final ConstantButton INTAKE_BUTTON = new ConstantButton(1, 5); 
     public static final ConstantButton STORAGE_TOGGLE = new ConstantButton(1, 0);
+    public static final ConstantButton SHOOTER_SPOOL = new ConstantButton(1, 9);
+    public static final ConstantButton SHOOTER_JUICED_SPOOL = new ConstantButton(1, 10);
+    public static final ConstantButton SHOOTER_SHOOT = new ConstantButton(1, 11);
+    public static final ConstantButton SHOOTER_JUICED_SHOOT = new ConstantButton(1, 12);
   }
 
   public static final class MotorSettings {
