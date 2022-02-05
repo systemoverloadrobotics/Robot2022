@@ -32,15 +32,16 @@ public class AutoPaths {
   private static Intake intake;
   private static Storage storage;
   private static Shooter shooter;
-  private static Limelight limelight;
+  private static Limelight limelight; 
 
-  public AutoPaths(Swerve swerve, Intake intake, Storage storage, Shooter shooter,
-      Limelight limelight) {
+
+
+  public AutoPaths(Swerve swerve, Intake intake, Storage storage, Shooter shooter, Limelight limelight) {
     this.swerve = swerve;
     this.intake = intake;
     this.storage = storage;
     this.shooter = shooter;
-    this.limelight = limelight;
+    this.limelight = limelight; 
   }
 
   private static SwerveControllerCommand moveDriveTrain(int startPoint, int endPoint,
