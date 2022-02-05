@@ -16,7 +16,12 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
+import frc.robot.commands.IntakeBall;
+import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.StorageCommand;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Storage.ToggleState;
@@ -26,67 +31,59 @@ public class AutoPaths {
   private static Swerve swerve;
   private static Intake intake;
   private static Storage storage;
+  private static Shooter shooter;
+  private static Limelight limelight;
 
-  public AutoPaths(Swerve swerve, Intake intake, Storage storage) {
+  public AutoPaths(Swerve swerve, Intake intake, Storage storage, Shooter shooter,
+      Limelight limelight) {
     this.swerve = swerve;
     this.intake = intake;
     this.storage = storage;
+    this.shooter = shooter;
+    this.limelight = limelight;
   }
 
-  public static Command twoBallAuto() {
-        //move backwards
-
-
-    TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.Motor.SWERVE_MAX_SPEED, Constants.Motor.SWERVE_MAX_ACCELERATION);
+  private static SwerveControllerCommand moveDriveTrain(int startPoint, int endPoint,
+      int rotation) {
+    TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.Motor.SWERVE_MAX_SPEED,
+        Constants.Motor.SWERVE_MAX_ACCELERATION);
 
     Trajectory trajectory =
         TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)),
-            List.of(new Translation2d(-1, 0), new Translation2d(0, 7)),
-            new Pose2d(0, 7, Rotation2d.fromDegrees(0)), trajectoryConfig);
-    
+            List.of(new Translation2d(0, startPoint), new Translation2d(0, endPoint)),
+            new Pose2d(0, endPoint, Rotation2d.fromDegrees(rotation)), trajectoryConfig);
+
     PIDController xController = new PIDController(Constants.PID.P_X_CONTROLLER, 0, 0);
     PIDController yController = new PIDController(Constants.PID.P_Y_CONTROLLER, 0, 0);
     ProfiledPIDController thetaController = new ProfiledPIDController(
         Constants.PID.P_THETA_CONTROLLER, 0, 0, Constants.Motor.THETA_CONTROL_CONSTRAINTS);
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-    SwerveControllerCommand initialMovementCommand = new SwerveControllerCommand(trajectory,
-    swerve::getPose, Constants.Motor.SWERVE_DRIVE_KINEMATICS, xController, yController,
-    thetaController, swerve::setModuleStates, swerve);
+    return new SwerveControllerCommand(trajectory, swerve::getPose,
+        Constants.Motor.SWERVE_DRIVE_KINEMATICS, xController, yController, thetaController,
+        swerve::setModuleStates, swerve);
+  }
 
-    SwerveControllerCommand moveToShoot = new SwerveControllerCommand(trajectory,
-    swerve::getPose, Constants.Motor.SWERVE_DRIVE_KINEMATICS, xController, yController,
-    thetaController, swerve::setModuleStates, swerve);
 
-    //roll intake 
-    //run storage
-    //move forward 
-    //shoot after you are close enough  
+  public static Command twoBallAuto() {
+    // move backwards
 
-    Command intakeCommand = new CommandBase(){
-      {
-        addRequirements(intake);
-      }
-      @Override
-      public void execute() {
-        intake.intakeBall(Constants.Motor.INTAKE_SPEED);
-      }
-    };
 
-    
-    Command storageCommand = new CommandBase() {
-      {
-        addRequirements(storage);
-      }
-      @Override
-      public void execute() {
-        storage.toggleBelt(ToggleState.ON);
-      }
-    };
-    
-    return new SequentialCommandGroup(new InstantCommand(() -> swerve.resetOdometry(trajectory.getInitialPose())), new ParallelCommandGroup(initialMovementCommand, intakeCommand, storageCommand)); 
-      
-    
+
+    SwerveControllerCommand initialMovementCommand = moveDriveTrain(1, 7, 0);
+
+    SwerveControllerCommand moveToShoot = moveDriveTrain(1, 9, 180);
+
+
+    IntakeBall intakeCommand = new IntakeBall(intake);
+    ShooterCommand shooterCommand = new ShooterCommand(limelight, shooter);
+    StorageCommand storageCommand = new StorageCommand(storage);
+
+    return new SequentialCommandGroup(
+        new InstantCommand(() -> swerve.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)))),
+        new ParallelCommandGroup(initialMovementCommand, intakeCommand, storageCommand),
+        new InstantCommand(() -> swerve.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)))),
+        moveToShoot, shooterCommand);
   }
 
   public static Command exampleAuto() {

@@ -14,6 +14,7 @@ import frc.robot.commands.SwerveDrive;
 import frc.robot.commands.auto.AutoPaths;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.Swerve;
 
@@ -31,6 +32,7 @@ public class RobotContainer {
   private Intake intake = new Intake();
   private Storage storage = new Storage();
   private Swerve swerve = new Swerve();
+  private Shooter shooter = new Shooter(); 
 
   //Commands
   private IndexBall indexBall = new IndexBall(intake, storage);
@@ -61,7 +63,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-
-    return new AutoPaths(swerve).exampleAuto();
+    return new AutoPaths(swerve, intake, storage, shooter).exampleAuto();
   }
 }
