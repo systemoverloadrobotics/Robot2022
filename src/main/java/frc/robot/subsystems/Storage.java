@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Storage extends SubsystemBase {
+
   private TalonFX movementBelt;
   private ColorSensorV3 colorSensor;
 
