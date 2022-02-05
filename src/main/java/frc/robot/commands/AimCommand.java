@@ -32,15 +32,15 @@ public class AimCommand extends CommandBase {
 		 double tx = limelight.getHorizontalAngle();
 		 double ty = limelight.getVerticalAngle();
 
-		 while (Math.abs(tx) > 0.5 || Math.abs(ty) > 0.5) {
+		 /*while (Math.abs(tx) > 0.5 || Math.abs(ty) > 0.5) {
 			 swerve.drive(tx * Constants.AIM_SCALING_FACTOR_X, Constants.AIM_SCALING_FACTOR_Y, 0);
-		 }
+		 }*/
 	 }
  
 	 // Called once when the command ends or is interrupted.
 	 @Override
 	 public void end(boolean interrupted) {
-		 swerve.drive(0, 0, 0);
+		 //swerve.drive(0, 0, 0);
 	 }
  
 	 @Override

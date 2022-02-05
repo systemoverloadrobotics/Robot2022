@@ -79,6 +79,11 @@ public final class Constants {
     public static final double P_X_CONTROLLER = 1.5;
     public static final double P_Y_CONTROLLER = 1.5;
     public static final double P_THETA_CONTROLLER = 3;
+
+    public static final double SHOOTER_P = 0.1; 
+    public static final double SHOOTER_I = 1e-4; 
+    public static final double SHOOTER_D = 1; 
+
   }
   
 	public static final class RobotDimensions {
@@ -87,16 +92,6 @@ public final class Constants {
     public static final double LENGTH = Units.inchesToMeters(28); //inches
 
     public static final double WHEEL_CIRCUMFRENCE = Units.inchesToMeters(3.5) * Math.PI; 
-  }
-
-  public static final class PID { 
-    public static final double P_CLIMB = 0.1; 
-    public static final double I_CLIMB = 1e-4;
-    public static final double D_CLIMB = 1;
-    public static final double SHOOTER_P = 0.1; 
-    public static final double SHOOTER_I = 1e-4; 
-    public static final double SHOOTER_D = 1; 
-
   }
   
   public static final class Input {
@@ -161,8 +156,6 @@ public final class Constants {
       
     public static final int SHOOTER_PORT = 2;
     public static final int EXAMPLE_INTAKE_CHANNEL = 3;
-    
-    public static final int STORAGE_MOVEMENT_BELT = 8;
 
     public static final int INTAKE = 5;
     public static final double INTAKE_SPEED = 0.5;
