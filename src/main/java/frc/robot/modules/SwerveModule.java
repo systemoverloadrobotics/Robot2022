@@ -33,6 +33,8 @@ public class SwerveModule {
     private TalonFXSimCollection powerSim;
     private TalonSRXSimCollection steerSim;
 
+    private double offSetDeg;
+
     private final FlywheelSim powerMotorSimModel = new FlywheelSim(
         LinearSystemId.identifyVelocitySystem(
             driveFF.kv * Constants.RobotDimensions.WHEEL_CIRCUMFRENCE / (2*Math.PI),
@@ -48,9 +50,10 @@ public class SwerveModule {
         Constants.Motor.SWERVE_POWER_GEAR_RATIO
     );
 
-    public SwerveModule(TalonFX powerController, TalonSRX steerController) {
+    public SwerveModule(TalonFX powerController, TalonSRX steerController, double offSetDeg) {
         this.powerController = powerController;
         this.steerController = steerController;
+        this.offSetDeg = offSetDeg;
 
         powerController.configFactoryDefault(); 
         steerController.configFactoryDefault();
@@ -82,6 +85,13 @@ public class SwerveModule {
 
     public double getSteerPosition(){
         return Utils.ticksToDegrees(steerController.getSelectedSensorPosition(), 4096);
+    }
+    
+    public void resetEncoder(){
+        double angle = getSteerPosition() - offSetDeg;
+        powerController.set(ControlMode.Position, 0);
+        steerController.setSelectedSensorPosition(angle);
+        
     }
 
     public void setVelocity(double percent){

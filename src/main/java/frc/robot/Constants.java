@@ -24,9 +24,15 @@ import frc.robot.util.ConstantButton;
 public final class Constants {
 
   public static final boolean IS_REAL = RobotBase.isReal();
-  public static final double CLIMBER_ENCODER_DISTANCE = 12; 
-  
 
+  public static final double AIM_SCALING_FACTOR_X = -0.5;
+  public static final double AIM_SCALING_FACTOR_Y = -0.5;
+
+  public static final double CLIMBER_ENCODER_DISTANCE = 12; 
+  public static final double SHOOTER_LIMELIGHT_ANGLE = 0.5; 
+  public static final int FALCON_MAX_RPM = 6380;
+  public static final int SHOOTER_RPM = 3000;
+ 
   public static final class PID {
     //Climb
     public static final double P_CLIMB = 0.1; 
@@ -74,13 +80,23 @@ public final class Constants {
     public static final double P_Y_CONTROLLER = 1.5;
     public static final double P_THETA_CONTROLLER = 3;
   }
+  
 	public static final class RobotDimensions {
-
     // Distance between wheels
     public static final double WIDTH = Units.inchesToMeters(28); //inches
     public static final double LENGTH = Units.inchesToMeters(28); //inches
 
     public static final double WHEEL_CIRCUMFRENCE = Units.inchesToMeters(3.5) * Math.PI; 
+  }
+
+  public static final class PID { 
+    public static final double P_CLIMB = 0.1; 
+    public static final double I_CLIMB = 1e-4;
+    public static final double D_CLIMB = 1;
+    public static final double SHOOTER_P = 0.1; 
+    public static final double SHOOTER_I = 1e-4; 
+    public static final double SHOOTER_D = 1; 
+
   }
   
   public static final class Input {
@@ -116,6 +132,12 @@ public final class Constants {
     public static final int SWERVE_BACK_RIGHT_POWER = 6;
     public static final int SWERVE_BACK_RIGHT_STEER = 7;
 
+    public static final double SWERVE_FRONT_LEFT_OFFSET = 15;//degrees
+    public static final double SWERVE_FRONT_RIGHT_OFFSET = 12;//degrees
+    public static final double SWERVE_BACK_LEFT_OFFSET = 10;//degrees
+    public static final double SWERVE_BACK_RIGHT_OFFSET = 8;//degrees
+
+
     public static final SwerveDriveKinematics SWERVE_DRIVE_KINEMATICS = new SwerveDriveKinematics(
       new Translation2d(RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
       new Translation2d(RobotDimensions.LENGTH / 2, RobotDimensions.WIDTH / 2),
@@ -136,16 +158,17 @@ public final class Constants {
 
     //Storage
     public static final int STORAGE_MOVEMENT_BELT = 8;
-  
-    public static final int EXAMPLE_SHOOTER_PORT = 2;
+      
+    public static final int SHOOTER_PORT = 2;
     public static final int EXAMPLE_INTAKE_CHANNEL = 3;
+    
+    public static final int STORAGE_MOVEMENT_BELT = 8;
 
     public static final int INTAKE = 5;
     public static final double INTAKE_SPEED = 0.5;
 
     public static final int LEFT_CLIMB_MOTOR = 0; //reset to actual later
     public static final int RIGHT_CLIMB_MOTOR = 1; //reset to actual later
-
   }
 
   public static final class Sensor {
