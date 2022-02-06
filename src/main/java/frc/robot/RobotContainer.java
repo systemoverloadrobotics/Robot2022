@@ -33,7 +33,7 @@ public class RobotContainer {
     }
 
     public void end(boolean interrupted) {
-      climb.stop()
+      climb.stop();
     }
   }
 
@@ -51,7 +51,7 @@ public class RobotContainer {
     }
 
     public void end(boolean interrupted) {
-      climb.stop()
+      climb.stop();
     }
   }
 
@@ -100,6 +100,8 @@ public class RobotContainer {
     Constants.Input.CLIMB_LOW_BUTTON.get().whenPressed(extendLowClimbCommand);
     Constants.Input.RETRACT_MID_BUTTON.get().whenPressed(retractMidCommand); 
     Constants.Input.RETRACT_LOW_BUTTON.get().whenPressed(retractLowCommand);
+    Constants.Input.OVERRIDE_UP_CLIMB.get().whenPressed(climb.overrideUp);
+    Constants.Input.OVERRIDE_UP_CLIMB.get().whenPressed(climb.overrideDown);
   }
 
   /**

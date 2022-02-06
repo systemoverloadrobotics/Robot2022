@@ -27,6 +27,15 @@ public class Climb extends SubsystemBase {
 		pidController.setD(Constants.PID.D_CLIMB); 
 		followerMotor.follow(mainMotor);
 	}
+	//manually moves the climb bar up
+	public void overrideUp(){
+		mainMotor.set(ControlMode.Velocity, 100);
+	}
+
+	//Manually moves the climb bar down
+	public void overrideDown(){
+		mainMotor.set(ControlMode.PercentOutput, -100);
+	}
 
 	public double getEncoderValue() {
 		return encoder.getPosition();

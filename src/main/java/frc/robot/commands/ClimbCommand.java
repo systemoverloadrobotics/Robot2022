@@ -42,7 +42,7 @@ public class ClimbCommand extends CommandBase {
 	// Called once when the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		climb.stop()
+		climb.stop();
 	}
 
 	@Override

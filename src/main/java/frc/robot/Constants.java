@@ -44,6 +44,8 @@ public final class Constants {
     public static final ConstantButton CLIMB_LOW_BUTTON = new ConstantButton(1, 1);
     public static final ConstantButton RETRACT_MID_BUTTON = new ConstantButton(1, 1);
     public static final ConstantButton RETRACT_LOW_BUTTON = new ConstantButton(1, 1);
+    public static final ConstantButton OVERRIDE_UP_CLIMB = new ConstantButton(1, 1);
+    public static final ConstantButton OVERRIDE_DOWN_CLIMB = new ConstantButton(1, 1);
   }
 
   public static final class MotorSettings {
