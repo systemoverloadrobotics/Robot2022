@@ -42,28 +42,35 @@ public class RobotContainer {
   private IndexBall indexBall = new IndexBall(intake, storage);
   private ClimbCommand climbCommand = new ClimbCommand(climb);
   private SwerveDrive swerveDrive;
-  private Command spoolCommand = new CommandBase() {
-    {
-      addRequirements(shooter);
-    }
 
-    public void execute() {
-      shooter.spool(Constants.BASE_SHOOTER_RPM);
-    };
-  };
   private Command shootCommand = new CommandBase() {
     {
       addRequirements(shooter, limelight);
     }
 
     public void execute() {
-      if (shooter.shooterMotorRPM() >= Constants.BASE_SHOOTER_RPM) {
+      double requiredVelocity = Constants.BALL_VELOCITY_CONVERSION_TO_MOTOR_SPEED.apply(limelight.getVelocity());
+      if (shooter.shooterMotorRPM() >= requiredVelocity) {
         storage.toggleBelt(ToggleState.ON);
       }
-      else {
-        shooter.spool(limelight.getVelocity() * Constants.AIM_SCALING_FACTOR_X);
-      }
+      shooter.spool(requiredVelocity);
     };
+  };
+
+  private Command spoolCommand = new CommandBase() {
+    {
+      addRequirements(shooter);
+    }
+
+    public void execute() {
+      if (!shootCommand.isScheduled()) {
+        shooter.spool(Constants.BASE_SHOOTER_RPM);
+      }
+    }
+
+    public void end(boolean interrupted) {
+      shooter.spool(0);
+    }
   };
 
 
