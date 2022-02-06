@@ -21,7 +21,7 @@ public class Shooter extends SubsystemBase {
 		return (int) Math.round(shooterMotor.get() * Constants.FALCON_MAX_RPM);
 	}
 
-	public void spool(int rpm) {
+	public void spool(double rpm) {
 		shooterMotor.set(ControlMode.PercentOutput, rpm / 6380D);
 	}
 

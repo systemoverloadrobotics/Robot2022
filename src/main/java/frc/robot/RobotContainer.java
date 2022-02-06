@@ -15,6 +15,7 @@ import frc.robot.commands.SwerveDrive;
 import frc.robot.commands.auto.AutoPaths;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.Swerve;
@@ -35,6 +36,7 @@ public class RobotContainer {
   private Storage storage = new Storage();
   private Swerve swerve = new Swerve();
   private Shooter shooter = new Shooter();
+  private Limelight limelight = new Limelight();
 
   //Commands
   private IndexBall indexBall = new IndexBall(intake, storage);
@@ -46,18 +48,20 @@ public class RobotContainer {
     }
 
     public void execute() {
-      shooter.spool(Constants.SHOOTER_RPM);
+      shooter.spool(Constants.BASE_SHOOTER_RPM);
     };
   };
   private Command shootCommand = new CommandBase() {
     {
-      addRequirements(shooter);
+      addRequirements(shooter, limelight);
     }
 
     public void execute() {
-      storage.toggleBelt(ToggleState.ON);
-      if (shooter.shooterMotorRPM() >= Constants.SHOOTER_RPM) {
-        shooter.spool(Constants.SHOOTER_RPM);
+      if (shooter.shooterMotorRPM() >= Constants.BASE_SHOOTER_RPM) {
+        storage.toggleBelt(ToggleState.ON);
+      }
+      else {
+        shooter.spool(limelight.getVelocity() * Constants.AIM_SCALING_FACTOR_X);
       }
     };
   };

@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.function.DoubleFunction;
+import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -29,7 +31,8 @@ public final class Constants {
   public static final double CLIMBER_ENCODER_DISTANCE = 12; 
   public static final double SHOOTER_LIMELIGHT_ANGLE = 0.5; 
   public static final int FALCON_MAX_RPM = 6380;
-  public static final int SHOOTER_RPM = 3000;
+  public static final int BASE_SHOOTER_RPM = 3000;
+  public static final DoubleFunction<Double> BALL_VELOCITY_CONVERSION_TO_MOTOR_SPEED = d -> d * 0.5;
   // Degrees
   public static final double LIMELIGHT_ANGLE = 77;
   // Meters
