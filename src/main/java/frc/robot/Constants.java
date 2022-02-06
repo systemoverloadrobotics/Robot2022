@@ -29,8 +29,12 @@ public final class Constants {
   public static final double CLIMBER_ENCODER_DISTANCE = 12; 
   public static final double SHOOTER_LIMELIGHT_ANGLE = 0.5; 
   public static final int FALCON_MAX_RPM = 6380;
-  public static final int JUICED_SHOOTER_RPM = 6000;
   public static final int SHOOTER_RPM = 3000;
+  // Degrees
+  public static final double LIMELIGHT_ANGLE = 77;
+  // Meters
+  public static final double LIMELIGHT_HEIGHT = 0.6858;
+  public static final double HUB_HEIGHT = 2.64;
   
 
   public static final class PID {

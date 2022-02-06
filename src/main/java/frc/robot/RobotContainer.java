@@ -49,30 +49,6 @@ public class RobotContainer {
       shooter.spool(Constants.SHOOTER_RPM);
     };
   };
-
-  private Command lemonJuiceSpoolCommand = new CommandBase() {
-    {
-      addRequirements(shooter);
-    }
-
-    public void execute() {
-      shooter.spool(Constants.JUICED_SHOOTER_RPM);
-    };
-  };
-
-  private Command lemonJuiceShootCommand = new CommandBase() {
-    {
-      addRequirements(shooter, storage);
-    }
-
-    public void execute() {
-      storage.toggleBelt(ToggleState.ON);
-      if (shooter.shooterMotorRPM() >= Constants.JUICED_SHOOTER_RPM) {
-        shooter.spool(Constants.JUICED_SHOOTER_RPM);
-      }
-    };
-  };
-
   private Command shootCommand = new CommandBase() {
     {
       addRequirements(shooter);
@@ -104,9 +80,7 @@ public class RobotContainer {
     Constants.Input.CLIMB_BUTTON.get().whenPressed(climbCommand); 
     Constants.Input.INTAKE_BUTTON.get().whileHeld(indexBall);
     Constants.Input.SHOOTER_SPOOL.get().whileHeld(spoolCommand);
-    Constants.Input.SHOOTER_JUICED_SPOOL.get().whileHeld(lemonJuiceSpoolCommand);
     Constants.Input.SHOOTER_SHOOT.get().whileHeld(shootCommand);
-    Constants.Input.SHOOTER_JUICED_SHOOT.get().whileHeld(lemonJuiceShootCommand);
   }
 
   /**
