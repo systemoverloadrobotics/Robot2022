@@ -4,6 +4,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.util.ConstantAxis;
 import frc.robot.util.ConstantButton;
 
@@ -16,6 +22,7 @@ import frc.robot.util.ConstantButton;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
   //Distance to the Mid Bar
   public static final double CLIMBER_ENCODER_DISTANCE_MID = 12; 
   //Distance to the Low Bar
@@ -24,21 +31,83 @@ public final class Constants {
   public static final double RETRACTER_ENCODER_DISTANCE_MID = 12 *  -0.5
   public static final double RETRACTER_ENCODER_DISTANCE_LOW = 8 *  -0.5
 
+  public static final boolean IS_REAL = RobotBase.isReal();
+
+  public static final double AIM_SCALING_FACTOR_X = -0.5;
+  public static final double AIM_SCALING_FACTOR_Y = -0.5;
+
+  public static final double CLIMBER_ENCODER_DISTANCE = 12; 
+  public static final double SHOOTER_LIMELIGHT_ANGLE = 0.5; 
+  public static final int FALCON_MAX_RPM = 6380;
+  public static final int SHOOTER_RPM = 3000;
+ 
   public static final class PID {
+    //Climb
     public static final double P_CLIMB = 0.1; 
     public static final double I_CLIMB = 1e-4;
     public static final double D_CLIMB = 1; 
-  }
-	public static final class RobotDimensions {
 
+    //Swerve
+    public static final double P_SWERVE_STEER = 0.05;
+    public static final double I_SWERVE_STEER = 0.025;
+    public static final double D_SWERVE_STEER = 0.5;
+
+    public static final double P_SWERVE_POWER = 0.03;
+    public static final double I_SWERVE_POWER = 0.015;
+    public static final double D_SWERVE_POWER = 0.3;
+
+    // Linear drive feed forward
+    public static final SimpleMotorFeedforward DRIVE_FF = IS_REAL ?
+        new SimpleMotorFeedforward( // real
+            0.6, // Voltage to break static friction
+            2.5, // Volts per meter per second
+            1 // Volts per meter per second squared
+        )
+        :
+        new SimpleMotorFeedforward( // sim
+            0, // Voltage to break static friction -- we do not use kS with this method of simulation
+            2.5, // Volts per meter per second
+            0.4 // Volts per meter per second squared -- lower kA will give snappier control
+        );
+    // Steer feed forward
+    public static final SimpleMotorFeedforward STEER_FF = IS_REAL ?
+        new SimpleMotorFeedforward( // real
+            0, // Voltage to break static friction
+            0.15, // Volts per radian per second
+            0.04 // Volts per radian per second squared
+        )
+        :
+        new SimpleMotorFeedforward( // sim
+            0, // Voltage to break static friction
+            0.15, // Volts per radian per second
+            0.002 // Volts per radian per second squared
+        );
+
+    //Controller
+    public static final double P_X_CONTROLLER = 1.5;
+    public static final double P_Y_CONTROLLER = 1.5;
+    public static final double P_THETA_CONTROLLER = 3;
+
+    public static final double SHOOTER_P = 0.1; 
+    public static final double SHOOTER_I = 1e-4; 
+    public static final double SHOOTER_D = 1; 
+
+  }
+  
+	public static final class RobotDimensions {
     // Distance between wheels
-    public static final double WIDTH = 28; //inches
-    public static final double LENGTH = 28; //inches
+    public static final double WIDTH = Units.inchesToMeters(28); //inches
+    public static final double LENGTH = Units.inchesToMeters(28); //inches
+
+    public static final double WHEEL_CIRCUMFRENCE = Units.inchesToMeters(3.5) * Math.PI; 
   }
   
   public static final class Input {
+
+    //Axis
     public static final ConstantAxis X_AXIS = new ConstantAxis(1, 1);
     public static final ConstantAxis Y_AXIS = new ConstantAxis(1, 2);
+
     public static final ConstantAxis ROTATION = new ConstantAxis(2, 1);
     public static final ConstantButton CLIMB_MID_BUTTON = new ConstantButton(1, 1);
     public static final ConstantButton CLIMB_LOW_BUTTON = new ConstantButton(1, 1);
@@ -46,6 +115,14 @@ public final class Constants {
     public static final ConstantButton RETRACT_LOW_BUTTON = new ConstantButton(1, 1);
     public static final ConstantButton OVERRIDE_UP_CLIMB = new ConstantButton(1, 1);
     public static final ConstantButton OVERRIDE_DOWN_CLIMB = new ConstantButton(1, 1);
+
+    public static final ConstantAxis ROTATION = new ConstantAxis(1, 3);
+
+    //Buttons
+    public static final ConstantButton CLIMB_BUTTON = new ConstantButton(1, 1); 
+    public static final ConstantButton INTAKE_BUTTON = new ConstantButton(1, 5); 
+    public static final ConstantButton STORAGE_TOGGLE = new ConstantButton(1, 0);
+
   }
 
   public static final class MotorSettings {
@@ -54,6 +131,8 @@ public final class Constants {
   }
 
   public static final class Motor {
+
+    //Swerve
     public static final int SWERVE_FRONT_LEFT_POWER = 0;
     public static final int SWERVE_FRONT_LEFT_STEER = 1;
 
@@ -66,12 +145,41 @@ public final class Constants {
     public static final int SWERVE_BACK_RIGHT_POWER = 6;
     public static final int SWERVE_BACK_RIGHT_STEER = 7;
 
-    public static final int EXAMPLE_SHOOTER_PORT = 2;
+    public static final double SWERVE_FRONT_LEFT_OFFSET = 15;//degrees
+    public static final double SWERVE_FRONT_RIGHT_OFFSET = 12;//degrees
+    public static final double SWERVE_BACK_LEFT_OFFSET = 10;//degrees
+    public static final double SWERVE_BACK_RIGHT_OFFSET = 8;//degrees
+
+
+    public static final SwerveDriveKinematics SWERVE_DRIVE_KINEMATICS = new SwerveDriveKinematics(
+      new Translation2d(RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
+      new Translation2d(RobotDimensions.LENGTH / 2, RobotDimensions.WIDTH / 2),
+      new Translation2d(-RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
+      new Translation2d(-RobotDimensions.LENGTH, RobotDimensions.WIDTH / 2));
+
+    public static final double SWERVE_POWER_GEAR_RATIO = 6.55;
+
+    public static final double SWERVE_MAX_SPEED = 5.18; // m/s
+    public static final double SWERVE_MAX_ACCELERATION = 3; // m/s^2
+    public static final double SWERVE_ROTATION_MAX_SPEED = 2 * 2 * Math.PI; // rad/s
+    public static final double SWERVE_ROTATION_MAX_ACCELERATION = Math.PI / 4; // rad/s^2
+    public static final double SWERVE_NOMINAL_OUTPUT_PERCENT = 0.05;
+
+    public static final double SWERVE_DEADBAND = 0.05;
+
+    public static final TrapezoidProfile.Constraints THETA_CONTROL_CONSTRAINTS = new TrapezoidProfile.Constraints(SWERVE_ROTATION_MAX_SPEED, SWERVE_ROTATION_MAX_ACCELERATION);
+
+    //Storage
+    public static final int STORAGE_MOVEMENT_BELT = 8;
+      
+    public static final int SHOOTER_PORT = 2;
     public static final int EXAMPLE_INTAKE_CHANNEL = 3;
+
+    public static final int INTAKE = 5;
+    public static final double INTAKE_SPEED = 0.5;
 
     public static final int LEFT_CLIMB_MOTOR = 0; //reset to actual later
     public static final int RIGHT_CLIMB_MOTOR = 1; //reset to actual later
-
   }
 
   public static final class Sensor {
