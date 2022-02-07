@@ -50,10 +50,9 @@ public class SwerveModule {
         Constants.Motor.SWERVE_POWER_GEAR_RATIO
     );
 
-    public SwerveModule(TalonFX powerController, TalonSRX steerController, double offSetDeg) {
+    public SwerveModule(TalonFX powerController, TalonSRX steerController) {
         this.powerController = powerController;
         this.steerController = steerController;
-        this.offSetDeg = offSetDeg;
 
         powerController.configFactoryDefault(); 
         steerController.configFactoryDefault();

@@ -134,10 +134,10 @@ public final class Constants {
 
 
     public static final SwerveDriveKinematics SWERVE_DRIVE_KINEMATICS = new SwerveDriveKinematics(
-      new Translation2d(-RobotDimensions.LENGTH / 2, RobotDimensions.WIDTH / 2),
       new Translation2d(RobotDimensions.LENGTH / 2, RobotDimensions.WIDTH / 2),
-      new Translation2d(-RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
-      new Translation2d(-RobotDimensions.LENGTH / 2, RobotDimensions.WIDTH / 2));
+      new Translation2d(RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
+      new Translation2d(-RobotDimensions.LENGTH / 2, RobotDimensions.WIDTH / 2),
+      new Translation2d(-RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2));
 
     public static final double SWERVE_POWER_GEAR_RATIO = 6.55;
 

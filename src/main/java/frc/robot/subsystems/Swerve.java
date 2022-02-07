@@ -103,8 +103,8 @@ public class Swerve extends SubsystemBase {
     SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Motor.SWERVE_MAX_SPEED);
     frontLeft.setState(desiredStates[0]);
     frontRight.setState(desiredStates[1]);
-    backRight.setState(desiredStates[2]);
-    backLeft.setState(desiredStates[3]);
+    backLeft.setState(desiredStates[2]);
+    backRight.setState(desiredStates[3]);
   }
 
   @Override
