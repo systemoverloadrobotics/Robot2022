@@ -109,7 +109,7 @@ public class SwerveModule {
     public void setState(SwerveModuleState state){
         if(Math.abs(state.speedMetersPerSecond) < 0.001){
             stop();
-            return;
+             return;
         }
         state = SwerveModuleState.optimize(state, getState().angle);
         powerController.set(ControlMode.Velocity, state.speedMetersPerSecond);
