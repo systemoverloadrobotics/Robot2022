@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import java.util.stream.Collector.Characteristics;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -44,9 +45,9 @@ public final class Constants {
     public static final double I_SWERVE_STEER = 0.025;
     public static final double D_SWERVE_STEER = 0.5;
 
-    public static final double P_SWERVE_POWER = 0.03;
-    public static final double I_SWERVE_POWER = 0.015;
-    public static final double D_SWERVE_POWER = 0.3;
+    public static final double P_SWERVE_POWER = 0.05;
+    public static final double I_SWERVE_POWER = 0.00;
+    public static final double D_SWERVE_POWER = 0.0;
 
     // Linear drive feed forward
     public static final SimpleMotorFeedforward DRIVE_FF = IS_REAL ?
@@ -162,6 +163,10 @@ public final class Constants {
 
     public static final int LEFT_CLIMB_MOTOR = 0; //reset to actual later
     public static final int RIGHT_CLIMB_MOTOR = 1; //reset to actual later
+  }
+
+  public static final class Characteristics { 
+    public static final double MPS_TO_RPM = 1315;
   }
 
   public static final class Sensor {

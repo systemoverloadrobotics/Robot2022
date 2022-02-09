@@ -12,6 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.util.Utils;
 
@@ -60,6 +61,7 @@ public class SwerveModule {
         powerController.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
         steerController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
 
+
         powerController.config_kP(0, Constants.PID.P_SWERVE_POWER);
         powerController.config_kI(0, Constants.PID.I_SWERVE_POWER);
         powerController.config_kD(0, Constants.PID.D_SWERVE_POWER);
@@ -69,10 +71,10 @@ public class SwerveModule {
         steerController.config_kD(0, Constants.PID.I_SWERVE_STEER);
 
         powerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
-        powerController.configNominalOutputReverse(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
+        powerController.configNominalOutputReverse(-Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
 
         steerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
-        steerController.configNominalOutputReverse(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
+        steerController.configNominalOutputReverse(-Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
 
         powerSim = powerController.getSimCollection();
         steerSim = steerController.getSimCollection();
@@ -106,12 +108,13 @@ public class SwerveModule {
     }
 
     public void setState(SwerveModuleState state){
+        SmartDashboard.putNumber(powerController.getDeviceID() + "-power in RPM", state.speedMetersPerSecond * Constants.Characteristics.MPS_TO_RPM);
         if(Math.abs(state.speedMetersPerSecond) < 0.001){
             stop();
             return;
         }
         state = SwerveModuleState.optimize(state, getState().angle);
-        powerController.set(ControlMode.Velocity, state.speedMetersPerSecond);
+        powerController.set(ControlMode.Velocity, state.speedMetersPerSecond * Constants.Characteristics.MPS_TO_RPM);
         steerController.set(ControlMode.Position, Utils.degreesToTicks(state.angle.getDegrees(), 4096));
     }
 
