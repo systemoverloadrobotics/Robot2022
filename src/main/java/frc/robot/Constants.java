@@ -118,6 +118,10 @@ public final class Constants {
 
     public static final ConstantAxis ROTATION = new ConstantAxis(1, 3);
 
+    public static final ConstantAxis X_AXIS = new ConstantAxis(0, 0);
+    public static final ConstantAxis Y_AXIS = new ConstantAxis(0, 1);
+    public static final ConstantAxis ROTATION = new ConstantAxis(0, 4);
+
     //Buttons
     public static final ConstantButton CLIMB_BUTTON = new ConstantButton(1, 1); 
     public static final ConstantButton INTAKE_BUTTON = new ConstantButton(1, 5); 
@@ -133,17 +137,17 @@ public final class Constants {
   public static final class Motor {
 
     //Swerve
-    public static final int SWERVE_FRONT_LEFT_POWER = 0;
-    public static final int SWERVE_FRONT_LEFT_STEER = 1;
+    public static final int SWERVE_FRONT_LEFT_POWER = 4;
+    public static final int SWERVE_FRONT_LEFT_STEER = 15;
 
-    public static final int SWERVE_FRONT_RIGHT_POWER = 2;
-    public static final int SWERVE_FRONT_RIGHT_STEER = 3;
+    public static final int SWERVE_FRONT_RIGHT_POWER = 3;
+    public static final int SWERVE_FRONT_RIGHT_STEER = 14;
 
-    public static final int SWERVE_BACK_LEFT_POWER = 4;
-    public static final int SWERVE_BACK_LEFT_STEER = 5;
+    public static final int SWERVE_BACK_LEFT_POWER = 2;
+    public static final int SWERVE_BACK_LEFT_STEER = 13;
 
-    public static final int SWERVE_BACK_RIGHT_POWER = 6;
-    public static final int SWERVE_BACK_RIGHT_STEER = 7;
+    public static final int SWERVE_BACK_RIGHT_POWER = 1;
+    public static final int SWERVE_BACK_RIGHT_STEER = 12;
 
     public static final double SWERVE_FRONT_LEFT_OFFSET = 15;//degrees
     public static final double SWERVE_FRONT_RIGHT_OFFSET = 12;//degrees
@@ -152,10 +156,10 @@ public final class Constants {
 
 
     public static final SwerveDriveKinematics SWERVE_DRIVE_KINEMATICS = new SwerveDriveKinematics(
-      new Translation2d(RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
       new Translation2d(RobotDimensions.LENGTH / 2, RobotDimensions.WIDTH / 2),
-      new Translation2d(-RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
-      new Translation2d(-RobotDimensions.LENGTH, RobotDimensions.WIDTH / 2));
+      new Translation2d(RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
+      new Translation2d(-RobotDimensions.LENGTH / 2, RobotDimensions.WIDTH / 2),
+      new Translation2d(-RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2));
 
     public static final double SWERVE_POWER_GEAR_RATIO = 6.55;
 

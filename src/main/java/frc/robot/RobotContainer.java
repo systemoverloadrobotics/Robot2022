@@ -26,6 +26,7 @@ import frc.robot.subsystems.Swerve;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
+
   private Climb climb = new Climb();
   private Command extendLowClimbCommand = new CommandBase() {
     {
@@ -41,6 +42,17 @@ public class RobotContainer {
   private IndexBall indexBall = new IndexBall(intake, storage);
   private ClimbCommand climbCommand = new ClimbCommand(climb);
   private SwerveDrive swerveDrive;
+
+  // Subsystems
+  // private Climb climb = new Climb();
+  // private Intake intake = new Intake();
+  // private Storage storage = new Storage();
+  private Swerve swerve = new Swerve();
+
+  // Commands
+  // private IndexBall indexBall = new IndexBall(intake, storage);
+  // private ClimbCommand climbCommand = new ClimbCommand(climb);
+
 
     public void execute() {
       if (climb.getEncoderValue() != Constants.CLIMBER_ENCODER_DISTANCE_LOW) {
@@ -103,16 +115,15 @@ public class RobotContainer {
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    swerveDrive = new SwerveDrive(swerve, Constants.Input.X_AXIS.get(), Constants.Input.Y_AXIS.get(), Constants.Input.ROTATION.get());
     // Configure the button bindings
     configureButtonBindings();
   }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   * instantiating a {@link GenericHID} or one of its subclasses
+   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
+   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
     Constants.Input.CLIMB_MID_BUTTON.get().whenPressed(extendMidClimbCommand); 
@@ -122,6 +133,11 @@ public class RobotContainer {
     Constants.Input.OVERRIDE_UP_CLIMB.get().whenPressed(climb.overrideUp);
     Constants.Input.OVERRIDE_UP_CLIMB.get().whenPressed(climb.overrideDown);
     Constants.Input.INTAKE_BUTTON.get().whileHeld(indexBall);
+    swerve.setDefaultCommand(new SwerveDrive(swerve, Constants.Input.X_AXIS.get(),
+        Constants.Input.Y_AXIS.get(), Constants.Input.ROTATION.get()));
+
+    // Constants.Input.CLIMB_BUTTON.get().whenPressed(climbCommand);
+    // Constants.Input.INTAKE_BUTTON.get().whileHeld(indexBall);
   }
 
   /**

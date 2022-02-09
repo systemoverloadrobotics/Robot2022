@@ -52,10 +52,10 @@ public class Swerve extends SubsystemBase {
 
   public Swerve() {
     // Create four modules with correct controllers, add to modules
-    frontLeft = new SwerveModule(frontLeftPower, frontLeftSteer, Constants.Motor.SWERVE_FRONT_LEFT_OFFSET);
-    frontRight = new SwerveModule(frontRightPower, frontRightSteer, Constants.Motor.SWERVE_FRONT_RIGHT_OFFSET);
-    backLeft = new SwerveModule(backLeftPower, backLeftSteer, Constants.Motor.SWERVE_BACK_LEFT_OFFSET);
-    backRight = new SwerveModule(backRightPower, backRightSteer, Constants.Motor.SWERVE_BACK_RIGHT_OFFSET);
+    frontLeft = new SwerveModule(frontLeftPower, frontLeftSteer);
+    frontRight = new SwerveModule(frontRightPower, frontRightSteer);
+    backLeft = new SwerveModule(backLeftPower, backLeftSteer);
+    backRight = new SwerveModule(backRightPower, backRightSteer);
     swerveModules = new SwerveModule[]{
       frontLeft,
       frontRight,

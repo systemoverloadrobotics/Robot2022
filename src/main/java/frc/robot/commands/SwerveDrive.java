@@ -4,6 +4,7 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
@@ -37,6 +38,13 @@ public class SwerveDrive extends CommandBase {
     //get joystick inputs
     double xSpeed = xSupplier.getAsDouble();
     double ySpeed = ySupplier.getAsDouble();
+    SmartDashboard.putNumber("XSpeed", xSpeed); 
+    SmartDashboard.putNumber("YSpeed", ySpeed); 
+    SmartDashboard.putNumber("speed-1", this.swerve.getModuleStates()[0].angle.getDegrees()); 
+    SmartDashboard.putNumber("speed-2", this.swerve.getModuleStates()[1].speedMetersPerSecond);   
+    SmartDashboard.putNumber("speed-3", this.swerve.getModuleStates()[2].speedMetersPerSecond); 
+    SmartDashboard.putNumber("speed-4", this.swerve.getModuleStates()[3].speedMetersPerSecond); 
+
     double rotationSpeed = rotationSupplier.getAsDouble();
     
     //apply deadband
@@ -45,9 +53,9 @@ public class SwerveDrive extends CommandBase {
     rotationSpeed = Math.abs(rotationSpeed) > Constants.Motor.SWERVE_DEADBAND ? rotationSpeed : 0.0;
 
     //smooth driving
-    xSpeed = xLimiter.calculate(xSpeed) * Constants.Motor.SWERVE_MAX_SPEED;
+    /*xSpeed = xLimiter.calculate(xSpeed) * Constants.Motor.SWERVE_MAX_SPEED;
     ySpeed = yLimiter.calculate(ySpeed) * Constants.Motor.SWERVE_MAX_SPEED;
-    rotationSpeed = rotationLimiter.calculate(rotationSpeed) * Constants.Motor.SWERVE_MAX_SPEED;
+    rotationSpeed = rotationLimiter.calculate(rotationSpeed) * Constants.Motor.SWERVE_MAX_SPEED;*/
 
     //construct chassis
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
