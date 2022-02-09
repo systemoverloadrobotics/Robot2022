@@ -9,6 +9,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -103,6 +104,10 @@ public class Swerve extends SubsystemBase {
     frontRight.setState(desiredStates[1]);
     backLeft.setState(desiredStates[2]);
     backRight.setState(desiredStates[3]);
+  }
+
+  public void setModuleStates(double xMetersPerSecond, double yMetersPerSecond, double radiansPerSecond) {
+    setModuleStates(Constants.Motor.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(xMetersPerSecond, yMetersPerSecond, radiansPerSecond, getRotation2d())));
   }
 
   @Override

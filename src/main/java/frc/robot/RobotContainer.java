@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.IndexBall;
 import frc.robot.commands.SwerveDrive;
 import frc.robot.commands.auto.AutoPaths;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
@@ -52,6 +52,9 @@ public class RobotContainer {
       double requiredVelocity = Constants.BALL_VELOCITY_CONVERSION_TO_MOTOR_SPEED.apply(limelight.getVelocity());
       if (shooter.shooterMotorRPM() >= requiredVelocity) {
         storage.toggleBelt(ToggleState.ON);
+      }
+      else {
+        storage.toggleBelt(ToggleState.OFF);
       }
       shooter.spool(requiredVelocity);
     };

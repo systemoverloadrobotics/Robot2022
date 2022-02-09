@@ -15,6 +15,7 @@ public class Limelight extends SubsystemBase {
     private NetworkTableEntry horizontalAngleOffSet;
     private NetworkTableEntry verticalAngleOffSet;
     private NetworkTableEntry ta;
+    private NetworkTableEntry targetExists;
 
     public Limelight() {
 
@@ -25,6 +26,7 @@ public class Limelight extends SubsystemBase {
         verticalAngleOffSet = networkTable.getEntry("ty"); 
         // Target Area (0% of image to 100% of image
         ta = networkTable.getEntry("ta"); 
+        targetExists = networkTable.getEntry("tx"); 
 
     }
 
@@ -53,7 +55,11 @@ public class Limelight extends SubsystemBase {
     // returns distance in meters
     public double getDistance() {
         final double a2 = getVerticalAngle();
-        return (Constants.HUB_HEIGHT - Constants.LIMELIGHT_HEIGHT) / Math.tan(Constants.LIMELIGHT_ANGLE + a2)        ;
+        return (Constants.HUB_HEIGHT - Constants.LIMELIGHT_HEIGHT) / Math.tan(Constants.LIMELIGHT_ANGLE + a2);
+    }
+
+    public boolean targetExists() {
+        return targetExists.getBoolean(false);
     }
 
     public double getVelocity() {
