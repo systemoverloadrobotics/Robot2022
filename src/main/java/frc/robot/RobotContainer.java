@@ -7,7 +7,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.ClimbCommand;
+import frc.robot.commands.EjectBall;
 import frc.robot.commands.IndexBall;
 import frc.robot.commands.IntakeBall;
 import frc.robot.subsystems.Climb;
@@ -30,6 +33,7 @@ public class RobotContainer {
 
   //Commands
   private IndexBall indexBall = new IndexBall(intake, storage);
+  private EjectBall ejectBall = new EjectBall(intake);
   private ClimbCommand climbCommand = new ClimbCommand(climb);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -46,7 +50,14 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     Constants.Input.CLIMB_BUTTON.get().whenPressed(climbCommand); 
-    Constants.Input.INTAKE_BUTTON.get().whileHeld(indexBall);
+    Constants.Input.INTAKE_RUN.get().whileHeld(indexBall);
+    Constants.Input.INTAKE_EJECT_BALL.get().whileHeld(ejectBall);
+    Constants.Input.COMMAND_EMERGENCY_STOP.get().whenPressed(new CommandBase() {
+      @Override
+      public void execute() {
+        CommandScheduler.getInstance().cancelAll();
+      }
+    });
   }
 
   /**

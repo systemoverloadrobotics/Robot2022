@@ -41,8 +41,10 @@ public final class Constants {
 
     //Buttons
     public static final ConstantButton CLIMB_BUTTON = new ConstantButton(1, 1); 
-    public static final ConstantButton INTAKE_BUTTON = new ConstantButton(1, 5); 
+    public static final ConstantButton INTAKE_RUN = new ConstantButton(1, 5); 
+    public static final ConstantButton INTAKE_EJECT_BALL = new ConstantButton(1, 6);
     public static final ConstantButton STORAGE_TOGGLE = new ConstantButton(1, 0);
+    public static final ConstantButton COMMAND_EMERGENCY_STOP = new ConstantButton(1, 12);
   }
 
   public static final class MotorSettings {
