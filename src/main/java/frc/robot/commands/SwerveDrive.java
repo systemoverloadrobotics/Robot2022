@@ -37,14 +37,9 @@ public class SwerveDrive extends CommandBase {
   public void execute() {
     //get joystick inputs
     double xSpeed = xSupplier.getAsDouble();
+    SmartDashboard.putNumber("X-Axis", xSpeed);
     double ySpeed = ySupplier.getAsDouble();
-    SmartDashboard.putNumber("XSpeed", xSpeed); 
-    SmartDashboard.putNumber("YSpeed", ySpeed); 
-    SmartDashboard.putNumber("speed-1", this.swerve.getModuleStates()[0].angle.getDegrees()); 
-    SmartDashboard.putNumber("speed-2", this.swerve.getModuleStates()[1].speedMetersPerSecond);   
-    SmartDashboard.putNumber("speed-3", this.swerve.getModuleStates()[2].speedMetersPerSecond); 
-    SmartDashboard.putNumber("speed-4", this.swerve.getModuleStates()[3].speedMetersPerSecond); 
-
+    SmartDashboard.putNumber("Y-Axis", ySpeed);
     double rotationSpeed = rotationSupplier.getAsDouble();
     
     //apply deadband
@@ -57,9 +52,12 @@ public class SwerveDrive extends CommandBase {
     ySpeed = yLimiter.calculate(ySpeed) * Constants.Motor.SWERVE_MAX_SPEED;
     rotationSpeed = rotationLimiter.calculate(rotationSpeed) * Constants.Motor.SWERVE_MAX_SPEED;*/
 
+    SmartDashboard.putNumber("Rotation Speed", rotationSpeed); 
     //construct chassis
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
       xSpeed, ySpeed, rotationSpeed, swerve.getRotation2d());
+    SmartDashboard.putString("Rotation", swerve.getRotation2d().toString());
+    SmartDashboard.putString("Chassis Speeds", chassisSpeeds.toString());
 
     //convert to states from the chassis  
     SwerveModuleState[] moduleState = Constants.Motor.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);

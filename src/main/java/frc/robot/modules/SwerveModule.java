@@ -61,20 +61,26 @@ public class SwerveModule {
         powerController.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
         steerController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
 
-
+        powerController.config_kF(0, 1000);
         powerController.config_kP(0, Constants.PID.P_SWERVE_POWER);
         powerController.config_kI(0, Constants.PID.I_SWERVE_POWER);
         powerController.config_kD(0, Constants.PID.D_SWERVE_POWER);
 
+        steerController.config_kF(0, 0);
         steerController.config_kP(0, Constants.PID.P_SWERVE_STEER);
-        steerController.config_kI(0, Constants.PID.D_SWERVE_STEER);
-        steerController.config_kD(0, Constants.PID.I_SWERVE_STEER);
+        steerController.config_kI(0, Constants.PID.I_SWERVE_STEER);
+        steerController.config_kD(0, Constants.PID.D_SWERVE_STEER);
 
         powerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
         powerController.configNominalOutputReverse(-Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
 
-        steerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
-        steerController.configNominalOutputReverse(-Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
+        powerController.configPeakOutputForward(0);
+        powerController.configPeakOutputReverse(0);
+        steerController.configPeakOutputForward(0.2);
+        steerController.configPeakOutputReverse(0.2);
+
+        steerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_STEER);
+        steerController.configNominalOutputReverse(-Constants.Motor.SWERVE_NOMINAL_OUTPUT_STEER);
 
         powerSim = powerController.getSimCollection();
         steerSim = steerController.getSimCollection();
@@ -113,9 +119,11 @@ public class SwerveModule {
             stop();
             return;
         }
-        state = SwerveModuleState.optimize(state, getState().angle);
+        //state = SwerveModuleState.optimize(state, getState().angle);
         powerController.set(ControlMode.Velocity, state.speedMetersPerSecond * Constants.Characteristics.MPS_TO_RPM);
+        SmartDashboard.putNumber("power controller", state.speedMetersPerSecond * Constants.Characteristics.MPS_TO_RPM );
         steerController.set(ControlMode.Position, Utils.degreesToTicks(state.angle.getDegrees(), 4096));
+        SmartDashboard.putNumber(steerController.getDeviceID() + "-steer setpoint", Utils.degreesToTicks(state.angle.getDegrees(), 4096));
     }
 
     public void stop(){

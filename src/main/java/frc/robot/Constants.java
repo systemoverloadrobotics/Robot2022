@@ -41,13 +41,13 @@ public final class Constants {
     public static final double D_CLIMB = 1; 
 
     //Swerve
-    public static final double P_SWERVE_STEER = 0.05;
-    public static final double I_SWERVE_STEER = 0.025;
-    public static final double D_SWERVE_STEER = 0.5;
+    public static final double P_SWERVE_STEER = 0.00015;
+    public static final double I_SWERVE_STEER = 0;
+    public static final double D_SWERVE_STEER = 0.01;
 
-    public static final double P_SWERVE_POWER = 0.05;
+    public static final double P_SWERVE_POWER = 0.00015;
     public static final double I_SWERVE_POWER = 0.00;
-    public static final double D_SWERVE_POWER = 0.0;
+    public static final double D_SWERVE_POWER = 0.01;
 
     // Linear drive feed forward
     public static final SimpleMotorFeedforward DRIVE_FF = IS_REAL ?
@@ -147,6 +147,7 @@ public final class Constants {
     public static final double SWERVE_ROTATION_MAX_SPEED = 2 * 2 * Math.PI; // rad/s
     public static final double SWERVE_ROTATION_MAX_ACCELERATION = Math.PI / 4; // rad/s^2
     public static final double SWERVE_NOMINAL_OUTPUT_PERCENT = 0.05;
+    public static final double SWERVE_NOMINAL_OUTPUT_STEER = 0.005;
 
     public static final double SWERVE_DEADBAND = 0.05;
 
