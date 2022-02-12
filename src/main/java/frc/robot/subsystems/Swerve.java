@@ -75,7 +75,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public Rotation2d getRotation2d(){
-    return Rotation2d.fromDegrees(Math.IEEEremainder(gyro.getYaw(), 360));
+    return Rotation2d.fromDegrees(gyro.getYaw() % 360);
   }
 
   public Pose2d getPose(){

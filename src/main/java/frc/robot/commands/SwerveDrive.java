@@ -48,9 +48,9 @@ public class SwerveDrive extends CommandBase {
     rotationSpeed = Math.abs(rotationSpeed) > Constants.Motor.SWERVE_DEADBAND ? rotationSpeed : 0.0;
 
     //smooth driving
-    /*xSpeed = xLimiter.calculate(xSpeed) * Constants.Motor.SWERVE_MAX_SPEED;
+    xSpeed = xLimiter.calculate(xSpeed) * Constants.Motor.SWERVE_MAX_SPEED;
     ySpeed = yLimiter.calculate(ySpeed) * Constants.Motor.SWERVE_MAX_SPEED;
-    rotationSpeed = rotationLimiter.calculate(rotationSpeed) * Constants.Motor.SWERVE_MAX_SPEED;*/
+    rotationSpeed = rotationLimiter.calculate(rotationSpeed) * Constants.Motor.SWERVE_MAX_SPEED;
 
     SmartDashboard.putNumber("Rotation Speed", rotationSpeed); 
     //construct chassis

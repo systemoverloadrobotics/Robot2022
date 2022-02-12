@@ -42,8 +42,8 @@ public final class Constants {
 
     //Swerve
     public static final double P_SWERVE_STEER = 0.00015;
-    public static final double I_SWERVE_STEER = 0;
-    public static final double D_SWERVE_STEER = 0.01;
+    public static final double I_SWERVE_STEER = 0.00;
+    public static final double D_SWERVE_STEER = 0.0;
 
     public static final double P_SWERVE_POWER = 0.00015;
     public static final double I_SWERVE_POWER = 0.00;
@@ -89,10 +89,10 @@ public final class Constants {
   
 	public static final class RobotDimensions {
     // Distance between wheels
-    public static final double WIDTH = Units.inchesToMeters(28); //inches
-    public static final double LENGTH = Units.inchesToMeters(28); //inches
+    public static final double WIDTH = Units.inchesToMeters(24); //inches
+    public static final double LENGTH = Units.inchesToMeters(24); //inches
 
-    public static final double WHEEL_CIRCUMFRENCE = Units.inchesToMeters(3.5) * Math.PI; 
+    public static final double WHEEL_CIRCUMFRENCE = Units.inchesToMeters(4) * Math.PI; 
   }
   
   public static final class Input {
@@ -100,7 +100,7 @@ public final class Constants {
     //Axis
     public static final ConstantAxis X_AXIS = new ConstantAxis(0, 0);
     public static final ConstantAxis Y_AXIS = new ConstantAxis(0, 1);
-    public static final ConstantAxis ROTATION = new ConstantAxis(0, 4);
+    public static final ConstantAxis ROTATION = new ConstantAxis(0, 3);
 
     //Buttons
     public static final ConstantButton CLIMB_BUTTON = new ConstantButton(1, 1); 
