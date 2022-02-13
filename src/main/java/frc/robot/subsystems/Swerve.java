@@ -54,11 +54,10 @@ public class Swerve extends SubsystemBase {
 
   public Swerve() {
     // Create four modules with correct controllers, add to modules
-    frontLeft = new SwerveModule(frontLeftPower, frontLeftSteer);
-    frontRight = new SwerveModule(frontRightPower, frontRightSteer);
-    backLeft = new SwerveModule(backLeftPower, backLeftSteer);
-    backRight = new SwerveModule(backRightPower, backRightSteer);
-    gyroSim = gyro.getSimCollection();
+    frontLeft = new SwerveModule(frontLeftPower, frontLeftSteer, 1674);
+    frontRight = new SwerveModule(frontRightPower, frontRightSteer, -778);
+    backLeft = new SwerveModule(backLeftPower, backLeftSteer, -489);
+    backRight = new SwerveModule(backRightPower, backRightSteer, 2643);
 
     resetHeading();
   }
@@ -75,7 +74,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public Rotation2d getRotation2d(){
-    return Rotation2d.fromDegrees(gyro.getYaw() % 360);
+    return Rotation2d.fromDegrees(Math.IEEEremainder(gyro.getYaw(), 360));
   }
 
   public Pose2d getPose(){
@@ -98,13 +97,9 @@ public class Swerve extends SubsystemBase {
   public void setModuleStates(SwerveModuleState[] desiredStates){
     SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Motor.SWERVE_MAX_SPEED);
     frontLeft.setState(desiredStates[0]);
-    SmartDashboard.putString("FL", desiredStates[0].toString());
     frontRight.setState(desiredStates[1]);
-    SmartDashboard.putString("FR", desiredStates[1].toString());
     backLeft.setState(desiredStates[2]);
-    SmartDashboard.putString("BL", desiredStates[2].toString());
     backRight.setState(desiredStates[3]);
-    SmartDashboard.putString("BR", desiredStates[3].toString());
   }
 
   @Override
@@ -114,6 +109,8 @@ public class Swerve extends SubsystemBase {
     frontRight.periodic();
     backLeft.periodic();
     backRight.periodic();
+
+    SmartDashboard.putString("Gyro Rotation", getRotation2d().toString());
 
     odometry.update(getRotation2d(), getModuleStates());
   }

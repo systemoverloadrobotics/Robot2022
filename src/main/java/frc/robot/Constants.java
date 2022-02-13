@@ -41,9 +41,9 @@ public final class Constants {
     public static final double D_CLIMB = 1; 
 
     //Swerve
-    public static final double P_SWERVE_STEER = 0.00015;
-    public static final double I_SWERVE_STEER = 0.00;
-    public static final double D_SWERVE_STEER = 0.0;
+    public static final double P_SWERVE_STEER = 0.35;
+    public static final double I_SWERVE_STEER = 0.0;
+    public static final double D_SWERVE_STEER = 0;
 
     public static final double P_SWERVE_POWER = 0.00015;
     public static final double I_SWERVE_POWER = 0.00;
@@ -100,7 +100,7 @@ public final class Constants {
     //Axis
     public static final ConstantAxis X_AXIS = new ConstantAxis(0, 0);
     public static final ConstantAxis Y_AXIS = new ConstantAxis(0, 1);
-    public static final ConstantAxis ROTATION = new ConstantAxis(0, 3);
+    public static final ConstantAxis ROTATION = new ConstantAxis(0, 4);
 
     //Buttons
     public static final ConstantButton CLIMB_BUTTON = new ConstantButton(1, 1); 
@@ -128,12 +128,6 @@ public final class Constants {
     public static final int SWERVE_BACK_RIGHT_POWER = 1;
     public static final int SWERVE_BACK_RIGHT_STEER = 12;
 
-    public static final double SWERVE_FRONT_LEFT_OFFSET = 15;//degrees
-    public static final double SWERVE_FRONT_RIGHT_OFFSET = 12;//degrees
-    public static final double SWERVE_BACK_LEFT_OFFSET = 10;//degrees
-    public static final double SWERVE_BACK_RIGHT_OFFSET = 8;//degrees
-
-
     public static final SwerveDriveKinematics SWERVE_DRIVE_KINEMATICS = new SwerveDriveKinematics(
       new Translation2d(RobotDimensions.LENGTH / 2, RobotDimensions.WIDTH / 2),
       new Translation2d(RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
@@ -147,7 +141,7 @@ public final class Constants {
     public static final double SWERVE_ROTATION_MAX_SPEED = 2 * 2 * Math.PI; // rad/s
     public static final double SWERVE_ROTATION_MAX_ACCELERATION = Math.PI / 4; // rad/s^2
     public static final double SWERVE_NOMINAL_OUTPUT_PERCENT = 0.05;
-    public static final double SWERVE_NOMINAL_OUTPUT_STEER = 0.005;
+    public static final double SWERVE_NOMINAL_OUTPUT_STEER = 0.000;
 
     public static final double SWERVE_DEADBAND = 0.05;
 

@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,7 +30,6 @@ public class SwerveDrive extends CommandBase {
   // Called when the command is first scheduled.
   @Override
   public void initialize() {
-    
   }
 
   // Called at 50hz while the command is scheduled.
@@ -37,9 +37,7 @@ public class SwerveDrive extends CommandBase {
   public void execute() {
     //get joystick inputs
     double xSpeed = xSupplier.getAsDouble();
-    SmartDashboard.putNumber("X-Axis", xSpeed);
     double ySpeed = ySupplier.getAsDouble();
-    SmartDashboard.putNumber("Y-Axis", ySpeed);
     double rotationSpeed = rotationSupplier.getAsDouble();
     
     //apply deadband
@@ -50,14 +48,11 @@ public class SwerveDrive extends CommandBase {
     //smooth driving
     xSpeed = xLimiter.calculate(xSpeed) * Constants.Motor.SWERVE_MAX_SPEED;
     ySpeed = yLimiter.calculate(ySpeed) * Constants.Motor.SWERVE_MAX_SPEED;
-    rotationSpeed = rotationLimiter.calculate(rotationSpeed) * Constants.Motor.SWERVE_MAX_SPEED;
+    rotationSpeed = rotationLimiter.calculate(rotationSpeed) * Constants.Motor.SWERVE_ROTATION_MAX_SPEED;
 
-    SmartDashboard.putNumber("Rotation Speed", rotationSpeed); 
     //construct chassis
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
       xSpeed, ySpeed, rotationSpeed, swerve.getRotation2d());
-    SmartDashboard.putString("Rotation", swerve.getRotation2d().toString());
-    SmartDashboard.putString("Chassis Speeds", chassisSpeeds.toString());
 
     //convert to states from the chassis  
     SwerveModuleState[] moduleState = Constants.Motor.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
