@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -53,9 +52,14 @@ public class SwerveDrive extends CommandBase {
     //construct chassis
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
       xSpeed, ySpeed, rotationSpeed, swerve.getRotation2d());
-
+    SmartDashboard.putString("CHASSIS", chassisSpeeds.toString());
     //convert to states from the chassis  
     SwerveModuleState[] moduleState = Constants.Motor.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
+
+    int i = 0;
+    for (SwerveModuleState s : moduleState) {
+      SmartDashboard.putString("SWERVESTATEPRE-" + i++, s.toString());
+    }
 
     swerve.setModuleStates(moduleState);
   }

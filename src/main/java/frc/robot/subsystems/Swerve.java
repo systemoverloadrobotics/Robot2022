@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.BasePigeonSimCollection;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -45,7 +46,7 @@ public class Swerve extends SubsystemBase {
   private SwerveModule backRight;
 
   //Gyro
-  private PigeonIMU gyro = new PigeonIMU(Constants.Sensor.SWERVE_GYRO);
+  private WPI_PigeonIMU gyro = new WPI_PigeonIMU(Constants.Sensor.SWERVE_GYRO);
   private BasePigeonSimCollection gyroSim;
   //Odometer
   private SwerveDriveOdometry odometry = new SwerveDriveOdometry(Constants.Motor.SWERVE_DRIVE_KINEMATICS, new Rotation2d(0));
@@ -74,7 +75,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public Rotation2d getRotation2d(){
-    return Rotation2d.fromDegrees(Math.IEEEremainder(gyro.getYaw(), 360));
+    return Rotation2d.fromDegrees(Math.IEEEremainder(-gyro.getYaw(), 360));
   }
 
   public Pose2d getPose(){
@@ -110,8 +111,8 @@ public class Swerve extends SubsystemBase {
     backLeft.periodic();
     backRight.periodic();
 
-    SmartDashboard.putString("Gyro Rotation", getRotation2d().toString());
-
+    SmartDashboard.putData("Gyro", gyro);
+    
     odometry.update(getRotation2d(), getModuleStates());
   }
 

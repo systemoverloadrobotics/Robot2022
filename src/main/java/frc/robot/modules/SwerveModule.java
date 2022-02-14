@@ -1,5 +1,6 @@
 package frc.robot.modules;
 
+import com.ctre.phoenix.Util;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -68,7 +69,8 @@ public class SwerveModule {
     }
 
     public double getSteerPosition(){
-        return Utils.ticksToDegrees(steerController.getSelectedSensorPosition(), 4096) % 360;
+        return -(Utils.ticksToDegrees(steerController.getSelectedSensorPosition(), 4096))
+;
     }
     
     public void resetEncoder(){
@@ -87,31 +89,33 @@ public class SwerveModule {
     }
 
     public SwerveModuleState getState(){
-        return new SwerveModuleState(getVelocity(), new Rotation2d(Math.toRadians(getSteerPosition())));
+        return new SwerveModuleState(Utils.sensorUnitsPer100msToMetersPerSecond(getVelocity()), Rotation2d.fromDegrees(getSteerPosition()));
     }
 
     public void setState(SwerveModuleState state){
-        SmartDashboard.putNumber(powerController.getDeviceID() + "-power in RPM", state.speedMetersPerSecond * Constants.Characteristics.MPS_TO_RPM);
         if(Math.abs(state.speedMetersPerSecond) < 0.001){
             stop();
             return;
         }
+
+       double delta = state.angle.getDegrees() - getSteerPosition();
+       if(Math.abs(delta) > 90.0){
+           if(powerController.getDeviceID() == 1 || powerController.getDeviceID() == 4){
+            state = new SwerveModuleState(-(state.speedMetersPerSecond), state.angle.rotateBy(Rotation2d.fromDegrees(180)));
+           }
+       }
         //state = SwerveModuleState.optimize(state, getState().angle);
+        //SmartDashboard.putNumber(steerController.getDeviceID() + "-optimized angle", state.angle.getDegrees());
         powerController.set(ControlMode.PercentOutput, state.speedMetersPerSecond / Constants.Motor.SWERVE_MAX_SPEED);
         steerController.set(ControlMode.Position, (Utils.degreesToTicks(state.angle.getDegrees(), 4096) + 2048) + offSetTicks + 1024);
-        SmartDashboard.putNumber(steerController.getDeviceID() + "-steer setpoint", Utils.degreesToTicks(state.angle.getDegrees(), 4096) + 2048 + offSetTicks);
     }
 
     public void stop(){
         powerController.set(ControlMode.PercentOutput, 0);
-    //    steerController.set(ControlMode.PercentOutput, 0);
     }
   
     public void periodic() {
         // Called at 50hz.
-        SmartDashboard.putNumber(steerController.getDeviceID() + "-motor readout", steerController.getSelectedSensorPosition() - offSetTicks);
-        SmartDashboard.putNumber(steerController.getDeviceID() + "-steer error", steerController.getClosedLoopError());
-
     }
 
 }
