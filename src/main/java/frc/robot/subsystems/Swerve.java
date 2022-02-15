@@ -16,12 +16,14 @@ import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.drive.Vector2d;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.modules.SwerveModule;
 import frc.robot.util.ConstantButton;
+import frc.robot.util.Utils;
 
 public class Swerve extends SubsystemBase {
 
@@ -95,12 +97,20 @@ public class Swerve extends SubsystemBase {
     };
   }
 
-  public void setModuleStates(SwerveModuleState[] desiredStates){
+  public void setModuleStates(SwerveModuleState[] desiredStates, double rotationSpeed){
     SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Motor.SWERVE_MAX_SPEED);
-    frontLeft.setState(desiredStates[0]);
-    frontRight.setState(desiredStates[1]);
-    backLeft.setState(desiredStates[2]);
-    backRight.setState(desiredStates[3]);
+    Vector2d[] wheelVectors = new Vector2d[4];
+    wheelVectors[0] = SwerveModule.getWheelVector(desiredStates[0], rotationSpeed, SwerveModule.ModuleLocation.FL);
+    wheelVectors[1] = SwerveModule.getWheelVector(desiredStates[1], rotationSpeed, SwerveModule.ModuleLocation.FR);
+    wheelVectors[2] = SwerveModule.getWheelVector(desiredStates[2], rotationSpeed, SwerveModule.ModuleLocation.BL);
+    wheelVectors[3] = SwerveModule.getWheelVector(desiredStates[3], rotationSpeed, SwerveModule.ModuleLocation.BR);
+    
+    wheelVectors = Utils.normalizeVectorSpeed(wheelVectors);
+
+    frontLeft.setState(Utils.vectorToSwerveModuleState(wheelVectors[0]), rotationSpeed);
+    frontRight.setState(Utils.vectorToSwerveModuleState(wheelVectors[1]), rotationSpeed);
+    backLeft.setState(Utils.vectorToSwerveModuleState(wheelVectors[2]), rotationSpeed);
+    backRight.setState(Utils.vectorToSwerveModuleState(wheelVectors[3]), rotationSpeed);
   }
 
   @Override
