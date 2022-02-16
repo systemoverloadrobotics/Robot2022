@@ -36,7 +36,7 @@ public class AimCommand extends CommandBase {
 		 double ty = limelight.getVerticalAngle();
 
 		 if (Math.abs(tx) > 0.5 || Math.abs(ty) > 0.5) {
-			 swerve.setModuleStates(Constants.Motor.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, Math.PI / 2D, swerve.getRotation2d())));
+       swerve.setModuleStates(Constants.Motor.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, Math.PI / 2D, swerve.getRotation2d())));
 		 }
 	 }
 

@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import java.lang.reflect.Field;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.BasePigeonSimCollection;
@@ -9,13 +10,22 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
+import com.ctre.phoenix.sensors.WPI_PigeonIMU;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.modules.SwerveModule;
+import frc.robot.util.ConstantButton;
 
 public class Swerve extends SubsystemBase {
 
@@ -31,7 +41,7 @@ public class Swerve extends SubsystemBase {
   private TalonSRX backLeftSteer = new TalonSRX(Constants.Motor.SWERVE_BACK_LEFT_STEER);
   //Back Right
   private TalonFX backRightPower = new TalonFX(Constants.Motor.SWERVE_BACK_RIGHT_POWER);
-  private TalonSRX backRightSteer = new TalonSRX(Constants.Motor.SWERVE_BACK_RIGHT_POWER);
+  private TalonSRX backRightSteer = new TalonSRX(Constants.Motor.SWERVE_BACK_RIGHT_STEER);
 
   //Swerve Modules
   private SwerveModule frontLeft;
@@ -41,7 +51,7 @@ public class Swerve extends SubsystemBase {
   private SwerveModule[] swerveModules;
 
   //Gyro
-  private PigeonIMU gyro = new PigeonIMU(Constants.Sensor.SWERVE_GYRO);
+  private WPI_PigeonIMU gyro = new WPI_PigeonIMU(Constants.Sensor.SWERVE_GYRO);
   private BasePigeonSimCollection gyroSim;
   //Odometer
   private SwerveDriveOdometry odometry = new SwerveDriveOdometry(Constants.Motor.SWERVE_DRIVE_KINEMATICS, new Rotation2d(0));
@@ -50,18 +60,10 @@ public class Swerve extends SubsystemBase {
 
   public Swerve() {
     // Create four modules with correct controllers, add to modules
-    frontLeft = new SwerveModule(frontLeftPower, frontLeftSteer);
-    frontRight = new SwerveModule(frontRightPower, frontRightSteer);
-    backLeft = new SwerveModule(backLeftPower, backLeftSteer);
-    backRight = new SwerveModule(backRightPower, backRightSteer);
-    swerveModules = new SwerveModule[]{
-      frontLeft,
-      frontRight,
-      backLeft,
-      backRight
-    };
-    gyroSim = gyro.getSimCollection();
-
+    frontLeft = new SwerveModule(frontLeftPower, frontLeftSteer, 1674);
+    frontRight = new SwerveModule(frontRightPower, frontRightSteer, -778);
+    backLeft = new SwerveModule(backLeftPower, backLeftSteer, -489);
+    backRight = new SwerveModule(backRightPower, backRightSteer, 2643);
     resetHeading();
   }
 
@@ -77,7 +79,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public Rotation2d getRotation2d(){
-    return Rotation2d.fromDegrees(Math.IEEEremainder(gyro.getYaw(), 360));
+    return Rotation2d.fromDegrees(Math.IEEEremainder(-gyro.getYaw(), 360));
   }
 
   public Pose2d getPose(){
@@ -113,6 +115,8 @@ public class Swerve extends SubsystemBase {
     backLeft.periodic();
     backRight.periodic();
 
+    SmartDashboard.putData("Gyro", gyro);
+    
     odometry.update(getRotation2d(), getModuleStates());
   }
 
