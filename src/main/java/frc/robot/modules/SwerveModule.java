@@ -30,9 +30,8 @@ public class SwerveModule {
     public SwerveModule(TalonFX powerController, TalonSRX steerController, double offSetTicks) {
         this.powerController = powerController;
         this.steerController = steerController;
-        this.offSetTicks = offSetTicks;
 
-        powerController.configFactoryDefault(); 
+        powerController.configFactoryDefault();
         steerController.configFactoryDefault();
 
         powerController.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
@@ -41,7 +40,9 @@ public class SwerveModule {
         steerController.setSensorPhase(true);
         steerController.configFeedbackNotContinuous(false, 50);
         steerController.setInverted(false);
- 
+
+        steerController.setSelectedSensorPosition(steerController.getSensorCollection().getPulseWidthRiseToFallUs() - offSetTicks);
+
         powerController.config_kF(0, 1000);
         powerController.config_kP(0, Constants.PID.P_SWERVE_POWER);
         powerController.config_kI(0, Constants.PID.I_SWERVE_POWER);
@@ -64,58 +65,55 @@ public class SwerveModule {
         steerController.configNominalOutputReverse(-Constants.Motor.SWERVE_NOMINAL_OUTPUT_STEER);
     }
 
-    public void setSteerRotation(double angle){
+    public void setSteerRotation(double angle) {
         steerController.set(ControlMode.Position, Utils.degreesToTicks(angle, 4096));
     }
 
-    public double getSteerPosition(){
-        return -(Utils.ticksToDegrees(steerController.getSelectedSensorPosition(), 4096))
-;
+    public double getSteerPosition() {
+        return (Utils.ticksToDegrees(steerController.getSelectedSensorPosition(), 4096));
     }
-    
-    public void resetEncoder(){
+
+    public void resetEncoder() {
         double angle = getSteerPosition();
         powerController.set(ControlMode.Position, 0);
         steerController.setSelectedSensorPosition(angle);
-        
+
     }
 
-    public void setVelocity(double percent){
+    public void setVelocity(double percent) {
         powerController.set(ControlMode.PercentOutput, percent);
     }
 
-    public double getVelocity(){
+    public double getVelocity() {
         return powerController.getSelectedSensorVelocity();
     }
 
-    public SwerveModuleState getState(){
-        return new SwerveModuleState(Utils.sensorUnitsPer100msToMetersPerSecond(getVelocity()), Rotation2d.fromDegrees(getSteerPosition()));
+    public SwerveModuleState getState() {
+        return new SwerveModuleState(Utils.sensorUnitsPer100msToMetersPerSecond(getVelocity()),
+                Rotation2d.fromDegrees(getSteerPosition()));
     }
 
-    public void setState(SwerveModuleState state){
-        if(Math.abs(state.speedMetersPerSecond) < 0.001){
+    public void setState(SwerveModuleState state) {
+        if (Math.abs(state.speedMetersPerSecond) < 0.001) {
             stop();
             return;
         }
-
-       double delta = state.angle.getDegrees() - getSteerPosition();
-       if(Math.abs(delta) > 90.0){
-           if(powerController.getDeviceID() == 1 || powerController.getDeviceID() == 4){
-            state = new SwerveModuleState(-(state.speedMetersPerSecond), state.angle.rotateBy(Rotation2d.fromDegrees(180)));
-           }
-       }
         //state = SwerveModuleState.optimize(state, getState().angle);
-        //SmartDashboard.putNumber(steerController.getDeviceID() + "-optimized angle", state.angle.getDegrees());
+        // SmartDashboard.putNumber(steerController.getDeviceID() + "-optimized angle",
+        // state.angle.getDegrees());
         powerController.set(ControlMode.PercentOutput, state.speedMetersPerSecond / Constants.Motor.SWERVE_MAX_SPEED);
-        steerController.set(ControlMode.Position, (Utils.degreesToTicks(state.angle.getDegrees(), 4096) + 2048) + offSetTicks + 1024);
+        steerController.set(ControlMode.Position,
+                Utils.degreesToTicks(state.angle.getDegrees(), 4096));
+        
     }
 
-    public void stop(){
+    public void stop() {
         powerController.set(ControlMode.PercentOutput, 0);
     }
-  
+
     public void periodic() {
         // Called at 50hz.
+        SmartDashboard.putNumber(steerController.getDeviceID() + "-Steer Postition", steerController.getSensorCollection().getPulseWidthRiseToFallUs());
     }
 
 }

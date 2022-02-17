@@ -55,10 +55,10 @@ public class Swerve extends SubsystemBase {
 
   public Swerve() {
     // Create four modules with correct controllers, add to modules
-    frontLeft = new SwerveModule(frontLeftPower, frontLeftSteer, 1674);
-    frontRight = new SwerveModule(frontRightPower, frontRightSteer, -778);
-    backLeft = new SwerveModule(backLeftPower, backLeftSteer, -489);
-    backRight = new SwerveModule(backRightPower, backRightSteer, 2643);
+    frontLeft = new SwerveModule(frontLeftPower, frontLeftSteer, 2397);
+    frontRight = new SwerveModule(frontRightPower, frontRightSteer, 782);
+    backLeft = new SwerveModule(backLeftPower, backLeftSteer, 473);
+    backRight = new SwerveModule(backRightPower, backRightSteer, 1485);
 
     resetHeading();
   }
