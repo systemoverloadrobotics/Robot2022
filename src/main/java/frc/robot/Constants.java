@@ -51,9 +51,9 @@ public final class Constants {
     public static final double D_CLIMB = 1; 
 
     //Swerve
-    public static final double P_SWERVE_STEER = 0.35;
+    public static final double P_SWERVE_STEER = 2;//3.5;
     public static final double I_SWERVE_STEER = 0.0;
-    public static final double D_SWERVE_STEER = 0;
+    public static final double D_SWERVE_STEER = 0;//10;
 
     public static final double P_SWERVE_POWER = 0.00015;
     public static final double I_SWERVE_POWER = 0.00;
@@ -149,10 +149,10 @@ public final class Constants {
     public static final int SWERVE_BACK_RIGHT_STEER = 12;
 
     public static final SwerveDriveKinematics SWERVE_DRIVE_KINEMATICS = new SwerveDriveKinematics(
-      new Translation2d(RobotDimensions.LENGTH / 2, RobotDimensions.WIDTH / 2),
-      new Translation2d(RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
       new Translation2d(-RobotDimensions.LENGTH / 2, RobotDimensions.WIDTH / 2),
-      new Translation2d(-RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2));
+      new Translation2d(-RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
+      new Translation2d(RobotDimensions.LENGTH / 2, RobotDimensions.WIDTH / 2),
+      new Translation2d(RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2));
 
     public static final double SWERVE_POWER_GEAR_RATIO = 6.55;
 
