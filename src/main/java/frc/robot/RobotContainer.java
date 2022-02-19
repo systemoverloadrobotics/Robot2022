@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.IndexBall;
 import frc.robot.commands.SwerveDrive;
 import frc.robot.commands.auto.AutoPaths;
@@ -34,102 +35,13 @@ public class RobotContainer {
     private Swerve swerve = new Swerve();
   
     private IndexBall indexBall = new IndexBall(intake, storage);
+    private ClimbCommand climbCommand = new ClimbCommand(climb); 
     private SwerveDrive swerveDrive;
   
     // Commands
     // private IndexBall indexBall = new IndexBall(intake, storage);
     // private ClimbCommand climbCommand = new ClimbCommand(climb);
-    private Command extendLowClimbCommand = new CommandBase() {
-      {
-        addRequirements(climb);
-      }
 
-      public void execute() {
-        if (climb.getEncoderValue() != Constants.CLIMBER_ENCODER_DISTANCE_LOW) {
-          climb.setSetpoint(Constants.CLIMBER_ENCODER_DISTANCE_LOW);
-        } else {
-          climb.stop();
-        }
-      }
-
-      public void end(boolean interrupted) {
-        climb.stop();
-      }
-    };
-
-    private Command extendMidClimbCommand = new CommandBase() {
-      {
-        addRequirements(climb);
-      }
-
-      public void execute() {
-        if (climb.getEncoderValue() != Constants.CLIMBER_ENCODER_DISTANCE_MID) {
-          climb.setSetpoint(Constants.CLIMBER_ENCODER_DISTANCE_MID);
-        } else {
-          climb.stop();
-        }
-      }
-
-      public void end(boolean interrupted) {
-        climb.stop();
-      }
-    };
-
-    private Command retractLowCommand = new CommandBase() {
-      {
-        addRequirements(climb);
-      }
-
-      public void execute() {
-        if (climb.getEncoderValue() != Constants.RETRACTER_ENCODER_DISTANCE_LOW) {
-          climb.setSetpoint(Constants.RETRACTER_ENCODER_DISTANCE_LOW);
-        } else {
-          climb.stop();
-        }
-      }
-    };
-
-    private Command retractMidCommand = new CommandBase() {
-      {
-        addRequirements(climb);
-      }
-
-      public void execute() {
-        if (climb.getEncoderValue() != Constants.RETRACTER_ENCODER_DISTANCE_MID) {
-          climb.setSetpoint(Constants.RETRACTER_ENCODER_DISTANCE_MID);
-        } else {
-          climb.stop();
-        }
-      }
-    };
-
-    private Command climbExtendCommand = new CommandBase() {
-      {
-        addRequirements(climb);
-      }
-
-      public void execute() {
-        climb.overrideUp();
-      }
-
-      public void end(boolean interrupted) {
-        climb.stop();
-      };
-    };
-
-    private Command climbRetractCommand = new CommandBase() {
-      {
-        addRequirements(climb);
-      }
-
-      public void execute() {
-        climb.overrideDown();
-      }
-
-      public void end(boolean interrupted) {
-        climb.stop();
-      };
-    };
 
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -145,12 +57,9 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Constants.Input.CLIMB_MID_BUTTON.get().whenPressed(extendMidClimbCommand); 
-    Constants.Input.CLIMB_LOW_BUTTON.get().whenPressed(extendLowClimbCommand);
-    Constants.Input.RETRACT_MID_BUTTON.get().whenPressed(retractMidCommand); 
-    Constants.Input.RETRACT_LOW_BUTTON.get().whenPressed(retractLowCommand);
-    Constants.Input.OVERRIDE_UP_CLIMB.get().whenPressed(climbExtendCommand);
-    Constants.Input.OVERRIDE_DOWN_CLIMB.get().whenPressed(climbRetractCommand);
+    Constants.Input.CLIMB_MID_BUTTON.get().whenPressed(climbCommand.extendMidClimb()); 
+    Constants.Input.CLIMB_LOW_BUTTON.get().whenPressed(climbCommand.extendLowClimb());
+    Constants.Input.RETRACT_BUTTON.get().whenPressed(climbCommand.retract()); 
     Constants.Input.INTAKE_BUTTON.get().whileHeld(indexBall);
     swerve.setDefaultCommand(new SwerveDrive(swerve, Constants.Input.X_AXIS.get(),
         Constants.Input.Y_AXIS.get(), Constants.Input.ROTATION.get()));

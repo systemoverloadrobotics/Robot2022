@@ -28,8 +28,7 @@ public final class Constants {
   //Distance to the Low Bar
   public static final double CLIMBER_ENCODER_DISTANCE_LOW = 8;
   //setpoint for pulling the robot off the ground using random values
-  public static final double RETRACTER_ENCODER_DISTANCE_MID = 12 *  -0.5;
-  public static final double RETRACTER_ENCODER_DISTANCE_LOW = 8 *  -0.5;
+  public static final double RETRACTER_ENCODER_DISTANCE = 0; //random value need to test 
 
   public static final boolean IS_REAL = RobotBase.isReal();
 
@@ -107,8 +106,7 @@ public final class Constants {
     //Axis
     public static final ConstantButton CLIMB_MID_BUTTON = new ConstantButton(1, 1);
     public static final ConstantButton CLIMB_LOW_BUTTON = new ConstantButton(1, 1);
-    public static final ConstantButton RETRACT_MID_BUTTON = new ConstantButton(1, 1);
-    public static final ConstantButton RETRACT_LOW_BUTTON = new ConstantButton(1, 1);
+    public static final ConstantButton RETRACT_BUTTON = new ConstantButton(1, 1);
     public static final ConstantButton OVERRIDE_UP_CLIMB = new ConstantButton(1, 1);
     public static final ConstantButton OVERRIDE_DOWN_CLIMB = new ConstantButton(1, 1);
 
