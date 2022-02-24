@@ -1,39 +1,83 @@
 package frc.robot.commands;
 
+import java.util.Set;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.subsystems.Climb;
 
 public class ClimbCommand extends CommandBase {
+  Climb climb;
 
-	private Climb climb;
+  public ClimbCommand(Climb climb) {
+    this.climb = climb;
+    addRequirements(climb);
+  }
 
-	public ClimbCommand(Climb climb) {
-		this.climb = climb;
-		addRequirements(climb);
-	}
+  public Command extendLowClimb() {
+    return new Command() {
+      @Override
+      public void execute() {
+        if (climb.getEncoderValue() != Constants.CLIMBER_ENCODER_DISTANCE_LOW) {
+          climb.setSetpoint(Constants.CLIMBER_ENCODER_DISTANCE_LOW);
+        } else {
+          climb.stop();
+        }
+      }
 
-	// Called when the command is first scheduled.
-	@Override
-	public void initialize() {}
+      @Override
+      public Set<Subsystem> getRequirements() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+    }; 
+  
+  }
 
-	// Called at 50hz while the command is scheduled.
-	@Override
-	public void execute() {
-		if (climb.getEncoderValue() != Constants.CLIMBER_ENCODER_DISTANCE) {
-			climb.setSetpoint(Constants.CLIMBER_ENCODER_DISTANCE);
-		} else {
-			climb.stop();
-		}
-	}
+  public Command extendMidClimb() {
+    return new Command() {
+      @Override
+      public void execute() {
+        if (climb.getEncoderValue() != Constants.CLIMBER_ENCODER_DISTANCE_MID) {
+          climb.setSetpoint(Constants.CLIMBER_ENCODER_DISTANCE_MID);
+        } else {
+          climb.stop();
+        }
+      }
 
-	// Called once when the command ends or is interrupted.
-	@Override
-	public void end(boolean interrupted) {}
+      @Override
+      public Set<Subsystem> getRequirements() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+    };
 
-	@Override
-	public boolean isFinished() {
-		return false;
-	}
+  }
+
+  public Command retract() {
+    return new Command() {
+      @Override
+      public void execute() {
+        climb.setSetpoint(Constants.RETRACTER_ENCODER_DISTANCE);
+      }
+
+      @Override
+      public Set<Subsystem> getRequirements() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+    }; 
+  }
+
+  public void overrideClimb() {
+    // todo ovverride climb retract
+  }
+
+  public void climbExtend() {
+    // todo ovverride climb extend
+  }
+
+
 
 }

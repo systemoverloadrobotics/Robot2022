@@ -24,6 +24,13 @@ import frc.robot.util.ConstantButton;
  */
 public final class Constants {
 
+  //Distance to the Mid Bar
+  public static final double CLIMBER_ENCODER_DISTANCE_MID = 12; 
+  //Distance to the Low Bar
+  public static final double CLIMBER_ENCODER_DISTANCE_LOW = 8;
+  //setpoint for pulling the robot off the ground using random values
+  public static final double RETRACTER_ENCODER_DISTANCE = 0; //random value need to test 
+
   public static final boolean IS_REAL = RobotBase.isReal();
 
   public static final double AIM_SCALING_FACTOR_X = -0.5;
@@ -98,6 +105,12 @@ public final class Constants {
   public static final class Input {
 
     //Axis
+    public static final ConstantButton CLIMB_MID_BUTTON = new ConstantButton(1, 1);
+    public static final ConstantButton CLIMB_LOW_BUTTON = new ConstantButton(1, 1);
+    public static final ConstantButton RETRACT_BUTTON = new ConstantButton(1, 1);
+    public static final ConstantButton OVERRIDE_UP_CLIMB = new ConstantButton(1, 1);
+    public static final ConstantButton OVERRIDE_DOWN_CLIMB = new ConstantButton(1, 1);
+
     public static final ConstantAxis X_AXIS = new ConstantAxis(0, 0);
     public static final ConstantAxis Y_AXIS = new ConstantAxis(0, 1);
     public static final ConstantAxis ROTATION = new ConstantAxis(0, 4);
@@ -106,6 +119,7 @@ public final class Constants {
     public static final ConstantButton CLIMB_BUTTON = new ConstantButton(1, 1); 
     public static final ConstantButton INTAKE_BUTTON = new ConstantButton(1, 5); 
     public static final ConstantButton STORAGE_TOGGLE = new ConstantButton(1, 0);
+
   }
 
   public static final class MotorSettings {
@@ -158,6 +172,7 @@ public final class Constants {
 
     public static final int LEFT_CLIMB_MOTOR = 0; //reset to actual later
     public static final int RIGHT_CLIMB_MOTOR = 1; //reset to actual later
+    public static final double CLIMB_SPEED = 0.5;
   }
 
   public static final class Characteristics { 

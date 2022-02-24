@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -26,6 +27,15 @@ public class Climb extends SubsystemBase {
 		pidController.setI(Constants.PID.I_CLIMB); 
 		pidController.setD(Constants.PID.D_CLIMB); 
 		followerMotor.follow(mainMotor);
+	}
+	//manually moves the climb bar up
+	public void overrideUp(){
+		mainMotor.set(Constants.Motor.CLIMB_SPEED);
+	}
+
+	//Manually moves the climb bar down
+	public void overrideDown(){
+		mainMotor.set(-Constants.Motor.CLIMB_SPEED);
 	}
 
 	public double getEncoderValue() {
