@@ -29,7 +29,6 @@ public class SwerveDrive extends CommandBase {
   // Called when the command is first scheduled.
   @Override
   public void initialize() {
-    
   }
 
   // Called at 50hz while the command is scheduled.
@@ -38,13 +37,6 @@ public class SwerveDrive extends CommandBase {
     //get joystick inputs
     double xSpeed = xSupplier.getAsDouble();
     double ySpeed = ySupplier.getAsDouble();
-    SmartDashboard.putNumber("XSpeed", xSpeed); 
-    SmartDashboard.putNumber("YSpeed", ySpeed); 
-    SmartDashboard.putNumber("speed-1", this.swerve.getModuleStates()[0].angle.getDegrees()); 
-    SmartDashboard.putNumber("speed-2", this.swerve.getModuleStates()[1].speedMetersPerSecond);   
-    SmartDashboard.putNumber("speed-3", this.swerve.getModuleStates()[2].speedMetersPerSecond); 
-    SmartDashboard.putNumber("speed-4", this.swerve.getModuleStates()[3].speedMetersPerSecond); 
-
     double rotationSpeed = rotationSupplier.getAsDouble();
     
     //apply deadband
@@ -53,16 +45,21 @@ public class SwerveDrive extends CommandBase {
     rotationSpeed = Math.abs(rotationSpeed) > Constants.Motor.SWERVE_DEADBAND ? rotationSpeed : 0.0;
 
     //smooth driving
-    /*xSpeed = xLimiter.calculate(xSpeed) * Constants.Motor.SWERVE_MAX_SPEED;
+    xSpeed = xLimiter.calculate(xSpeed) * Constants.Motor.SWERVE_MAX_SPEED;
     ySpeed = yLimiter.calculate(ySpeed) * Constants.Motor.SWERVE_MAX_SPEED;
-    rotationSpeed = rotationLimiter.calculate(rotationSpeed) * Constants.Motor.SWERVE_MAX_SPEED;*/
+    rotationSpeed = rotationLimiter.calculate(rotationSpeed) * Constants.Motor.SWERVE_ROTATION_MAX_SPEED;
 
     //construct chassis
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
       xSpeed, ySpeed, rotationSpeed, swerve.getRotation2d());
-
+    SmartDashboard.putString("CHASSIS", chassisSpeeds.toString());
     //convert to states from the chassis  
     SwerveModuleState[] moduleState = Constants.Motor.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
+
+    int i = 0;
+    for (SwerveModuleState s : moduleState) {
+      SmartDashboard.putString("SWERVESTATEPRE-" + i++, s.toString());
+    }
 
     swerve.setModuleStates(moduleState);
   }

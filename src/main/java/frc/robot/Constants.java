@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import java.util.stream.Collector.Characteristics;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -47,13 +48,13 @@ public final class Constants {
     public static final double D_CLIMB = 1; 
 
     //Swerve
-    public static final double P_SWERVE_STEER = 0.05;
-    public static final double I_SWERVE_STEER = 0.025;
-    public static final double D_SWERVE_STEER = 0.5;
+    public static final double P_SWERVE_STEER = 2;//3.5;
+    public static final double I_SWERVE_STEER = 0.0;
+    public static final double D_SWERVE_STEER = 0;//10;
 
-    public static final double P_SWERVE_POWER = 0.03;
-    public static final double I_SWERVE_POWER = 0.015;
-    public static final double D_SWERVE_POWER = 0.3;
+    public static final double P_SWERVE_POWER = 0.00015;
+    public static final double I_SWERVE_POWER = 0.00;
+    public static final double D_SWERVE_POWER = 0.01;
 
     // Linear drive feed forward
     public static final SimpleMotorFeedforward DRIVE_FF = IS_REAL ?
@@ -95,10 +96,10 @@ public final class Constants {
   
 	public static final class RobotDimensions {
     // Distance between wheels
-    public static final double WIDTH = Units.inchesToMeters(28); //inches
-    public static final double LENGTH = Units.inchesToMeters(28); //inches
+    public static final double WIDTH = Units.inchesToMeters(24); //inches
+    public static final double LENGTH = Units.inchesToMeters(24); //inches
 
-    public static final double WHEEL_CIRCUMFRENCE = Units.inchesToMeters(3.5) * Math.PI; 
+    public static final double WHEEL_CIRCUMFRENCE = Units.inchesToMeters(4) * Math.PI; 
   }
   
   public static final class Input {
@@ -141,17 +142,11 @@ public final class Constants {
     public static final int SWERVE_BACK_RIGHT_POWER = 1;
     public static final int SWERVE_BACK_RIGHT_STEER = 12;
 
-    public static final double SWERVE_FRONT_LEFT_OFFSET = 15;//degrees
-    public static final double SWERVE_FRONT_RIGHT_OFFSET = 12;//degrees
-    public static final double SWERVE_BACK_LEFT_OFFSET = 10;//degrees
-    public static final double SWERVE_BACK_RIGHT_OFFSET = 8;//degrees
-
-
     public static final SwerveDriveKinematics SWERVE_DRIVE_KINEMATICS = new SwerveDriveKinematics(
-      new Translation2d(RobotDimensions.LENGTH / 2, RobotDimensions.WIDTH / 2),
-      new Translation2d(RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
       new Translation2d(-RobotDimensions.LENGTH / 2, RobotDimensions.WIDTH / 2),
-      new Translation2d(-RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2));
+      new Translation2d(-RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
+      new Translation2d(RobotDimensions.LENGTH / 2, RobotDimensions.WIDTH / 2),
+      new Translation2d(RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2));
 
     public static final double SWERVE_POWER_GEAR_RATIO = 6.55;
 
@@ -160,6 +155,7 @@ public final class Constants {
     public static final double SWERVE_ROTATION_MAX_SPEED = 2 * 2 * Math.PI; // rad/s
     public static final double SWERVE_ROTATION_MAX_ACCELERATION = Math.PI / 4; // rad/s^2
     public static final double SWERVE_NOMINAL_OUTPUT_PERCENT = 0.05;
+    public static final double SWERVE_NOMINAL_OUTPUT_STEER = 0.000;
 
     public static final double SWERVE_DEADBAND = 0.05;
 
@@ -177,6 +173,10 @@ public final class Constants {
     public static final int LEFT_CLIMB_MOTOR = 0; //reset to actual later
     public static final int RIGHT_CLIMB_MOTOR = 1; //reset to actual later
     public static final double CLIMB_SPEED = 0.5;
+  }
+
+  public static final class Characteristics { 
+    public static final double MPS_TO_RPM = 1315;
   }
 
   public static final class Sensor {

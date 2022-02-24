@@ -6,6 +6,7 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -26,7 +27,7 @@ import frc.robot.subsystems.Swerve;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-
+  private GenericHID joy = new GenericHID(0);
 
     //Subsystems
     private Climb climb = new Climb(); 
@@ -61,8 +62,8 @@ public class RobotContainer {
     Constants.Input.CLIMB_LOW_BUTTON.get().whenPressed(climbCommand.extendLowClimb());
     Constants.Input.RETRACT_BUTTON.get().whenPressed(climbCommand.retract()); 
     Constants.Input.INTAKE_BUTTON.get().whileHeld(indexBall);
-    swerve.setDefaultCommand(new SwerveDrive(swerve, Constants.Input.X_AXIS.get(),
-        Constants.Input.Y_AXIS.get(), Constants.Input.ROTATION.get()));
+    swerve.setDefaultCommand(new SwerveDrive(swerve, () -> joy.getRawAxis(0),
+        () -> joy.getRawAxis(1), () -> joy.getRawAxis(4)));
 
     // Constants.Input.CLIMB_BUTTON.get().whenPressed(climbCommand);
     // Constants.Input.INTAKE_BUTTON.get().whileHeld(indexBall);
