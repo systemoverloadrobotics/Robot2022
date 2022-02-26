@@ -6,6 +6,7 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -35,6 +36,7 @@ public class RobotContainer {
   private Intake intake = new Intake();
   private Storage storage = new Storage();
   private Swerve swerve = new Swerve();
+  private GenericHID joy = new GenericHID(0);
 
   // Commands
   private IndexBall indexBall = new IndexBall(storage);
@@ -64,6 +66,8 @@ public class RobotContainer {
     Constants.Input.REVERSE_INTAKE_BUTTON.get().whenHeld(ejectBall);
     Constants.Input.CLEAR_STORAGE.get().whenHeld(clearStorage);
 
+    swerve.setDefaultCommand(new SwerveDrive(swerve, () -> joy.getRawAxis(0),
+        () -> joy.getRawAxis(1), () -> joy.getRawAxis(4)));
   }
 
   /**
@@ -72,7 +76,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-
     return new AutoPaths(swerve).exampleAuto();
   }
 }
