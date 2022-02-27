@@ -25,8 +25,6 @@ public class SwerveModule {
 
     private TalonFX powerController;
     private TalonSRX steerController;
-
-    private double offSetTicks;
     // Linear drive feed forward
     public SimpleMotorFeedforward driveFF = Constants.PID.DRIVE_FF;
     // Steer feed forward
@@ -46,8 +44,6 @@ public class SwerveModule {
         steerController.configFeedbackNotContinuous(false, 50);
         steerController.setInverted(false);
 
-        steerController.setSelectedSensorPosition(steerController.getSensorCollection().getPulseWidthRiseToFallUs() - offSetTicks);
-
         powerController.config_kF(0, 1000);
         powerController.config_kP(0, Constants.PID.P_SWERVE_POWER);
         powerController.config_kI(0, Constants.PID.I_SWERVE_POWER);
@@ -66,25 +62,14 @@ public class SwerveModule {
         steerController.configPeakOutputReverse(-0.6);
 
         steerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_STEER);
-        steerController.configNominalOutputReverse(-Constants.Motor.SWERVE_NOMINAL_OUTPUT_STEER)
-    }
-
-    public void setSteerRotation(double angle) {
-        steerController.set(ControlMode.Position, Utils.degreesToTicks(angle, 4096));
+        steerController.configNominalOutputReverse(-Constants.Motor.SWERVE_NOMINAL_OUTPUT_STEER);
+       // steerController.set(ControlMode.Position, 4096-offSetTicks);
+       
+        steerController.setSelectedSensorPosition(steerController.getSensorCollection().getPulseWidthRiseToFallUs() - offSetTicks);
     }
 
     public double getSteerPosition() {
         return (Utils.ticksToDegrees(steerController.getSelectedSensorPosition(), 4096));
-    }
-
-    public void resetEncoder() {
-        double angle = getSteerPosition();
-        powerController.set(ControlMode.Position, 0);
-        steerController.setSelectedSensorPosition(angle);
-    }
-
-    public void setVelocity(double percent) {
-        powerController.set(ControlMode.PercentOutput, percent);
     }
 
     public double getVelocity() {
@@ -101,12 +86,12 @@ public class SwerveModule {
             stop();
             return;
         }
-        //state = SwerveModuleState.optimize(state, getState().angle);
+        state = SwerveModuleState.optimize(state, getState().angle);
         // SmartDashboard.putNumber(steerController.getDeviceID() + "-optimized angle",
         // state.angle.getDegrees());
         powerController.set(ControlMode.PercentOutput, state.speedMetersPerSecond / Constants.Motor.SWERVE_MAX_SPEED);
-        steerController.set(ControlMode.Position,
-                Utils.degreesToTicks(state.angle.getDegrees(), 4096));
+        steerController.set(ControlMode.Position, Utils.degreesToTicks(state.angle.getDegrees(), 4096));
+        SmartDashboard.putNumber(steerController.getDeviceID() + "-desired angel", state.angle.getDegrees());
         
     }
 
@@ -116,6 +101,6 @@ public class SwerveModule {
 
     public void periodic() {
         // Called at 50hz.
-        SmartDashboard.putNumber(steerController.getDeviceID() + "-Steer Postition", steerController.getSensorCollection().getPulseWidthRiseToFallUs());
+        SmartDashboard.putNumber(steerController.getDeviceID() + "-Steer Postition", Utils.ticksToDegrees(steerController.getSelectedSensorPosition(), 4096));
     }
 }

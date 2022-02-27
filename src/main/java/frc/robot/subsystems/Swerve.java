@@ -60,8 +60,8 @@ public class Swerve extends SubsystemBase {
 
   public Swerve() {
     // Create four modules with correct controllers, add to modules
-    frontLeft = new SwerveModule(frontLeftPower, frontLeftSteer, 2397);
-    frontRight = new SwerveModule(frontRightPower, frontRightSteer, 782);
+    frontLeft = new SwerveModule(frontLeftPower, frontLeftSteer, 2403);
+    frontRight = new SwerveModule(frontRightPower, frontRightSteer, 794);
     backLeft = new SwerveModule(backLeftPower, backLeftSteer, 473);
     backRight = new SwerveModule(backRightPower, backRightSteer, 1485);
     resetHeading();
@@ -75,7 +75,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public void resetHeading(){
-    gyro.setYaw(0, 50);
+    gyro.reset();
   }
 
   public Rotation2d getRotation2d(){
