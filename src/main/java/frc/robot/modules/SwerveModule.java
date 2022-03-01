@@ -17,7 +17,6 @@ public class SwerveModule {
 
     // Should contain the two motor controllers, tracking, methods for setting,
     // and encoder output.
-
     private TalonFX powerController;
     private TalonSRX steerController;
     // Linear drive feed forward
@@ -25,7 +24,7 @@ public class SwerveModule {
     // Steer feed forward
     public SimpleMotorFeedforward steerFF = Constants.PID.STEER_FF;
 
-    public SwerveModule(TalonFX powerController, TalonSRX steerController, double offSetTicks) {
+    public SwerveModule(TalonFX powerController, TalonSRX steerController, int offSetTicks) {
         this.powerController = powerController;
         this.steerController = steerController;
 
@@ -60,7 +59,7 @@ public class SwerveModule {
         steerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_STEER);
         steerController.configNominalOutputReverse(-Constants.Motor.SWERVE_NOMINAL_OUTPUT_STEER);
        
-        steerController.setSelectedSensorPosition(steerController.getSensorCollection().getPulseWidthRiseToFallUs() - offSetTicks);
+        steerController.getSensorCollection().syncQuadratureWithPulseWidth(0, 0, true, offSetTicks, 50);
     }
 
     public double getSteerPosition() {
