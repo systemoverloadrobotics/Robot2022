@@ -52,6 +52,7 @@ public class SwerveDrive extends CommandBase {
     //construct chassis
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
       xSpeed, ySpeed, rotationSpeed, swerve.getRotation2d());
+    
     SmartDashboard.putString("CHASSIS", chassisSpeeds.toString());
     //convert to states from the chassis  
     SwerveModuleState[] moduleState = Constants.Motor.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
@@ -60,7 +61,7 @@ public class SwerveDrive extends CommandBase {
     for (SwerveModuleState s : moduleState) {
       SmartDashboard.putString("SWERVESTATEPRE-" + i++, s.toString());
     }
-
+    
     swerve.setModuleStates(moduleState);
   }
 

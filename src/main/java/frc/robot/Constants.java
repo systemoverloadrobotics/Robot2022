@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.function.DoubleFunction;
+import java.util.function.DoubleSupplier;
 import java.util.stream.Collector.Characteristics;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -32,6 +34,14 @@ public final class Constants {
   public static final double CLIMBER_ENCODER_DISTANCE = 12; 
   public static final double SHOOTER_LIMELIGHT_ANGLE = 0.5; 
   public static final int FALCON_MAX_RPM = 6380;
+  public static final int BASE_SHOOTER_RPM = 3000;
+  public static final DoubleFunction<Double> BALL_VELOCITY_CONVERSION_TO_MOTOR_SPEED = d -> d * 0.5;
+  // Degrees
+  public static final double LIMELIGHT_ANGLE = 77;
+  // Meters
+  public static final double LIMELIGHT_HEIGHT = 0.6858;
+  public static final double HUB_HEIGHT = 2.64;
+
   public static final int SHOOTER_RPM = 3000;
  
   public static final class PID {
@@ -48,7 +58,7 @@ public final class Constants {
     public static final double P_SWERVE_POWER = 0.00015;
     public static final double I_SWERVE_POWER = 0.00;
     public static final double D_SWERVE_POWER = 0.01;
-
+    
     // Linear drive feed forward
     public static final SimpleMotorFeedforward DRIVE_FF = IS_REAL ?
         new SimpleMotorFeedforward( // real
@@ -84,7 +94,14 @@ public final class Constants {
     public static final double SHOOTER_P = 0.1; 
     public static final double SHOOTER_I = 1e-4; 
     public static final double SHOOTER_D = 1; 
+  }
 
+	public static final class RobotDimensions {
+    // Distance between wheels
+    public static final double WIDTH = Units.inchesToMeters(28); //inches
+    public static final double LENGTH = Units.inchesToMeters(28); //inches
+
+    public static final double WHEEL_CIRCUMFRENCE = Units.inchesToMeters(3.5) * Math.PI; 
   }
   
 	public static final class RobotDimensions {
@@ -106,6 +123,10 @@ public final class Constants {
     public static final ConstantButton CLIMB_BUTTON = new ConstantButton(1, 1); 
     public static final ConstantButton INTAKE_BUTTON = new ConstantButton(1, 5); 
     public static final ConstantButton STORAGE_TOGGLE = new ConstantButton(1, 0);
+    public static final ConstantButton SHOOTER_SPOOL = new ConstantButton(1, 9);
+    public static final ConstantButton SHOOTER_JUICED_SPOOL = new ConstantButton(1, 10);
+    public static final ConstantButton SHOOTER_SHOOT = new ConstantButton(1, 11);
+    public static final ConstantButton SHOOTER_JUICED_SHOOT = new ConstantButton(1, 12);
   }
 
   public static final class MotorSettings {
@@ -114,7 +135,6 @@ public final class Constants {
   }
 
   public static final class Motor {
-
     //Swerve
     public static final int SWERVE_FRONT_LEFT_POWER = 4;
     public static final int SWERVE_FRONT_LEFT_STEER = 15;
@@ -142,14 +162,29 @@ public final class Constants {
     public static final double SWERVE_ROTATION_MAX_ACCELERATION = Math.PI / 4; // rad/s^2
     public static final double SWERVE_NOMINAL_OUTPUT_PERCENT = 0.05;
     public static final double SWERVE_NOMINAL_OUTPUT_STEER = 0.000;
+    public static final int SWERVE_BACK_RIGHT_POWER = 6;
+    public static final int SWERVE_BACK_RIGHT_STEER = 7;
 
+    public static final SwerveDriveKinematics SWERVE_DRIVE_KINEMATICS = new SwerveDriveKinematics(
+      new Translation2d(RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
+      new Translation2d(RobotDimensions.LENGTH / 2, RobotDimensions.WIDTH / 2),
+      new Translation2d(-RobotDimensions.LENGTH / 2, -RobotDimensions.WIDTH / 2),
+      new Translation2d(-RobotDimensions.LENGTH, RobotDimensions.WIDTH / 2));
+
+    public static final double SWERVE_POWER_GEAR_RATIO = 6.55;
+
+    public static final double SWERVE_MAX_SPEED = 5.18; // m/s
+    public static final double SWERVE_MAX_ACCELERATION = 3; // m/s^2
+    public static final double SWERVE_ROTATION_MAX_SPEED = 2 * 2 * Math.PI; // rad/s
+    public static final double SWERVE_ROTATION_MAX_ACCELERATION = Math.PI / 4; // rad/s^2
+    public static final double SWERVE_NOMINAL_OUTPUT_PERCENT = 0.05;
     public static final double SWERVE_DEADBAND = 0.05;
 
     public static final TrapezoidProfile.Constraints THETA_CONTROL_CONSTRAINTS = new TrapezoidProfile.Constraints(SWERVE_ROTATION_MAX_SPEED, SWERVE_ROTATION_MAX_ACCELERATION);
 
     //Storage
     public static final int STORAGE_MOVEMENT_BELT = 8;
-      
+    
     public static final int SHOOTER_PORT = 2;
     public static final int EXAMPLE_INTAKE_CHANNEL = 3;
 

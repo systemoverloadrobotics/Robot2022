@@ -30,7 +30,7 @@ public class ShooterCommand extends CommandBase {
 		final double verticalAngleAbs = Math.abs(limelight.getHorizontalAngle());
 		// Checks if aimed
 		if (horizontalAngleAbs < Constants.SHOOTER_LIMELIGHT_ANGLE && verticalAngleAbs < Constants.SHOOTER_LIMELIGHT_ANGLE) {
-			shooter.spool(Constants.SHOOTER_RPM);
+			shooter.spool(Constants.BASE_SHOOTER_RPM);
 		} else {
 			shooter.stopMotor();
 		}

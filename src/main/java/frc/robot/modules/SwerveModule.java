@@ -3,11 +3,16 @@ package frc.robot.modules;
 import com.ctre.phoenix.Util;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonFXSimCollection;
+import com.ctre.phoenix.motorcontrol.TalonSRXSimCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.util.Utils;
@@ -42,7 +47,6 @@ public class SwerveModule {
         powerController.config_kP(0, Constants.PID.P_SWERVE_POWER);
         powerController.config_kI(0, Constants.PID.I_SWERVE_POWER);
         powerController.config_kD(0, Constants.PID.D_SWERVE_POWER);
-
         steerController.config_kF(0, 0);
         steerController.config_kP(0, Constants.PID.P_SWERVE_STEER);
         steerController.config_kI(0, Constants.PID.I_SWERVE_STEER);
@@ -97,5 +101,4 @@ public class SwerveModule {
         // Called at 50hz.
         SmartDashboard.putNumber(steerController.getDeviceID() + "-Steer Postition", Utils.ticksToDegrees(steerController.getSelectedSensorPosition(), 4096));
     }
-
 }

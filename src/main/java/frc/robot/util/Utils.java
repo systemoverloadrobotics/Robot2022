@@ -1,5 +1,8 @@
 package frc.robot.util;
 
+import java.util.function.Consumer;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants;
@@ -13,6 +16,14 @@ public class Utils {
 		return (angle / 360d) * ticksPerRotation;
 	}
 
+	public static double sec(double angle) {
+		return 1D / Math.cos(angle);
+	}
+
+	public static double csc(double angle) {
+		return 1D / Math.sin(angle);
+	}
+  
 	public static double sensorUnitsPer100msToMetersPerSecond(double sensorUnitsPer100ms) {
 		return (sensorUnitsPer100ms * (Constants.RobotDimensions.WHEEL_CIRCUMFRENCE / 4096)) * 10;
 	}
@@ -60,5 +71,4 @@ public class Utils {
       }
       return newAngle;
   }
-
 }

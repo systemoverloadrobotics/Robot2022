@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ClimbCommand;
@@ -17,8 +18,11 @@ import frc.robot.commands.SwerveDrive;
 import frc.robot.commands.auto.AutoPaths;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Storage.ToggleState;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -28,20 +32,55 @@ import frc.robot.subsystems.Swerve;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-
-  // Subsystems
-  // private Climb climb = new Climb();
-  // private Intake intake = new Intake();
-  // private Storage storage = new Storage();
+  
+  //Subsystems
+  private Climb climb = new Climb(); 
+  private Intake intake = new Intake();
+  private Storage storage = new Storage();
   private Swerve swerve = new Swerve();
-  private GenericHID joy = new GenericHID(0);
+  private Shooter shooter = new Shooter();
+  private Limelight limelight = new Limelight();
 
-  // Commands
-  // private IndexBall indexBall = new IndexBall(intake, storage);
-  // private ClimbCommand climbCommand = new ClimbCommand(climb);
+  //Commands
+  private IndexBall indexBall = new IndexBall(intake, storage);
+  private ClimbCommand climbCommand = new ClimbCommand(climb);
+  private SwerveDrive swerveDrive;
+
+  private Command shootCommand = new CommandBase() {
+    {
+      addRequirements(shooter, limelight);
+    }
+
+    public void execute() {
+      double requiredVelocity = Constants.BALL_VELOCITY_CONVERSION_TO_MOTOR_SPEED.apply(limelight.getVelocity());
+      if (shooter.shooterMotorRPM() >= requiredVelocity) {
+        storage.toggleBelt(ToggleState.ON);
+      }
+      shooter.spool(requiredVelocity);
+    };
+  };
+
+  private Command spoolCommand = new CommandBase() {
+    {
+      addRequirements(shooter);
+    }
+
+    public void execute() {
+      if (!shootCommand.isScheduled()) {
+        shooter.spool(Constants.BASE_SHOOTER_RPM);
+      }
+    }
+
+    public void end(boolean interrupted) {
+      shooter.spool(0);
+    }
+  };
+  
+  private GenericHID joy = new GenericHID(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    swerveDrive = new SwerveDrive(swerve, Constants.Input.X_AXIS.get(), Constants.Input.Y_AXIS.get(), Constants.Input.ROTATION.get());
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -53,6 +92,10 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    Constants.Input.CLIMB_BUTTON.get().whenPressed(climbCommand); 
+    Constants.Input.INTAKE_BUTTON.get().whileHeld(indexBall);
+    Constants.Input.SHOOTER_SPOOL.get().whileHeld(spoolCommand);
+    Constants.Input.SHOOTER_SHOOT.get().whileHeld(shootCommand);
     swerve.setDefaultCommand(new SwerveDrive(swerve, () -> joy.getRawAxis(0),
         () -> joy.getRawAxis(1), () -> joy.getRawAxis(4)));
     JoystickButton aButton = new JoystickButton(joy, 1);

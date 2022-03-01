@@ -2,6 +2,12 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.sensors.BasePigeonSimCollection;
+import com.ctre.phoenix.sensors.PigeonIMU;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 import com.kauailabs.navx.frc.AHRS;
 import com.kauailabs.navx.frc.AHRS.SerialDataType;
@@ -39,6 +45,7 @@ public class Swerve extends SubsystemBase {
   private SwerveModule frontRight;
   private SwerveModule backLeft;
   private SwerveModule backRight;
+  private SwerveModule[] swerveModules;
 
   //Gyro
   private AHRS gyro = new AHRS(SerialPort.Port.kUSB);
@@ -51,7 +58,6 @@ public class Swerve extends SubsystemBase {
     frontRight = new SwerveModule(frontRightPower, frontRightSteer, 794);
     backLeft = new SwerveModule(backLeftPower, backLeftSteer, 473);
     backRight = new SwerveModule(backRightPower, backRightSteer, 1485);
-
     resetHeading();
   }
 
