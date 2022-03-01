@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import java.util.stream.Collector.Characteristics;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -30,11 +29,21 @@ public final class Constants {
   public static final double AIM_SCALING_FACTOR_Y = -0.5;
 
   public static final double CLIMBER_ENCODER_DISTANCE = 12; 
-  public static final double SHOOTER_LIMELIGHT_ANGLE = 0.5; 
+  public static final double SHOOTER_LIMELIGHT_ANGLE = Math.toRadians(77); 
   public static final int FALCON_MAX_RPM = 6380;
   public static final int SHOOTER_RPM = 3000;
+  public static final double HUB_HEIGHT = 2.63;
+  public static final double LIMELIGHT_HEIGHT = 2.25;
+  public static final double SHOOTER_HEIGHT = 2.3;
+  public static final double SHOOTER_ANGLE = 2.25;
  
   public static final class PID {
+
+    //Shooter
+    public static final double SHOOTER_MOTOR_P = 0; 
+    public static final double SHOOTER_MOTOR_I = 0; 
+    public static final double SHOOTER_MOTOR_D = 0; 
+
     //Climb
     public static final double P_CLIMB = 0.1; 
     public static final double I_CLIMB = 1e-4;
@@ -146,7 +155,7 @@ public final class Constants {
     public static final double SWERVE_DEADBAND = 0.05;
 
     public static final TrapezoidProfile.Constraints THETA_CONTROL_CONSTRAINTS = new TrapezoidProfile.Constraints(SWERVE_ROTATION_MAX_SPEED, SWERVE_ROTATION_MAX_ACCELERATION);
-
+    
     //Storage
     public static final int STORAGE_MOVEMENT_BELT = 8;
       

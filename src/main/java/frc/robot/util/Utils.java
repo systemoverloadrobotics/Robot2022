@@ -17,6 +17,14 @@ public class Utils {
 		return (sensorUnitsPer100ms * (Constants.RobotDimensions.WHEEL_CIRCUMFRENCE / 4096)) * 10;
 	}
 
+    public static double sec(double angle) {
+		return 1D / Math.cos(angle);
+	}
+
+	public static double csc(double angle) {
+		return 1D / Math.sin(angle);
+	}
+
 	/**
    * Minimize the change in heading the desired swerve module state would require by potentially
    * reversing the direction the wheel spins. Customized from WPILib's version to include placing
