@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.IndexBall;
 import frc.robot.commands.SwerveDrive;
@@ -53,6 +55,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     swerve.setDefaultCommand(new SwerveDrive(swerve, () -> joy.getRawAxis(0),
         () -> joy.getRawAxis(1), () -> joy.getRawAxis(4)));
+    JoystickButton aButton = new JoystickButton(joy, 1);
+    aButton.whenPressed(new InstantCommand(() -> swerve.resetHeading()));
 
     // Constants.Input.CLIMB_BUTTON.get().whenPressed(climbCommand);
     // Constants.Input.INTAKE_BUTTON.get().whileHeld(indexBall);
