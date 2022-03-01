@@ -59,7 +59,7 @@ public class SwerveModule {
         steerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_STEER);
         steerController.configNominalOutputReverse(-Constants.Motor.SWERVE_NOMINAL_OUTPUT_STEER);
        
-        steerController.getSensorCollection().syncQuadratureWithPulseWidth(0, 0, true, offSetTicks, 50);
+        steerController.setSelectedSensorPosition(steerController.getSensorCollection().getPulseWidthRiseToFallUs() - offSetTicks);
     }
 
     public double getSteerPosition() {
