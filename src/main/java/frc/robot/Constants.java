@@ -18,12 +18,14 @@ import frc.robot.util.ConstantButton;
  * constants. This class should not be used for any other purpose. All constants should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
 
   public static final boolean IS_REAL = RobotBase.isReal();
+  public static final double CLIMBER_ENCODER_DISTANCE = 12;
 
   public static final double AIM_SCALING_FACTOR_X = -0.5;
   public static final double AIM_SCALING_FACTOR_Y = -0.5;
@@ -47,9 +49,12 @@ public final class Constants {
     //Climb
     public static final double P_CLIMB = 0.1; 
     public static final double I_CLIMB = 1e-4;
-    public static final double D_CLIMB = 1; 
+    public static final double D_CLIMB = 1;
 
-    //Swerve
+    public static final double P_FEEDER = 0.7;
+    public static final double I_FEEDER = 0;
+    public static final double D_FEEDER = 0;
+    // Swerve
     public static final double P_SWERVE_STEER = 2;//3.5;
     public static final double I_SWERVE_STEER = 0.0;
     public static final double D_SWERVE_STEER = 0;//10;
@@ -59,33 +64,30 @@ public final class Constants {
     public static final double D_SWERVE_POWER = 0.01;
 
     // Linear drive feed forward
-    public static final SimpleMotorFeedforward DRIVE_FF = IS_REAL ?
-        new SimpleMotorFeedforward( // real
-            0.6, // Voltage to break static friction
-            2.5, // Volts per meter per second
-            1 // Volts per meter per second squared
-        )
-        :
-        new SimpleMotorFeedforward( // sim
-            0, // Voltage to break static friction -- we do not use kS with this method of simulation
+    public static final SimpleMotorFeedforward DRIVE_FF = IS_REAL ? new SimpleMotorFeedforward( // real
+        0.6, // Voltage to break static friction
+        2.5, // Volts per meter per second
+        1 // Volts per meter per second squared
+    )
+        : new SimpleMotorFeedforward( // sim
+            0, // Voltage to break static friction -- we do not use kS with this method of
+               // simulation
             2.5, // Volts per meter per second
             0.4 // Volts per meter per second squared -- lower kA will give snappier control
         );
     // Steer feed forward
-    public static final SimpleMotorFeedforward STEER_FF = IS_REAL ?
-        new SimpleMotorFeedforward( // real
-            0, // Voltage to break static friction
-            0.15, // Volts per radian per second
-            0.04 // Volts per radian per second squared
-        )
-        :
-        new SimpleMotorFeedforward( // sim
+    public static final SimpleMotorFeedforward STEER_FF = IS_REAL ? new SimpleMotorFeedforward( // real
+        0, // Voltage to break static friction
+        0.15, // Volts per radian per second
+        0.04 // Volts per radian per second squared
+    )
+        : new SimpleMotorFeedforward( // sim
             0, // Voltage to break static friction
             0.15, // Volts per radian per second
             0.002 // Volts per radian per second squared
         );
 
-    //Controller
+    // Controller
     public static final double P_X_CONTROLLER = 1.5;
     public static final double P_Y_CONTROLLER = 1.5;
     public static final double P_THETA_CONTROLLER = 3;
@@ -95,31 +97,36 @@ public final class Constants {
     public static final double SHOOTER_D = 1; 
 
   }
-  
-	public static final class RobotDimensions {
+  public static final class RobotDimensions {
+
+    // Feeder
+    public static final double FEEDER_DIAMETER = 2.0; // inches
+    public static final double FEEDER_ENCODER_DISTANCE_PER_PULSE =
+        (1 / 8192) * FEEDER_DIAMETER * Math.PI;
+    public static final double FEEDER_OFFSET_DISTANCE = 2.0; // inches
     // Distance between wheels
     public static final double WIDTH = Units.inchesToMeters(24); //inches
     public static final double LENGTH = Units.inchesToMeters(24); //inches
 
     public static final double WHEEL_CIRCUMFRENCE = Units.inchesToMeters(4) * Math.PI; 
   }
-  
-  public static final class Input {
 
+  public static final class Input {
     //Axis
     public static final ConstantAxis X_AXIS = new ConstantAxis(0, 0);
     public static final ConstantAxis Y_AXIS = new ConstantAxis(0, 1);
     public static final ConstantAxis ROTATION = new ConstantAxis(0, 4);
 
-    //Buttons
-    public static final ConstantButton CLIMB_BUTTON = new ConstantButton(1, 1); 
-    public static final ConstantButton INTAKE_BUTTON = new ConstantButton(1, 5); 
-    public static final ConstantButton STORAGE_TOGGLE = new ConstantButton(1, 0);
+    // Buttons
+    public static final ConstantButton CLIMB_BUTTON = new ConstantButton(1, 1);
+    public static final ConstantButton INTAKE_BUTTON = new ConstantButton(1, 5);
+    public static final ConstantButton REVERSE_INTAKE_BUTTON = new ConstantButton(1, 6);
+    public static final ConstantButton CLEAR_STORAGE = new ConstantButton(1, 0);
   }
 
   public static final class MotorSettings {
-    public static final double MOTOR_VELOCITY = 0.5; 
-    public static final int MOTOR_EXPIRATION = 4; 
+    public static final double MOTOR_VELOCITY = 0.5;
+    public static final int MOTOR_EXPIRATION = 4;
   }
 
   public static final class Motor {
@@ -154,16 +161,26 @@ public final class Constants {
 
     public static final double SWERVE_DEADBAND = 0.05;
 
+    public static final TrapezoidProfile.Constraints THETA_CONTROL_CONSTRAINTS =
+        new TrapezoidProfile.Constraints(SWERVE_ROTATION_MAX_SPEED,
+            SWERVE_ROTATION_MAX_ACCELERATION);
+
+    // Storage
     public static final TrapezoidProfile.Constraints THETA_CONTROL_CONSTRAINTS = new TrapezoidProfile.Constraints(SWERVE_ROTATION_MAX_SPEED, SWERVE_ROTATION_MAX_ACCELERATION);
     
-    //Storage
     public static final int STORAGE_MOVEMENT_BELT = 8;
-      
+    public static final int STORAGE_FEEDER = 0;
+    public static final double STORAGE_ON = 0.5;
+    public static final double STORAGE_REVERSE = -0.5;
+    public static final double STORAGE_FEEDER_ON = 0.5;
+    public static final double STORAGE_FEEDER_REVERSE = -0.5;
     public static final int SHOOTER_PORT = 2;
     public static final int EXAMPLE_INTAKE_CHANNEL = 3;
 
+    // Intake
     public static final int INTAKE = 5;
     public static final double INTAKE_SPEED = 0.5;
+    public static final double INTAKE_REVERSE = -0.5;
 
     public static final int LEFT_CLIMB_MOTOR = 0; //reset to actual later
     public static final int RIGHT_CLIMB_MOTOR = 1; //reset to actual later
@@ -174,10 +191,18 @@ public final class Constants {
   }
 
   public static final class Sensor {
+    // Swerve
     public static final int SWERVE_GYRO = 0;
 
-    public static final int WHEEL_ENCODER_CHANNEL_A = 4;
-    public static final int WHEEL_ENCODER_CHANNEL_B = 6;
+    // Climb
+
+    public static final int PROXIMITY_INTAKE_SENSOR = 1;
+    public static final int PROXIMITY_STORAGE_SENSOR = 1;
+    public static final int PROXIMITY_SHOOTER_SENSOR = 2;
+
+    // Shooter
+    public static final int FEEDER_ENCODER_CHANNEL_A = 3;
+    public static final int FEEDER_ENCODER_CHANNEL_B = 4;
   }
 
 }
