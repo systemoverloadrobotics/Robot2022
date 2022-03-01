@@ -59,8 +59,6 @@ public class AutoPaths{
       new InstantCommand(() -> swerve.resetOdometry(trajectory.getInitialPose())),
       swerveControllerCommand,
       new InstantCommand(() -> swerve.stopModules()));
-
-
   }
   
 }
