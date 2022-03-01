@@ -1,10 +1,11 @@
-package frc.robot.commands;
+package frc.robot.commands.storage;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.Storage.ToggleState;
 
-public class IndexBall extends SequentialCommandGroup {
+public class IndexBall extends CommandBase {
   private Storage storage;
 
   public static boolean isBallInFeeder;
@@ -12,16 +13,6 @@ public class IndexBall extends SequentialCommandGroup {
   public IndexBall(Storage storage) {
     this.storage = storage;
     addRequirements(storage);
-  }
-
-  public void indexBall() {
-    // no ball inside the robot or one ball is stored in the shooter
-    addCommands(
-      parallel(
-        new StorageCommand(storage),
-        new FeederStorage(storage)
-      )
-    );
   }
 
   // Called when the command is first scheduled.
@@ -33,7 +24,10 @@ public class IndexBall extends SequentialCommandGroup {
   // Called at 50hz while the command is scheduled.
   @Override
   public void execute() {
-    indexBall();
+    new ParallelCommandGroup(
+      new StorageCommand(storage),
+      new FeederStorage(storage)
+    );
   }
 
   // Called once when the command ends or is interrupted.

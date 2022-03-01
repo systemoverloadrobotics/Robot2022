@@ -1,11 +1,9 @@
-package frc.robot.commands;
+package frc.robot.commands.storage;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.Storage.ProximitySensors;
-import frc.robot.subsystems.Storage.ToggleState;
-import frc.robot.util.ConstantButton;
 
 public class FeederStorage extends CommandBase{
   private final Storage storage;

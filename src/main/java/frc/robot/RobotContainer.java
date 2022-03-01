@@ -9,16 +9,15 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.commands.ClearStorage;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ClimbCommand;
-import frc.robot.commands.EjectBall;
-import frc.robot.commands.IndexBall;
-import frc.robot.commands.IntakeBall;
 import frc.robot.commands.SwerveDrive;
 import frc.robot.commands.auto.AutoPaths;
+import frc.robot.commands.storage.FeederStorage;
+import frc.robot.commands.storage.IndexBall;
+import frc.robot.commands.storage.StorageCommand;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Storage;
@@ -42,16 +41,10 @@ public class RobotContainer {
 
   // Commands
   private IndexBall indexBall = new IndexBall(storage);
-  private ClimbCommand climbCommand = new ClimbCommand(climb);
-  private IntakeBall intakeBall = new IntakeBall(intake);
-  private EjectBall ejectBall = new EjectBall(intake);
-  private ClearStorage clearStorage = new ClearStorage(storage, intake);
-  private SwerveDrive swerveDrive;
+  // private ClimbCommand climbCommand = new ClimbCommand(climb);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    swerveDrive = new SwerveDrive(swerve, Constants.Input.X_AXIS.get(),
-        Constants.Input.Y_AXIS.get(), Constants.Input.ROTATION.get());
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -63,19 +56,14 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Constants.Input.CLIMB_BUTTON.get().whenPressed(climbCommand);
-    Constants.Input.INTAKE_BUTTON.get().whileHeld(intakeBall.alongWith(indexBall));
-    Constants.Input.REVERSE_INTAKE_BUTTON.get().whenHeld(ejectBall);
-    Constants.Input.CLEAR_STORAGE.get().whenHeld(clearStorage);
-
     swerve.setDefaultCommand(new SwerveDrive(swerve, () -> joy.getRawAxis(0),
         () -> joy.getRawAxis(1), () -> joy.getRawAxis(4)));
+    storage.setDefaultCommand(indexBall);       
     JoystickButton aButton = new JoystickButton(joy, 1);
     aButton.whenPressed(new InstantCommand(() -> swerve.resetHeading()));
-    
+
     // Constants.Input.CLIMB_BUTTON.get().whenPressed(climbCommand);
     // Constants.Input.INTAKE_BUTTON.get().whileHeld(indexBall);
-
   }
 
   /**
@@ -84,6 +72,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+
     return new AutoPaths(swerve).exampleAuto();
   }
 }

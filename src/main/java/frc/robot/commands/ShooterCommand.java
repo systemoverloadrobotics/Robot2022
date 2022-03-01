@@ -4,14 +4,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Swerve;
 
 public class ShooterCommand extends CommandBase {
 	private Limelight limelight;
 	private Shooter shooter;
+	private Swerve swerve;
 
-	public ShooterCommand(Limelight limelight, Shooter shooter) {
+	public ShooterCommand(Limelight limelight, Shooter shooter, Swerve swerve) {
 		this.limelight = limelight;
 		this.shooter = shooter;
+		this.swerve = swerve;
 		addRequirements(limelight, shooter);
 	}
 
@@ -24,11 +27,7 @@ public class ShooterCommand extends CommandBase {
 	// Called at 50hz while the command is scheduled.
 	@Override
 	public void execute() {
-		final double horizontalAngleAbs = Math.abs(limelight.getHorizontalAngle());
-		final double verticalAngleAbs = Math.abs(limelight.getHorizontalAngle());
-		// Checks if aimed
-		if (horizontalAngleAbs < Constants.SHOOTER_LIMELIGHT_ANGLE
-				&& verticalAngleAbs < Constants.SHOOTER_LIMELIGHT_ANGLE) {
+		if ( new AimCommand(limelight, swerve).isFinished()) {
 			shooter.spool(Constants.SHOOTER_RPM);
 		} else {
 			shooter.stopMotor();

@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -30,7 +31,6 @@ public final class Constants {
   public static final double AIM_SCALING_FACTOR_X = -0.5;
   public static final double AIM_SCALING_FACTOR_Y = -0.5;
 
-  public static final double CLIMBER_ENCODER_DISTANCE = 12; 
   public static final double SHOOTER_LIMELIGHT_ANGLE = Math.toRadians(77); 
   public static final int FALCON_MAX_RPM = 6380;
   public static final int SHOOTER_RPM = 3000;
@@ -164,10 +164,9 @@ public final class Constants {
     public static final TrapezoidProfile.Constraints THETA_CONTROL_CONSTRAINTS =
         new TrapezoidProfile.Constraints(SWERVE_ROTATION_MAX_SPEED,
             SWERVE_ROTATION_MAX_ACCELERATION);
+    public static final TrajectoryConfig TRAJECTORY_CONFIG = new TrajectoryConfig(SWERVE_MAX_SPEED, Constants.Motor.SWERVE_MAX_ACCELERATION).setKinematics(SWERVE_DRIVE_KINEMATICS);        
 
-    // Storage
-    public static final TrapezoidProfile.Constraints THETA_CONTROL_CONSTRAINTS = new TrapezoidProfile.Constraints(SWERVE_ROTATION_MAX_SPEED, SWERVE_ROTATION_MAX_ACCELERATION);
-    
+    // Storage    
     public static final int STORAGE_MOVEMENT_BELT = 8;
     public static final int STORAGE_FEEDER = 0;
     public static final double STORAGE_ON = 0.5;

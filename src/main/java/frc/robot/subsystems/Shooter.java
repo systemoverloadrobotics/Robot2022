@@ -2,23 +2,19 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.util.Utils;
 import static java.lang.Math.*;
-import static frc.robot.util.Utils.*;
 
 public class Shooter extends SubsystemBase {
 	// private WPI_TalonFX shooterMotor;
 	private CANSparkMax followShooter;
 	private CANSparkMax masterShooter;
-	private Encoder encoder;
 
 	public Shooter() {
 		followShooter = new CANSparkMax(Constants.Motor.SHOOTER_PORT, MotorType.kBrushless);
 		masterShooter = new CANSparkMax(Constants.Motor.SHOOTER_PORT, MotorType.kBrushless);
-		encoder = new Encoder(0, 1);
 		followShooter.follow(masterShooter);
 		masterShooter.getPIDController().setP(Constants.PID.SHOOTER_MOTOR_P); 
 		masterShooter.getPIDController().setI(Constants.PID.SHOOTER_MOTOR_I); 

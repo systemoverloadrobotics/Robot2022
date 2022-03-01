@@ -26,7 +26,6 @@ public class AutoPaths{
 
   public static Command exampleAuto(){
     //create trajectory settings
-    TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.Motor.SWERVE_MAX_SPEED, Constants.Motor.SWERVE_MAX_ACCELERATION).setKinematics(Constants.Motor.SWERVE_DRIVE_KINEMATICS);
 
     //generate trajectory
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
@@ -35,7 +34,7 @@ public class AutoPaths{
         new Translation2d(1, 0),
         new Translation2d(1, -1)),
       new Pose2d(2, -1, Rotation2d.fromDegrees(180)),
-      trajectoryConfig);
+      Constants.Motor.TRAJECTORY_CONFIG);
 
     //pid controllers for tracking trajectory
     PIDController xController = new PIDController(Constants.PID.P_X_CONTROLLER, 0, 0);
