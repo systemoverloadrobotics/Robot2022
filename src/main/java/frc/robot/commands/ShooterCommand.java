@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
@@ -27,8 +26,8 @@ public class ShooterCommand extends CommandBase {
 	// Called at 50hz while the command is scheduled.
 	@Override
 	public void execute() {
-		if ( new AimCommand(limelight, swerve).isFinished()) {
-			shooter.spool(Constants.SHOOTER_RPM);
+		if (new AimCommand(limelight, swerve).isFinished()) {
+			shooter.setVelocity(shooter.getVelocity(limelight));
 		} else {
 			shooter.stopMotor();
 		}

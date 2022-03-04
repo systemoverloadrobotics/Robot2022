@@ -2,16 +2,20 @@ package frc.robot.commands.storage;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.commands.IntakeBall;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.Storage.ToggleState;
 
 public class IndexBall extends CommandBase {
   private Storage storage;
+  private Intake intake;
 
   public static boolean isBallInFeeder;
 
-  public IndexBall(Storage storage) {
+  public IndexBall(Storage storage, Intake intake) {
     this.storage = storage;
+    this.intake = intake;
     addRequirements(storage);
   }
 
@@ -25,7 +29,7 @@ public class IndexBall extends CommandBase {
   @Override
   public void execute() {
     new ParallelCommandGroup(
-      new StorageCommand(storage),
+      new IntakeBall(intake),
       new FeederStorage(storage)
     );
   }

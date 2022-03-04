@@ -51,9 +51,11 @@ public final class Constants {
     public static final double I_CLIMB = 1e-4;
     public static final double D_CLIMB = 1;
 
+    //Storage
     public static final double P_FEEDER = 0.7;
     public static final double I_FEEDER = 0;
     public static final double D_FEEDER = 0;
+  
     // Swerve
     public static final double P_SWERVE_STEER = 2;//3.5;
     public static final double I_SWERVE_STEER = 0.0;
@@ -167,14 +169,16 @@ public final class Constants {
     public static final TrajectoryConfig TRAJECTORY_CONFIG = new TrajectoryConfig(SWERVE_MAX_SPEED, Constants.Motor.SWERVE_MAX_ACCELERATION).setKinematics(SWERVE_DRIVE_KINEMATICS);        
 
     // Storage    
-    public static final int STORAGE_MOVEMENT_BELT = 8;
+    public static final int STORAGE_MOVEMENT_BELT = 6;
     public static final int STORAGE_FEEDER = 0;
     public static final double STORAGE_ON = 0.5;
     public static final double STORAGE_REVERSE = -0.5;
     public static final double STORAGE_FEEDER_ON = 0.5;
     public static final double STORAGE_FEEDER_REVERSE = -0.5;
-    public static final int SHOOTER_PORT = 2;
-    public static final int EXAMPLE_INTAKE_CHANNEL = 3;
+
+    //Shooter
+    public static final int SHOOTER_PORT_FOLLOWER = 2;
+    public static final int SHOOTER_PORT_MASTER = 1;
 
     // Intake
     public static final int INTAKE = 5;

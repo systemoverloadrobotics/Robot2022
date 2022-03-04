@@ -14,19 +14,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Intake extends SubsystemBase {
 
   private TalonFX intake;
-  private Solenoid solenoid;
+  private Solenoid leftSolenoid;
+  private Solenoid rightSolenoid;
 
   /** Creates a new Intake. */
   public Intake() {
     intake = new TalonFX(Constants.Motor.INTAKE);
-    solenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
-
+    leftSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
+    rightSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
     disableSolenoid();
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
 
   public void intakeBall(double speed) {
@@ -38,10 +34,18 @@ public class Intake extends SubsystemBase {
   }
 
   public void enableSolenoid() {
-    solenoid.set(true);
+    leftSolenoid.set(true);
+    rightSolenoid.set(true);
   }
 
   public void disableSolenoid() {
-    solenoid.set(false);
+    leftSolenoid.set(false);
+    rightSolenoid.set(false);
+  }
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+
   }
 }

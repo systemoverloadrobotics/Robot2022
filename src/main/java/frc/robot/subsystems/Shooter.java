@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -8,13 +10,12 @@ import frc.robot.util.Utils;
 import static java.lang.Math.*;
 
 public class Shooter extends SubsystemBase {
-	// private WPI_TalonFX shooterMotor;
 	private CANSparkMax followShooter;
 	private CANSparkMax masterShooter;
 
 	public Shooter() {
-		followShooter = new CANSparkMax(Constants.Motor.SHOOTER_PORT, MotorType.kBrushless);
-		masterShooter = new CANSparkMax(Constants.Motor.SHOOTER_PORT, MotorType.kBrushless);
+		followShooter = new CANSparkMax(Constants.Motor.SHOOTER_PORT_FOLLOWER, MotorType.kBrushless);
+		masterShooter = new CANSparkMax(Constants.Motor.SHOOTER_PORT_MASTER, MotorType.kBrushless);
 		followShooter.follow(masterShooter);
 		masterShooter.getPIDController().setP(Constants.PID.SHOOTER_MOTOR_P); 
 		masterShooter.getPIDController().setI(Constants.PID.SHOOTER_MOTOR_I); 
@@ -42,6 +43,10 @@ public class Shooter extends SubsystemBase {
 		final double launchSpeed = (xpos * Utils.sec(launchAngle)) / time;
 
 		return launchSpeed;
+	}
+
+	public void setVelocity(double velocity){
+		masterShooter.getPIDController().setReference(velocity, ControlType.kVelocity);
 	}
 
 	public void stopMotor() {

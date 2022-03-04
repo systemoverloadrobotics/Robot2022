@@ -2,20 +2,20 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Storage extends SubsystemBase {
 
   private TalonFX movementBelt;
-  private Spark feeder;
-  private Encoder feederEncoder;
+  private WPI_VictorSPX feeder;
+  private DutyCycleEncoder feederEncoder;
   private PIDController feederController;
   private ColorSensorV3 colorSensor;
   private DigitalInput intakeSensor, storageSensor, shooterSensor;
@@ -23,11 +23,10 @@ public class Storage extends SubsystemBase {
   public Storage() {
     // Motor
     this.movementBelt = new TalonFX(Constants.Motor.STORAGE_MOVEMENT_BELT);
-    this.feeder = new Spark(Constants.Motor.STORAGE_FEEDER);
-    this.feederEncoder = new Encoder(Constants.Sensor.FEEDER_ENCODER_CHANNEL_A,
-        Constants.Sensor.FEEDER_ENCODER_CHANNEL_B);
+    this.feeder = new WPI_VictorSPX(Constants.Motor.STORAGE_FEEDER);
+    this.feederEncoder = new DutyCycleEncoder(0);
     this.feederController = new PIDController(Constants.PID.P_FEEDER, 0, 0);
-    feederEncoder.setDistancePerPulse(Constants.RobotDimensions.FEEDER_ENCODER_DISTANCE_PER_PULSE);
+    feederEncoder.setDistancePerRotation(Constants.RobotDimensions.FEEDER_ENCODER_DISTANCE_PER_PULSE);
     // Color Sensor
     this.colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
     // Proximity Sensor
@@ -51,9 +50,7 @@ public class Storage extends SubsystemBase {
   public void setFeederPos(double pos) {
     resetFeederEncoder();
     if (feederEncoder.getDistance() < pos) {
-      feeder.set(feederController.calculate(feederEncoder.getDistance(), pos));
-    } else {
-      feeder.set(0);
+      feeder.set(ControlMode.Position, feederController.calculate(feederEncoder.getDistance(), pos));
     }
   }
 

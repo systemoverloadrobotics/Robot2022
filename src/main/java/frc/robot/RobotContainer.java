@@ -6,19 +6,13 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.SwerveDrive;
 import frc.robot.commands.auto.AutoPaths;
-import frc.robot.commands.storage.FeederStorage;
 import frc.robot.commands.storage.IndexBall;
-import frc.robot.commands.storage.StorageCommand;
-import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.Swerve;
@@ -33,14 +27,13 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   // Subsystems
-  private Climb climb = new Climb();
   private Intake intake = new Intake();
   private Storage storage = new Storage();
   private Swerve swerve = new Swerve();
   private GenericHID joy = new GenericHID(0);
 
   // Commands
-  private IndexBall indexBall = new IndexBall(storage);
+  private IndexBall indexBall = new IndexBall(storage, intake);
   // private ClimbCommand climbCommand = new ClimbCommand(climb);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -61,6 +54,8 @@ public class RobotContainer {
     storage.setDefaultCommand(indexBall);       
     JoystickButton aButton = new JoystickButton(joy, 1);
     aButton.whenPressed(new InstantCommand(() -> swerve.resetHeading()));
+    JoystickButton bBUtton = new JoystickButton(joy, 2);
+    bBUtton.whenHeld(indexBall);
 
     // Constants.Input.CLIMB_BUTTON.get().whenPressed(climbCommand);
     // Constants.Input.INTAKE_BUTTON.get().whileHeld(indexBall);
