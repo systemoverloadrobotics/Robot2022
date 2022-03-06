@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ActuateIntake;
 import frc.robot.commands.SwerveDrive;
 import frc.robot.commands.TestCommand;
 import frc.robot.commands.auto.AutoPaths;
@@ -61,13 +62,15 @@ public class RobotContainer {
   private void configureButtonBindings() {
     swerve.setDefaultCommand(new SwerveDrive(swerve, () -> rightMaster.getRawAxis(0),
         () -> rightMaster.getRawAxis(1), () -> leftMaster.getRawAxis(4)));
-    storage.setDefaultCommand(indexBall);       
+    storage.setDefaultCommand(indexBall);
     JoystickButton aButton = new JoystickButton(joy, 1);
     aButton.whenPressed(new InstantCommand(() -> swerve.resetHeading()));
     JoystickButton bBUtton = new JoystickButton(joy, 2);
     bBUtton.whenHeld(indexBall);
     JoystickButton yButton = new JoystickButton(joy, 4);
     yButton.whenHeld(new TestCommand(intake, storage, shooter));
+    JoystickButton xButton = new JoystickButton(joy, 3);
+    xButton.whenPressed(new ActuateIntake(intake));
 
     // Constants.Input.CLIMB_BUTTON.get().whenPressed(climbCommand);
     // Constants.Input.INTAKE_BUTTON.get().whileHeld(indexBall);

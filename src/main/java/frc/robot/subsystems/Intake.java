@@ -5,8 +5,10 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
+import javax.print.attribute.standard.Compression;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,12 +17,14 @@ public class Intake extends SubsystemBase {
 
   private TalonFX intake;
   private Solenoid solenoid;
+  private Compressor compressor; 
 
   /** Creates a new Intake. */
   public Intake() {
     intake = new TalonFX(Constants.Motor.INTAKE);
     solenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
-    disableSolenoid();
+    compressor = new Compressor(1, PneumaticsModuleType.CTREPCM);
+    compressor.enableDigital();
   }
 
   public void intakeBall(double speed) {
@@ -31,12 +35,10 @@ public class Intake extends SubsystemBase {
     intake.set(ControlMode.PercentOutput, Constants.Motor.INTAKE_REVERSE);
   }
 
-  public void enableSolenoid() {
-    solenoid.set(true);
-  }
 
-  public void disableSolenoid() {
-    solenoid.set(false);
+
+  public void toggleSolenoid() {
+    solenoid.toggle();
   }
 
   @Override
