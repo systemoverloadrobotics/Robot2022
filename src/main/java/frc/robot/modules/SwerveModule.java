@@ -59,7 +59,7 @@ public class SwerveModule {
         steerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_STEER);
         steerController.configNominalOutputReverse(-Constants.Motor.SWERVE_NOMINAL_OUTPUT_STEER);
        
-        steerController.getSensorCollection().syncQuadratureWithPulseWidth(0, 0, true, offSetTicks, 50);
+        steerController.setSelectedSensorPosition(steerController.getSensorCollection().getPulseWidthRiseToFallUs() - offSetTicks);
     }
 
     public double getSteerPosition() {
@@ -95,7 +95,7 @@ public class SwerveModule {
 
     public void periodic() {
         // Called at 50hz.
-        SmartDashboard.putNumber(steerController.getDeviceID() + "-Steer Postition", Utils.ticksToDegrees(steerController.getSelectedSensorPosition(), 4096));
+        SmartDashboard.putNumber(steerController.getDeviceID() + "-Steer Postition", steerController.getSelectedSensorPosition());
     }
 
 }

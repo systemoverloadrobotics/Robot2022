@@ -24,13 +24,13 @@ public class Storage extends SubsystemBase {
     // Motor
     this.movementBelt = new TalonFX(Constants.Motor.STORAGE_MOVEMENT_BELT);
     this.feeder = new WPI_VictorSPX(Constants.Motor.STORAGE_FEEDER);
-    this.feederEncoder = new DutyCycleEncoder(0);
+    this.feederEncoder = new DutyCycleEncoder(2);
     this.feederController = new PIDController(Constants.PID.P_FEEDER, 0, 0);
     feederEncoder.setDistancePerRotation(Constants.RobotDimensions.FEEDER_ENCODER_DISTANCE_PER_PULSE);
     // Color Sensor
     this.colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
     // Proximity Sensor
-    this.intakeSensor = new DigitalInput(Constants.Sensor.PROXIMITY_INTAKE_SENSOR);
+    //this.intakeSensor = new DigitalInput(Constants.Sensor.PROXIMITY_INTAKE_SENSOR);
     this.storageSensor = new DigitalInput(Constants.Sensor.PROXIMITY_STORAGE_SENSOR);
     this.shooterSensor = new DigitalInput(Constants.Sensor.PROXIMITY_SHOOTER_SENSOR);
   }
@@ -45,6 +45,10 @@ public class Storage extends SubsystemBase {
       case REVERSE:
         movementBelt.set(ControlMode.PercentOutput, Constants.Motor.STORAGE_REVERSE);
     }
+  }
+
+  public void testBelt(double rpm){
+    movementBelt.set(ControlMode.PercentOutput, rpm);
   }
 
   public void setFeederPos(double pos) {
@@ -90,16 +94,6 @@ public class Storage extends SubsystemBase {
     feederEncoder.reset();
   }
 
-  @Override
-  public void periodic() {
-
-  }
-
-  @Override
-  public void simulationPeriodic() {
-
-  }
-
   public static enum ToggleState {
     ON, OFF, REVERSE;
   }
@@ -112,4 +106,13 @@ public class Storage extends SubsystemBase {
     INTAKE, STORAGE, SHOOTER;
   }
 
+  @Override
+  public void periodic() {
+
+  }
+
+  @Override
+  public void simulationPeriodic() {
+
+  }
 }

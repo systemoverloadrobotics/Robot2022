@@ -27,7 +27,7 @@ public class Shooter extends SubsystemBase {
 		return (int) Math.round(masterShooter.get() * Constants.FALCON_MAX_RPM);
 	}
 
-	public void spool(int rpm) {
+	public void spool(double rpm) {
 		masterShooter.set(rpm / 6380D);
 	}
 

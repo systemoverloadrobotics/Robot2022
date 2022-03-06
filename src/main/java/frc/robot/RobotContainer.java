@@ -5,15 +5,22 @@
 package frc.robot;
 
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.PneumaticsControlModule;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.SwerveDrive;
+import frc.robot.commands.TestCommand;
 import frc.robot.commands.auto.AutoPaths;
 import frc.robot.commands.storage.IndexBall;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.Swerve;
 
@@ -30,7 +37,10 @@ public class RobotContainer {
   private Intake intake = new Intake();
   private Storage storage = new Storage();
   private Swerve swerve = new Swerve();
-  private GenericHID joy = new GenericHID(0);
+  private Shooter shooter = new Shooter();
+  private GenericHID rightMaster = new GenericHID(0);
+  private GenericHID leftMaster = new GenericHID(1);
+  private GenericHID joy = new GenericHID(2);
 
   // Commands
   private IndexBall indexBall = new IndexBall(storage, intake);
@@ -49,13 +59,15 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    swerve.setDefaultCommand(new SwerveDrive(swerve, () -> joy.getRawAxis(0),
-        () -> joy.getRawAxis(1), () -> joy.getRawAxis(4)));
+    swerve.setDefaultCommand(new SwerveDrive(swerve, () -> rightMaster.getRawAxis(0),
+        () -> rightMaster.getRawAxis(1), () -> leftMaster.getRawAxis(4)));
     storage.setDefaultCommand(indexBall);       
     JoystickButton aButton = new JoystickButton(joy, 1);
     aButton.whenPressed(new InstantCommand(() -> swerve.resetHeading()));
     JoystickButton bBUtton = new JoystickButton(joy, 2);
     bBUtton.whenHeld(indexBall);
+    JoystickButton yButton = new JoystickButton(joy, 4);
+    yButton.whenHeld(new TestCommand(intake, storage, shooter));
 
     // Constants.Input.CLIMB_BUTTON.get().whenPressed(climbCommand);
     // Constants.Input.INTAKE_BUTTON.get().whileHeld(indexBall);

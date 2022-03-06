@@ -14,14 +14,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Intake extends SubsystemBase {
 
   private TalonFX intake;
-  private Solenoid leftSolenoid;
-  private Solenoid rightSolenoid;
+  private Solenoid solenoid;
 
   /** Creates a new Intake. */
   public Intake() {
     intake = new TalonFX(Constants.Motor.INTAKE);
-    leftSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
-    rightSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
+    solenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
     disableSolenoid();
   }
 
@@ -34,13 +32,11 @@ public class Intake extends SubsystemBase {
   }
 
   public void enableSolenoid() {
-    leftSolenoid.set(true);
-    rightSolenoid.set(true);
+    solenoid.set(true);
   }
 
   public void disableSolenoid() {
-    leftSolenoid.set(false);
-    rightSolenoid.set(false);
+    solenoid.set(false);
   }
 
   @Override
