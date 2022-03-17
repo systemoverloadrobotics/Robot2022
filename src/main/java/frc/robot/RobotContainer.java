@@ -44,7 +44,7 @@ public class RobotContainer {
   private Shooter shooter = new Shooter();
   private GenericHID rightMaster = new GenericHID(0);
   private GenericHID leftMaster = new GenericHID(1);
-  private XboxController joy = new XboxController(2);
+  private GenericHID joy = new GenericHID(2);
   // Commands
   private IndexBall indexBall = new IndexBall(storage, intake);
   // private ClimbCommand climbCommand = new ClimbCommand(climb);
@@ -62,8 +62,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    swerve.setDefaultCommand(new SwerveDrive(swerve, () -> rightMaster.getRawAxis(0),
-        () -> rightMaster.getRawAxis(1), () -> leftMaster.getRawAxis(0)));
+    swerve.setDefaultCommand(new SwerveDrive(swerve, () -> leftMaster.getRawAxis(0),
+        () -> leftMaster.getRawAxis(1), () -> rightMaster.getRawAxis(0)));
     JoystickButton aButton = new JoystickButton(leftMaster, 2);
     aButton.whenPressed(new InstantCommand(() -> swerve.resetHeading()));
     JoystickButton bBUtton = new JoystickButton(joy, 2);

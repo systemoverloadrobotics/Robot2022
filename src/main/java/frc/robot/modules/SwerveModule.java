@@ -32,7 +32,7 @@ public class SwerveModule {
         steerController.configFactoryDefault();
 
         powerController.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-        steerController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+        steerController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
         steerController.setSensorPhase(true);
         steerController.configFeedbackNotContinuous(false, 50);
@@ -59,7 +59,8 @@ public class SwerveModule {
         steerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_STEER);
         steerController.configNominalOutputReverse(-Constants.Motor.SWERVE_NOMINAL_OUTPUT_STEER);
        
-        steerController.setSelectedSensorPosition(steerController.getSensorCollection().getPulseWidthRiseToFallUs() - offSetTicks);
+        //steerController.setSelectedSensorPosition(steerController.getSensorCollection().getPulseWidthRiseToFallUs() - offSetTicks);
+        steerController.getSensorCollection().syncQuadratureWithPulseWidth(0, 0, true, -offSetTicks + 4096, 50);
     }
 
     public double getSteerPosition() {
@@ -81,8 +82,12 @@ public class SwerveModule {
             return;
         }
         state = SwerveModuleState.optimize(state, getState().angle);
-        powerController.set(ControlMode.PercentOutput, state.speedMetersPerSecond / Constants.Motor.SWERVE_MAX_SPEED);
-        steerController.set(ControlMode.Position, Utils.degreesToTicks(state.angle.getDegrees(), 4096));        
+        // SmartDashboard.putNumber(steerController.getDeviceID() + "-optimized angle",
+        // state.angle.getDegrees());
+        powerController.set(ControlMode.Velocity, state.speedMetersPerSecond * Constants.Characteristics.MPS_TO_RPM);
+        steerController.set(ControlMode.Position, Utils.degreesToTicks(state.angle.getDegrees(), 4096));
+        SmartDashboard.putNumber(steerController.getDeviceID() + "-desired angel", state.angle.getDegrees());
+        
     }
 
     public void stop() {

@@ -57,11 +57,11 @@ public final class Constants {
     public static final double D_FEEDER = 0;
   
     // Swerve
-    public static final double P_SWERVE_STEER = 2;//3.5;
+    public static final double P_SWERVE_STEER = 3.5;
     public static final double I_SWERVE_STEER = 0.0;
-    public static final double D_SWERVE_STEER = 0;//10;
+    public static final double D_SWERVE_STEER = 1;
 
-    public static final double P_SWERVE_POWER = 0.00015;
+    public static final double P_SWERVE_POWER = 0.1;
     public static final double I_SWERVE_POWER = 0.00;
     public static final double D_SWERVE_POWER = 0.01;
 
@@ -190,7 +190,7 @@ public final class Constants {
   }
 
   public static final class Characteristics { 
-    public static final double MPS_TO_RPM = 1315;
+    public static final double MPS_TO_RPM = 1315/4;
   }
 
   public static final class Sensor {
