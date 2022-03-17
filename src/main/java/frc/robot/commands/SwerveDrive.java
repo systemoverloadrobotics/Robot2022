@@ -35,8 +35,8 @@ public class SwerveDrive extends CommandBase {
   @Override
   public void execute() {
     //get joystick inputs
-    double xSpeed = ySupplier.getAsDouble();
-    double ySpeed = -xSupplier.getAsDouble();
+    double xSpeed = -ySupplier.getAsDouble();
+    double ySpeed = xSupplier.getAsDouble();
     double rotationSpeed = rotationSupplier.getAsDouble();
     
     //apply deadband
