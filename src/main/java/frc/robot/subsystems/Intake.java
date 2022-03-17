@@ -8,23 +8,25 @@ import frc.robot.Constants;
 import javax.print.attribute.standard.Compression;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
 
   private TalonFX intake;
-  private Solenoid solenoid;
-  private Compressor compressor; 
+  private DoubleSolenoid solenoid;
 
   /** Creates a new Intake. */
   public Intake() {
     intake = new TalonFX(Constants.Motor.INTAKE);
-    solenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
-    compressor = new Compressor(1, PneumaticsModuleType.CTREPCM);
-    compressor.enableDigital();
+    solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
   }
 
   public void intakeBall(double speed) {
@@ -40,6 +42,15 @@ public class Intake extends SubsystemBase {
   public void toggleSolenoid() {
     solenoid.toggle();
   }
+
+  public void actuate(){
+    solenoid.set(Value.kForward);
+  }
+
+  public void retract(){
+    solenoid.set(Value.kReverse);
+  }
+
 
   @Override
   public void periodic() {

@@ -29,7 +29,7 @@ public class IndexBall extends CommandBase {
   @Override
   public void execute() {
     new ParallelCommandGroup(
-      new IntakeBall(intake),
+      new IntakeBall(intake, storage),
       new FeederStorage(storage)
     );
   }

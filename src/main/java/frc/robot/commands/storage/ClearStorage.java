@@ -19,7 +19,7 @@ public class ClearStorage extends CommandBase {
 	// Called when the command is first scheduled.
 	@Override
 	public void initialize() {
-		intake.enableSolenoid();
+		intake.actuate();
 	}
 
 	// Called at 50hz while the command is scheduled.

@@ -2,33 +2,35 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Storage extends SubsystemBase {
 
-  private TalonFX movementBelt;
+  private VictorSPX movementBelt;
   private WPI_VictorSPX feeder;
   private DutyCycleEncoder feederEncoder;
   private PIDController feederController;
-  private ColorSensorV3 colorSensor;
+  //private ColorSensorV3 colorSensor;
   private DigitalInput intakeSensor, storageSensor, shooterSensor;
 
   public Storage() {
     // Motor
-    this.movementBelt = new TalonFX(Constants.Motor.STORAGE_MOVEMENT_BELT);
+    this.movementBelt = new VictorSPX(Constants.Motor.STORAGE_MOVEMENT_BELT);
     this.feeder = new WPI_VictorSPX(Constants.Motor.STORAGE_FEEDER);
     this.feederEncoder = new DutyCycleEncoder(2);
     this.feederController = new PIDController(Constants.PID.P_FEEDER, 0, 0);
     feederEncoder.setDistancePerRotation(Constants.RobotDimensions.FEEDER_ENCODER_DISTANCE_PER_PULSE);
     // Color Sensor
-    this.colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+    //this.colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
     // Proximity Sensor
     //this.intakeSensor = new DigitalInput(Constants.Sensor.PROXIMITY_INTAKE_SENSOR);
     this.storageSensor = new DigitalInput(Constants.Sensor.PROXIMITY_STORAGE_SENSOR);
@@ -57,15 +59,6 @@ public class Storage extends SubsystemBase {
       feeder.set(ControlMode.Position, feederController.calculate(feederEncoder.getDistance(), pos));
     }
   }
-
-  public BallColor getColor() {
-    if (colorSensor.getRed() - 192 > 192 && colorSensor.getRed() < 256)
-      return BallColor.RED;
-    if (colorSensor.getBlue() > 192 && colorSensor.getBlue() < 256)
-      return BallColor.BLUE;
-    return BallColor.NONE;
-  }
-
   public boolean detectBall(ProximitySensors e) {
     switch (e) {
       case INTAKE:

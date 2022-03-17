@@ -42,7 +42,7 @@ public final class Constants {
   public static final class PID {
 
     //Shooter
-    public static final double SHOOTER_MOTOR_P = 0; 
+    public static final double SHOOTER_MOTOR_P = 40; 
     public static final double SHOOTER_MOTOR_I = 0; 
     public static final double SHOOTER_MOTOR_D = 0; 
 
@@ -171,8 +171,8 @@ public final class Constants {
     // Storage    
     public static final int STORAGE_MOVEMENT_BELT = 5;
     public static final int STORAGE_FEEDER = 6;
-    public static final double STORAGE_ON = -0.8;
-    public static final double STORAGE_REVERSE = -0.5;
+    public static final double STORAGE_ON = 0.8;
+    public static final double STORAGE_REVERSE = 0.8;
     public static final double STORAGE_FEEDER_ON = 0.75;
     public static final double STORAGE_FEEDER_REVERSE = -0.5;
 
@@ -182,8 +182,8 @@ public final class Constants {
 
     // Intake
     public static final int INTAKE = 7;
-    public static final double INTAKE_SPEED = 0.5;
-    public static final double INTAKE_REVERSE = -0.5;
+    public static final double INTAKE_SPEED = -1;
+    public static final double INTAKE_REVERSE = 1;
 
     public static final int LEFT_CLIMB_MOTOR = 0; //reset to actual later
     public static final int RIGHT_CLIMB_MOTOR = 1; //reset to actual later

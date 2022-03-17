@@ -16,6 +16,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ActuateIntake;
+import frc.robot.commands.IntakeBall;
+import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.Spool;
 import frc.robot.commands.SwerveDrive;
 import frc.robot.commands.TestCommand;
 import frc.robot.commands.auto.AutoPaths;
@@ -41,8 +44,7 @@ public class RobotContainer {
   private Shooter shooter = new Shooter();
   private GenericHID rightMaster = new GenericHID(0);
   private GenericHID leftMaster = new GenericHID(1);
-  private GenericHID joy = new GenericHID(2);
-
+  private XboxController joy = new XboxController(2);
   // Commands
   private IndexBall indexBall = new IndexBall(storage, intake);
   // private ClimbCommand climbCommand = new ClimbCommand(climb);
@@ -54,23 +56,27 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your button->command mappings. Buttons can be created by
+   *    * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
     swerve.setDefaultCommand(new SwerveDrive(swerve, () -> rightMaster.getRawAxis(0),
-        () -> rightMaster.getRawAxis(1), () -> leftMaster.getRawAxis(4)));
-    storage.setDefaultCommand(indexBall);
-    JoystickButton aButton = new JoystickButton(joy, 1);
+        () -> rightMaster.getRawAxis(1), () -> leftMaster.getRawAxis(0)));
+    JoystickButton aButton = new JoystickButton(leftMaster, 2);
     aButton.whenPressed(new InstantCommand(() -> swerve.resetHeading()));
     JoystickButton bBUtton = new JoystickButton(joy, 2);
-    bBUtton.whenHeld(indexBall);
+    bBUtton.whenHeld(new IntakeBall(intake,storage));
     JoystickButton yButton = new JoystickButton(joy, 4);
-    yButton.whenHeld(new TestCommand(intake, storage, shooter));
-    JoystickButton xButton = new JoystickButton(joy, 3);
-    xButton.whenPressed(new ActuateIntake(intake));
+    yButton.whenHeld(new TestCommand(storage));
+    JoystickButton lbButton = new JoystickButton(joy, 5);
+    lbButton.whenHeld(new Spool(shooter)); 
+    JoystickButton rbButton = new JoystickButton(joy, 6);
+    rbButton.whenHeld(new ShooterCommand(storage, shooter));
+
+    //JoystickButton xButton = new JoystickButton(joy, 3);
+    //xButton.whenPressed(new ActuateIntake(intake));
 
     // Constants.Input.CLIMB_BUTTON.get().whenPressed(climbCommand);
     // Constants.Input.INTAKE_BUTTON.get().whileHeld(indexBall);
@@ -82,7 +88,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-
-    return new AutoPaths(swerve).exampleAuto();
+    return AutoPaths.exampleAuto(storage, shooter);
   }
 }

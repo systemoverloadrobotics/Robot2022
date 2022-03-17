@@ -2,8 +2,10 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.util.Utils;
@@ -12,14 +14,17 @@ import static java.lang.Math.*;
 public class Shooter extends SubsystemBase {
 	private CANSparkMax followShooter;
 	private CANSparkMax masterShooter;
+	private SparkMaxPIDController pidController;
 
 	public Shooter() {
 		followShooter = new CANSparkMax(Constants.Motor.SHOOTER_PORT_FOLLOWER, MotorType.kBrushless);
 		masterShooter = new CANSparkMax(Constants.Motor.SHOOTER_PORT_MASTER, MotorType.kBrushless);
+		pidController = masterShooter.getPIDController();
+		pidController.setP(Constants.PID.SHOOTER_MOTOR_P);
+		pidController.setI(Constants.PID.SHOOTER_MOTOR_I);
+		pidController.setD(Constants.PID.SHOOTER_MOTOR_D);
+		
 		followShooter.follow(masterShooter);
-		masterShooter.getPIDController().setP(Constants.PID.SHOOTER_MOTOR_P); 
-		masterShooter.getPIDController().setI(Constants.PID.SHOOTER_MOTOR_I); 
-		masterShooter.getPIDController().setD(Constants.PID.SHOOTER_MOTOR_D); 
 	}
 
 	public int getMasterMotorRPM() {
@@ -27,8 +32,12 @@ public class Shooter extends SubsystemBase {
 		return (int) Math.round(masterShooter.get() * Constants.FALCON_MAX_RPM);
 	}
 
-	public void spool(double rpm) {
-		masterShooter.set(rpm / 6380D);
+	public void spool(boolean spooling) {
+		if(spooling) {
+			masterShooter.set(-0.67);
+		} else {
+			masterShooter.set(0);
+		}
 	}
 
 	public double getVelocity(Limelight limelight) {
@@ -46,7 +55,11 @@ public class Shooter extends SubsystemBase {
 	}
 
 	public void setVelocity(double velocity){
-		masterShooter.getPIDController().setReference(velocity, ControlType.kVelocity);
+		pidController.setReference(velocity, ControlType.kVelocity);
+	}
+
+	public double getRPM(){
+		return masterShooter.getEncoder().getVelocity();
 	}
 
 	public void stopMotor() {

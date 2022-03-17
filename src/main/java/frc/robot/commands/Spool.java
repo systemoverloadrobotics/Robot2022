@@ -1,19 +1,16 @@
 package frc.robot.commands;
 
-import javax.swing.SortOrder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Storage;
-import frc.robot.subsystems.Tank;
-import frc.robot.subsystems.Storage.ToggleState;
 
-public class TestCommand extends CommandBase {
-  private  Storage storage;
+public class Spool extends CommandBase {
+  private final Shooter shooter;
 
-  public TestCommand(Storage storage) {
-    this.storage = storage;
-    addRequirements(storage);
+  public Spool(Shooter shooter) {
+    this.shooter = shooter;
+    // this.storage = storage;
+    addRequirements(shooter);
   }
 
   // Called when the command is first scheduled.
@@ -23,13 +20,13 @@ public class TestCommand extends CommandBase {
   // Called at 50hz while the command is scheduled.
   @Override
   public void execute() {
-    storage.testBelt(-0.8);
+    shooter.spool(true);
   }
 
   // Called once when the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    storage.testBelt(0);
+    shooter.spool(false);
   }
 
   @Override
@@ -37,3 +34,4 @@ public class TestCommand extends CommandBase {
     return false;
   }
 }
+

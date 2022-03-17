@@ -51,8 +51,8 @@ public class SwerveModule {
         powerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
         powerController.configNominalOutputReverse(-Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
 
-        powerController.configPeakOutputForward(0.5);
-        powerController.configPeakOutputReverse(-0.5);
+        powerController.configPeakOutputForward(0.8);
+        powerController.configPeakOutputReverse(-0.8);
         steerController.configPeakOutputForward(0.6);
         steerController.configPeakOutputReverse(-0.6);
 
@@ -81,12 +81,8 @@ public class SwerveModule {
             return;
         }
         state = SwerveModuleState.optimize(state, getState().angle);
-        // SmartDashboard.putNumber(steerController.getDeviceID() + "-optimized angle",
-        // state.angle.getDegrees());
         powerController.set(ControlMode.PercentOutput, state.speedMetersPerSecond / Constants.Motor.SWERVE_MAX_SPEED);
-        steerController.set(ControlMode.Position, Utils.degreesToTicks(state.angle.getDegrees(), 4096));
-        SmartDashboard.putNumber(steerController.getDeviceID() + "-desired angel", state.angle.getDegrees());
-        
+        steerController.set(ControlMode.Position, Utils.degreesToTicks(state.angle.getDegrees(), 4096));        
     }
 
     public void stop() {

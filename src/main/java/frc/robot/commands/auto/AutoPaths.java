@@ -14,6 +14,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
+import frc.robot.commands.ShooterCommand;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.Swerve;
 
 public class AutoPaths{
@@ -24,16 +27,16 @@ public class AutoPaths{
     this.swerve = swerve;
   }
 
-  public static Command exampleAuto(){
+  public static Command exampleAuto(Storage storage, Shooter shooter) {
     //create trajectory settings
 
     //generate trajectory
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-      new Pose2d(0, 0, new Rotation2d(0)),
+      new Pose2d(0, 0, new Rotation2d()),
       List.of(
-        new Translation2d(1, 0),
-        new Translation2d(1, -1)),
-      new Pose2d(2, -1, Rotation2d.fromDegrees(180)),
+        new Translation2d(0, 0),
+        new Translation2d(0, 0)),
+      new Pose2d(-1, 0, new Rotation2d()),
       Constants.Motor.TRAJECTORY_CONFIG);
 
     //pid controllers for tracking trajectory
@@ -56,6 +59,7 @@ public class AutoPaths{
     
     return new SequentialCommandGroup(
       new InstantCommand(() -> swerve.resetOdometry(trajectory.getInitialPose())),
+      new ShooterCommand(storage, shooter),
       swerveControllerCommand,
       new InstantCommand(() -> swerve.stopModules()));
   }
