@@ -23,9 +23,7 @@ public class AutoPaths{
   /* Sample Auto for Swerve*/
   private static Swerve swerve;
 
-  public AutoPaths(Swerve swerve){
-    this.swerve = swerve;
-  }
+  public AutoPaths(){}
 
   public static Command exampleAuto(Storage storage, Shooter shooter) {
     //create trajectory settings
@@ -59,7 +57,6 @@ public class AutoPaths{
     
     return new SequentialCommandGroup(
       new InstantCommand(() -> swerve.resetOdometry(trajectory.getInitialPose())),
-      new ShooterCommand(storage, shooter),
       swerveControllerCommand,
       new InstantCommand(() -> swerve.stopModules()));
   }

@@ -44,13 +44,8 @@ public class SwerveDrive extends CommandBase {
     ySpeed = Math.abs(ySpeed) > Constants.Motor.SWERVE_DEADBAND ? ySpeed : 0.0;
     rotationSpeed = Math.abs(rotationSpeed) > Constants.Motor.SWERVE_DEADBAND ? rotationSpeed : 0.0;
 
-    //smooth driving
-    xSpeed = xLimiter.calculate(xSpeed) * Constants.Motor.SWERVE_MAX_SPEED;
-    ySpeed = yLimiter.calculate(ySpeed) * Constants.Motor.SWERVE_MAX_SPEED;
-    rotationSpeed = rotationLimiter.calculate(rotationSpeed) * Constants.Motor.SWERVE_ROTATION_MAX_SPEED;
-
     //squared graph
-    boolean xBoolean = xSpeed < 0;
+    /*boolean xBoolean = xSpeed < 0;
     xSpeed = Math.pow(xSpeed, 2);
     if(xBoolean){xSpeed = -xSpeed;}
     boolean yBoolean = ySpeed < 0;
@@ -58,11 +53,16 @@ public class SwerveDrive extends CommandBase {
     if(yBoolean){ySpeed = -ySpeed;}
     boolean rotationBoolean = rotationSpeed < 0;
     rotationSpeed = Math.pow(rotationSpeed, 2);
-    if(rotationBoolean){rotationSpeed = -rotationSpeed;}
+    if(rotationBoolean){rotationSpeed = -rotationSpeed;}*/
+
+    //smooth driving
+    xSpeed = xLimiter.calculate(xSpeed) * Constants.Motor.SWERVE_MAX_SPEED;
+    ySpeed = yLimiter.calculate(ySpeed) * Constants.Motor.SWERVE_MAX_SPEED;
+    rotationSpeed = rotationLimiter.calculate(rotationSpeed) * Constants.Motor.SWERVE_ROTATION_MAX_SPEED;
     
     //construct chassis
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-      xSpeed, ySpeed, rotationSpeed, swerve.getRotation2d());
+      xSpeed, ySpeed, rotationSpeed/2, swerve.getRotation2d());
     //convert to states from the chassis  
     SwerveModuleState[] moduleState = Constants.Motor.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
 
