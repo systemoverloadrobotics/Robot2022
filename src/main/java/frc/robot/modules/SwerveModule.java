@@ -82,11 +82,8 @@ public class SwerveModule {
             return;
         }
         state = SwerveModuleState.optimize(state, getState().angle);
-        // SmartDashboard.putNumber(steerController.getDeviceID() + "-optimized angle",
-        // state.angle.getDegrees());
         powerController.set(ControlMode.Velocity, state.speedMetersPerSecond * Constants.Characteristics.MPS_TO_RPM);
         steerController.set(ControlMode.Position, Utils.degreesToTicks(state.angle.getDegrees(), 4096));
-        SmartDashboard.putNumber(steerController.getDeviceID() + "-desired angel", state.angle.getDegrees());
         
     }
 
