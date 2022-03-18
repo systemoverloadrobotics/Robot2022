@@ -12,13 +12,13 @@ import static java.lang.Math.*;
 public class Shooter extends SubsystemBase {
 	private CANSparkMax followShooter;
 	private CANSparkMax masterShooter;
-	public SparkMaxPIDController pidController = masterShooter.getPIDController();
+	public SparkMaxPIDController pidController; 
 	
 
 	public Shooter() {
 		followShooter = new CANSparkMax(Constants.Motor.SHOOTER_PORT_FOLLOWER, MotorType.kBrushless);
 		masterShooter = new CANSparkMax(Constants.Motor.SHOOTER_PORT_MASTER, MotorType.kBrushless);
-		pidController = masterShooter.getPIDController();
+		pidController = masterShooter.getPIDController(); 
 		pidController.setP(Constants.PID.SHOOTER_MOTOR_P); 
 		pidController.setI(Constants.PID.SHOOTER_MOTOR_I); 
 		pidController.setD(Constants.PID.SHOOTER_MOTOR_D);

@@ -48,12 +48,14 @@ public class Swerve extends SubsystemBase {
     frontRight = new SwerveModule(frontRightPower, frontRightSteer,765);
     backLeft = new SwerveModule(backLeftPower, backLeftSteer, 448);
     backRight = new SwerveModule(backRightPower, backRightSteer,1412);
+    new Thread(() -> {
+      try { 
+        Thread.sleep(1000);
+        resetHeading();
+      } catch (Exception e) {
 
-    try {
-      Thread.sleep(1000);
-    } catch (Exception e) {
-    }
-    resetHeading();
+      }
+    });
   }
 
   public void stopModules(){

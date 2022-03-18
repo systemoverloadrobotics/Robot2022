@@ -42,7 +42,7 @@ public final class Constants {
   public static final class PID {
 
     //Shooter
-    public static final double SHOOTER_MOTOR_P = 40; 
+    public static final double SHOOTER_MOTOR_P = 0.75; 
     public static final double SHOOTER_MOTOR_I = 0; 
     public static final double SHOOTER_MOTOR_D = 0; 
 
