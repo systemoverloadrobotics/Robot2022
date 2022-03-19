@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Storage;
@@ -21,6 +22,7 @@ public class Spool extends CommandBase {
   @Override
   public void execute() {
     shooter.spool(true);
+    SmartDashboard.putNumber("shooter", shooter.getRPM());
   }
 
   // Called once when the command ends or is interrupted.

@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Shooter;
@@ -27,7 +28,6 @@ public class ShooterCommand extends CommandBase {
 	// Called at 50hz while the command is scheduled.
 	@Override
 	public void execute() {
-		shooter.getRPM(); 
 		shooter.spool(true);
 		if (shooter.getRPM() >= (-3370 * 0.95)){
 			storage.spinFeeder();
