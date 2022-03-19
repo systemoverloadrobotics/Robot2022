@@ -22,7 +22,7 @@ import frc.robot.subsystems.Swerve;
 public class AutoPaths{
   /* Sample Auto for Swerve*/
   private static Swerve swerve;
-
+  private static Shooter shooter; 
   public AutoPaths(){}
 
   public static Command exampleAuto(Storage storage, Shooter shooter) {
@@ -34,7 +34,7 @@ public class AutoPaths{
       List.of(
         new Translation2d(0, 0),
         new Translation2d(0, 0)),
-      new Pose2d(-1, 0, new Rotation2d()),
+      new Pose2d(0, -10, new Rotation2d()),
       Constants.Motor.TRAJECTORY_CONFIG);
 
     //pid controllers for tracking trajectory
@@ -54,8 +54,9 @@ public class AutoPaths{
       thetaController, 
       swerve::setModuleStates, 
       swerve);
-    
+    ShooterCommand shooterCommand = new ShooterCommand(storage, shooter); 
     return new SequentialCommandGroup(
+      new InstantCommand(() -> shooterCommand.execute()),
       new InstantCommand(() -> swerve.resetOdometry(trajectory.getInitialPose())),
       swerveControllerCommand,
       new InstantCommand(() -> swerve.stopModules()));
