@@ -38,8 +38,7 @@ public class IndexBall extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     // making sure that the motors have stopped
-    storage.toggleBelt(ToggleState.OFF);
-    storage.stopFeeder();
+    storage.stop();
   }
 
   @Override

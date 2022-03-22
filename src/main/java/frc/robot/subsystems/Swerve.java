@@ -44,10 +44,10 @@ public class Swerve extends SubsystemBase {
 
   public Swerve() {
     // Create four modules with correct controllers, add to modules
-    frontLeft = new SwerveModule(frontLeftPower, frontLeftSteer, 2334);
-    frontRight = new SwerveModule(frontRightPower, frontRightSteer,765);
-    backLeft = new SwerveModule(backLeftPower, backLeftSteer, 448);
-    backRight = new SwerveModule(backRightPower, backRightSteer,1412);
+    frontLeft = new SwerveModule(frontLeftPower, frontLeftSteer, 2389 - 3);
+    frontRight = new SwerveModule(frontRightPower, frontRightSteer,805 - 2);
+    backLeft = new SwerveModule(backLeftPower, backLeftSteer, 478 + 5);
+    backRight = new SwerveModule(backRightPower, backRightSteer,1421 + 30);
     new Thread(() -> {
       try { 
         Thread.sleep(1000);

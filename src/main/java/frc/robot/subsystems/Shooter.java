@@ -4,35 +4,41 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.util.Utils;
 import static java.lang.Math.*;
 
 public class Shooter extends SubsystemBase {
-	private CANSparkMax followShooter;
 	private CANSparkMax masterShooter;
 	public SparkMaxPIDController pidController; 
+	private SimpleMotorFeedforward ffController = new SimpleMotorFeedforward(0.46135, 2.4822, 0.18183);
+
+	@Override
+	public void periodic() {
+		SmartDashboard.putNumber("shooter rpm", getRPM());
+	}
 	
 
 	public Shooter() {
-		followShooter = new CANSparkMax(Constants.Motor.SHOOTER_PORT_FOLLOWER, MotorType.kBrushless);
+		
 		masterShooter = new CANSparkMax(Constants.Motor.SHOOTER_PORT_MASTER, MotorType.kBrushless);
+		masterShooter.restoreFactoryDefaults();
 		pidController = masterShooter.getPIDController(); 
+		masterShooter.setInverted(true);
 		pidController.setP(Constants.PID.SHOOTER_MOTOR_P); 
 		pidController.setI(Constants.PID.SHOOTER_MOTOR_I); 
 		pidController.setD(Constants.PID.SHOOTER_MOTOR_D);
-		followShooter.follow(masterShooter);
 	}
 
-	public int getMasterMotorRPM() {
-		// Math#round is used to account for floating point errors
-		return (int) Math.round(masterShooter.get() * Constants.FALCON_MAX_RPM);
-	}
 
 public void spool(boolean spooling) {
+	SmartDashboard.putBoolean("setpoint", spooling) ;
+
 		if(spooling) {
-			pidController.setReference(-3770, ControlType.kVelocity);  
+			pidController.setReference(ffController.calculate(Constants.SHOOTER_DESIRED_RPM), ControlType.kVelocity);
 		} else {
 			masterShooter.set(0);
 		}
@@ -53,15 +59,8 @@ public void spool(boolean spooling) {
 		return launchSpeed;
 	}
 
-	public void setVelocity(double velocity){
-		pidController.setReference(velocity, ControlType.kVelocity);
-	}
-
 	public double getRPM(){
 		return masterShooter.getEncoder().getVelocity();
 	}
 
-	public void stopMotor() {
-		masterShooter.set(0);
-	}
 }

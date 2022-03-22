@@ -49,12 +49,17 @@ public class Storage extends SubsystemBase {
     movementBelt.set(ControlMode.PercentOutput, rpm);
   }
 
+  public double getFeederPos() {
+    return feederEncoder.getDistance();
+  }
+
   public void setFeederPos(double pos) {
     resetFeederEncoder();
     if (feederEncoder.getDistance() < pos) {
       feeder.set(ControlMode.Position, feederController.calculate(feederEncoder.getDistance(), pos));
     }
   }
+
   public boolean detectBall(ProximitySensors e) {
     switch (e) {
       case INTAKE:
@@ -77,6 +82,11 @@ public class Storage extends SubsystemBase {
 
   public void stopFeeder() {
     feeder.stopMotor();
+  }
+
+  public void stop() {
+    stopFeeder();
+    movementBelt.set(ControlMode.PercentOutput, 0);
   }
 
   public void resetFeederEncoder() {

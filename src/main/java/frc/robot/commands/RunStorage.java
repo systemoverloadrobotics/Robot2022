@@ -8,10 +8,10 @@ import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.Tank;
 import frc.robot.subsystems.Storage.ToggleState;
 
-public class TestCommand extends CommandBase {
-  private  Storage storage;
+public class RunStorage extends CommandBase {
+  private Storage storage;
 
-  public TestCommand(Storage storage) {
+  public RunStorage(Storage storage) {
     this.storage = storage;
     addRequirements(storage);
   }
@@ -23,7 +23,7 @@ public class TestCommand extends CommandBase {
   // Called at 50hz while the command is scheduled.
   @Override
   public void execute() {
-    storage.testBelt(-0.8);
+    storage.toggleBelt(ToggleState.ON);
   }
 
   // Called once when the command ends or is interrupted.

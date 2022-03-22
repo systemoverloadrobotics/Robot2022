@@ -19,10 +19,6 @@ public class SwerveModule {
     // and encoder output.
     private TalonFX powerController;
     private TalonSRX steerController;
-    // Linear drive feed forward
-    public SimpleMotorFeedforward driveFF = Constants.PID.DRIVE_FF;
-    // Steer feed forward
-    public SimpleMotorFeedforward steerFF = Constants.PID.STEER_FF;
 
     public SwerveModule(TalonFX powerController, TalonSRX steerController, int offSetTicks) {
         this.powerController = powerController;
@@ -38,7 +34,7 @@ public class SwerveModule {
         steerController.configFeedbackNotContinuous(false, 50);
         steerController.setInverted(false);
 
-        powerController.config_kF(0, 1000);
+        powerController.config_kF(0, 0);
         powerController.config_kP(0, Constants.PID.P_SWERVE_POWER);
         powerController.config_kI(0, Constants.PID.I_SWERVE_POWER);
         powerController.config_kD(0, Constants.PID.D_SWERVE_POWER);
@@ -77,12 +73,12 @@ public class SwerveModule {
     }
 
     public void setState(SwerveModuleState state) {
-        if (Math.abs(state.speedMetersPerSecond) < 0.001) {
+        if (state.speedMetersPerSecond * Constants.Characteristics.COUNTS_PER_100MS < 400) {
             stop();
             return;
         }
         state = SwerveModuleState.optimize(state, getState().angle);
-        powerController.set(ControlMode.Velocity, state.speedMetersPerSecond * Constants.Characteristics.MPS_TO_RPM);
+        powerController.set(ControlMode.Velocity, state.speedMetersPerSecond * Constants.Characteristics.COUNTS_PER_100MS);
         steerController.set(ControlMode.Position, Utils.degreesToTicks(state.angle.getDegrees(), 4096));
         
     }
@@ -93,7 +89,6 @@ public class SwerveModule {
 
     public void periodic() {
         // Called at 50hz.
-        SmartDashboard.putNumber(steerController.getDeviceID() + "-Steer Postition", steerController.getSelectedSensorPosition());
     }
 
 }

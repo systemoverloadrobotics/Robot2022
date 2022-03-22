@@ -46,6 +46,9 @@ public class Intake extends SubsystemBase {
   public void actuate(){
     solenoid.set(Value.kForward);
   }
+  public void idle() {
+    solenoid.set(Value.kOff);
+  }
 
   public void retract(){
     solenoid.set(Value.kReverse);

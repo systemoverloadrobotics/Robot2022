@@ -22,7 +22,6 @@ public class Spool extends CommandBase {
   @Override
   public void execute() {
     shooter.spool(true);
-    SmartDashboard.putNumber("shooter", shooter.getRPM());
   }
 
   // Called once when the command ends or is interrupted.

@@ -33,8 +33,7 @@ public class ClearStorage extends CommandBase {
 	// Called once when the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		storage.stopFeeder();
-		storage.toggleBelt(ToggleState.OFF);
+		storage.stop();
 		intake.intakeBall(0);
 	}
 

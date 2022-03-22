@@ -4,9 +4,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.Constants;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Storage;
+import frc.robot.subsystems.Storage.ToggleState;
 
 
 public class ShooterCommand extends CommandBase {
@@ -29,11 +30,11 @@ public class ShooterCommand extends CommandBase {
 	@Override
 	public void execute() {
 		shooter.spool(true);
-		if (shooter.getRPM() >= (-3370 * 0.95)){
+		if (shooter.getRPM() >= (Constants.SHOOTER_DESIRED_RPM * 0.95) && shooter.getRPM() <= (Constants.SHOOTER_DESIRED_RPM * 1.05)){
 			storage.spinFeeder();
-			storage.testBelt(-0.8);
+			storage.toggleBelt(ToggleState.ON);
 		}
-		if (DriverStation.isAutonomous() && DriverStation.getMatchTime() == 7.5) {
+		if (DriverStation.isAutonomous() && DriverStation.getMatchTime() >= 7.5) {
 			end(true);
 		}
 	}
@@ -42,13 +43,11 @@ public class ShooterCommand extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		shooter.spool(false);
-		storage.stopFeeder();
-		storage.testBelt(0);
-		//storage.toggleBelt(ToggleState.OFF);
+		storage.stop();
 	}
 
 	@Override
-	public boolean isFinished() {
+	public boolean isFinished(){
 		return false;
 	}
 }
