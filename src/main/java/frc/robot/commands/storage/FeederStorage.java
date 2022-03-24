@@ -22,7 +22,7 @@ public class FeederStorage extends CommandBase{
     storage.toggleBelt(ToggleState.ON);
     while(!storage.detectBall(ProximitySensors.SHOOTER)){
       if(storage.detectBall(ProximitySensors.STORAGE) && !IndexBall.isBallInFeeder){
-        storage.spinFeeder();
+        storage.spinFeeder(false);
         IndexBall.isBallInFeeder = true;
       }else{
         storage.toggleBelt(ToggleState.OFF);

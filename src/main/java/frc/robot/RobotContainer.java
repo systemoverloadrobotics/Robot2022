@@ -5,15 +5,7 @@
 package frc.robot;
 
 
-import java.util.List;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.Compressor;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -29,10 +21,10 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ActuateIntake;
 import frc.robot.commands.IntakeBall;
+import frc.robot.commands.ReverseStorage;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.Spool;
 import frc.robot.commands.SwerveDrive;
-import frc.robot.commands.RunStorage;
 import frc.robot.commands.auto.AutoPaths;
 import frc.robot.commands.storage.IndexBall;
 import frc.robot.subsystems.Intake;
@@ -80,10 +72,12 @@ public class RobotContainer {
     aButton.whenPressed(new InstantCommand(() -> swerve.resetHeading()));
     JoystickButton bBUtton = new JoystickButton(joy, 2);
     bBUtton.whenHeld(new IntakeBall(intake, storage));
+
     JoystickButton yButton = new JoystickButton(joy, 4);
-    yButton.whenHeld(new RunStorage(storage));
+    yButton.whenHeld(new ReverseStorage(storage, intake));
+
     JoystickButton lbButton = new JoystickButton(joy, 5);
-    lbButton.whenHeld(new Spool(shooter));
+    lbButton.whenHeld(new Spool(shooter, storage));
     JoystickButton rbButton = new JoystickButton(joy, 6);
     rbButton.whenHeld(new ShooterCommand(storage, shooter));
 
@@ -101,12 +95,12 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // generate trajectory
-    ShooterCommand shooterCommand = new ShooterCommand(storage, shooter);
+    // ShooterCommand shooterCommand = new ShooterCommand(storage, shooter);
 
     // return new SequentialCommandGroup(
-    //     // new InstantCommand(() -> shooterCommand.execute()),
-    //     // new InstantCommand(() -> )),
-    //     swerveControllerCommand, new InstantCommand(() -> swerve.stopModules()));
+    // // new InstantCommand(() -> shooterCommand.execute()),
+    // // new InstantCommand(() -> )),
+    // swerveControllerCommand, new InstantCommand(() -> swerve.stopModules()));
 
     return null;
   }

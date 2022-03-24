@@ -31,7 +31,7 @@ public class ShooterCommand extends CommandBase {
 	public void execute() {
 		shooter.spool(true);
 		if (shooter.getRPM() >= (Constants.SHOOTER_DESIRED_RPM * 0.95) && shooter.getRPM() <= (Constants.SHOOTER_DESIRED_RPM * 1.05)){
-			storage.spinFeeder();
+			storage.spinFeeder(false);
 			storage.toggleBelt(ToggleState.ON);
 		}
 		if (DriverStation.isAutonomous() && DriverStation.getMatchTime() >= 7.5) {

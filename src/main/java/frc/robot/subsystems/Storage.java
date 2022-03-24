@@ -45,9 +45,9 @@ public class Storage extends SubsystemBase {
     }
   }
 
-  public void testBelt(double rpm){
-    movementBelt.set(ControlMode.PercentOutput, rpm);
-  }
+  // public void testBelt(double rpm){
+  //   movementBelt.set(ControlMode.PercentOutput, rpm);
+  // }
 
   public double getFeederPos() {
     return feederEncoder.getDistance();
@@ -72,8 +72,13 @@ public class Storage extends SubsystemBase {
     }
   }
 
-  public void spinFeeder() {
-    feeder.set(Constants.Motor.STORAGE_FEEDER_ON);
+  public void spinFeeder(boolean reversing) {
+    if(reversing) {
+      feeder.set(-Constants.Motor.STORAGE_FEEDER_ON); 
+    } else {
+      feeder.set(Constants.Motor.STORAGE_FEEDER_ON); 
+    }
+     
   }
 
   public void reverseFeeder() {

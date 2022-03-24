@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.Storage.ToggleState;
 import frc.robot.util.Utils;
 import static java.lang.Math.*;
 
@@ -35,8 +36,6 @@ public class Shooter extends SubsystemBase {
 
 
 public void spool(boolean spooling) {
-	SmartDashboard.putBoolean("setpoint", spooling) ;
-
 		if(spooling) {
 			pidController.setReference(ffController.calculate(Constants.SHOOTER_DESIRED_RPM), ControlType.kVelocity);
 		} else {
