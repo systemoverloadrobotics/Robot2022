@@ -1,6 +1,6 @@
 # SOR 2022 Robot Code
 
-FRC Team 6059's 2022 Robot code, built to drive an as-of-yet unnamed robot.
+FRC Team 6059's 2022 Robot code, built to drive Pingu.
 Our code features controls for a simple climb, intake with color detection,
 swerve drive, and a shooter with Limelight target acquisition.
 
