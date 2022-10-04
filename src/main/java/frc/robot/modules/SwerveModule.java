@@ -47,10 +47,10 @@ public class SwerveModule {
         powerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
         powerController.configNominalOutputReverse(-Constants.Motor.SWERVE_NOMINAL_OUTPUT_PERCENT);
 
-        powerController.configPeakOutputForward(0.8);
-        powerController.configPeakOutputReverse(-0.8);
-        steerController.configPeakOutputForward(0.6);
-        steerController.configPeakOutputReverse(-0.6);
+        powerController.configPeakOutputForward(0.6);
+        powerController.configPeakOutputReverse(-0.6);
+        steerController.configPeakOutputForward(0.4);
+        steerController.configPeakOutputReverse(-0.4);
 
         steerController.configNominalOutputForward(Constants.Motor.SWERVE_NOMINAL_OUTPUT_STEER);
         steerController.configNominalOutputReverse(-Constants.Motor.SWERVE_NOMINAL_OUTPUT_STEER);
@@ -89,6 +89,7 @@ public class SwerveModule {
 
     public void periodic() {
         // Called at 50hz.
+        SmartDashboard.putNumber("Device ID: " + steerController.getDeviceID(), steerController.getSensorCollection().getPulseWidthRiseToFallUs());
     }
 
 }
