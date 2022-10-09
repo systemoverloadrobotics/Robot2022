@@ -6,6 +6,8 @@ package frc.robot;
 
 
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -16,8 +18,10 @@ import edu.wpi.first.wpilibj.util.WPILibVersion;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ActuateIntake;
 import frc.robot.commands.IntakeBall;
@@ -27,10 +31,12 @@ import frc.robot.commands.Spool;
 import frc.robot.commands.SwerveDrive;
 import frc.robot.commands.auto.AutoPaths;
 import frc.robot.commands.storage.IndexBall;
+import frc.robot.commands.storage.RunStorage;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Storage.ToggleState;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -73,8 +79,11 @@ public class RobotContainer {
     JoystickButton bBUtton = new JoystickButton(joy, 2);
     bBUtton.whenHeld(new IntakeBall(intake, storage));
 
+    JoystickButton xButton = new JoystickButton(joy, 3);
+    xButton.whenHeld(new ReverseStorage(storage, intake));
+
     JoystickButton yButton = new JoystickButton(joy, 4);
-    yButton.whenHeld(new ReverseStorage(storage, intake));
+    yButton.whenHeld(new RunStorage(storage));
 
     JoystickButton lbButton = new JoystickButton(joy, 5);
     lbButton.whenHeld(new Spool(shooter, storage));
@@ -95,13 +104,23 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // generate trajectory
-    // ShooterCommand shooterCommand = new ShooterCommand(storage, shooter);
+    
+    ShooterCommand shooterCommand = new ShooterCommand(storage, shooter);
+    SwerveDrive swerveDrive = new SwerveDrive(swerve, () -> 0, () -> 0.6, () -> 0);
+    // SwerveDrive turnSwerveDrive = new SwerveDrive(swerve, () -> 0, () -> 0, () -> -110); 
+    // SwerveDrive swerveDrive2 = new SwerveDrive(swerve, () -> -0.5, () -> 0, () -> 0);
+    // SwerveDrive turnSwerveDrive2 = new SwerveDrive(swerve, () -> 0, () -> 0, () -> 110); 
+    // SwerveDrive swerveDrive3 = new SwerveDrive(swerve, () -> 0, () -> -0.5, () -> 0);
+    // IntakeBall intakeBallCommand = new IntakeBall(intake, storage); 
 
-    // return new SequentialCommandGroup(
-    // // new InstantCommand(() -> shooterCommand.execute()),
-    // // new InstantCommand(() -> )),
-    // swerveControllerCommand, new InstantCommand(() -> swerve.stopModules()));
-
-    return null;
+    return new SequentialCommandGroup(
+    new ParallelDeadlineGroup(new WaitCommand(4), shooterCommand),
+    new ParallelDeadlineGroup(new WaitCommand(3), swerveDrive)
+    // new ParallelDeadlineGroup(new WaitCommand(1), turnSwerveDrive), 
+    // new ParallelDeadlineGroup(new WaitCommand(1), swerveDrive2),
+    // new ParallelDeadlineGroup(new WaitCommand(3), intakeBallCommand), 
+    // new ParallelDeadlineGroup(new WaitCommand(1), turnSwerveDrive2),
+    // new ParallelDeadlineGroup(new WaitCommand(1), swerveDrive3)
+    );
   }
 }

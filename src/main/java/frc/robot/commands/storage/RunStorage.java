@@ -1,18 +1,14 @@
-package frc.robot.commands;
+package frc.robot.commands.storage;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.storage.FeederStorage;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.Storage.ToggleState;
 
-public class ReverseStorage extends CommandBase {
+public class RunStorage extends CommandBase { 
   private Storage storage;
-  private Intake intake; 
 
-  public ReverseStorage(Storage storage, Intake intake) {
+  public RunStorage(Storage storage) {
     this.storage = storage;
-    this.intake = intake; 
     addRequirements(storage);
   }
 
@@ -23,16 +19,12 @@ public class ReverseStorage extends CommandBase {
   // Called at 50hz while the command is scheduled.
   @Override
   public void execute() {
-    intake.actuate();
-    intake.reverseIntake();
-    storage.toggleBelt(ToggleState.REVERSE);
+    storage.toggleBelt(ToggleState.ON);
   }
 
   // Called once when the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.intakeBall(0);
-    intake.retract();
     storage.stop();
   }
 

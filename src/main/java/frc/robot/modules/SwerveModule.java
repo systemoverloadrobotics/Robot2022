@@ -3,6 +3,7 @@ package frc.robot.modules;
 import com.ctre.phoenix.Util;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -33,6 +34,9 @@ public class SwerveModule {
         steerController.setSensorPhase(true);
         steerController.configFeedbackNotContinuous(false, 50);
         steerController.setInverted(false);
+
+        steerController.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 25, 40, 0.1));
+        powerController.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 35, 50, 0.1));
 
         powerController.config_kF(0, 0);
         powerController.config_kP(0, Constants.PID.P_SWERVE_POWER);
@@ -88,7 +92,8 @@ public class SwerveModule {
     }
 
     public void periodic() {
-        // Called at 50hz.
+        SmartDashboard.putNumber("steer-" + steerController.getDeviceID(), steerController.getSelectedSensorPosition());
+        SmartDashboard.putNumber("power-" + powerController.getDeviceID(), powerController.getSelectedSensorPosition());
     }
 
 }

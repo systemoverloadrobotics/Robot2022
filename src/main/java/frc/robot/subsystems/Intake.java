@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import javax.print.attribute.standard.Compression;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj.Compressor;
@@ -27,6 +28,7 @@ public class Intake extends SubsystemBase {
   public Intake() {
     intake = new TalonFX(Constants.Motor.INTAKE);
     solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+    intake.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 35, 50, 0.1));
   }
 
   public void intakeBall(double speed) {

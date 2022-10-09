@@ -175,8 +175,8 @@ public final class Constants {
     // Storage
     public static final int STORAGE_MOVEMENT_BELT = 5;
     public static final int STORAGE_FEEDER = 6;
-    public static final double STORAGE_ON = -0.8;
-    public static final double STORAGE_REVERSE = 0.8;
+    public static final double STORAGE_ON = -1;
+    public static final double STORAGE_REVERSE = 1;
     public static final double STORAGE_FEEDER_ON = 0.75;
     public static final double STORAGE_FEEDER_REVERSE = -0.5;
 
